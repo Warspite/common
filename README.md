@@ -1,0 +1,4 @@
+common
+======
+
+Common warspite functionality.
