@@ -7,9 +7,11 @@ import com.warspite.common.cli.annotations.Cmd;
 
 public class DefaultListener implements CliListener {
 	private final Cli cli;
+	private final ScriptExecutor scriptExecutor;
 
-	public DefaultListener(Cli cli) {
+	public DefaultListener(Cli cli, ScriptExecutor scriptExecutor) {
 		this.cli = cli;
+		this.scriptExecutor = scriptExecutor;
 	}
 
 	@Cmd(name = "help", description = "Display this help.")
@@ -54,5 +56,20 @@ public class DefaultListener implements CliListener {
 	@Cmd(name = "exit", description = "Exit the application.")
 	public void exit() {
 		cli.setExit(true);
+	}
+
+	@Cmd(name = "list", description = "List available scripts.")
+	public void list() {
+		scriptExecutor.listScripts();
+	}
+
+	@Cmd(name = "exec", description = "Execute <script>.")
+	public void exec(String script) {
+		scriptExecutor.executeScript(script);
+	}
+
+	@Cmd(name = "print", description = "Print <str>.")
+	public void print(String str) {
+		cli.println(str);
 	}
 }

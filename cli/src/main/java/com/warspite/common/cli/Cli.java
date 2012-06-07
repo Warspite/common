@@ -17,7 +17,9 @@ import com.warspite.common.cli.annotations.Cmd;
 import com.warspite.common.cli.exceptions.CliException;
 
 public class Cli {
+	private static final String BOOT_SCRIPT = "boot.cli";
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private final ScriptExecutor scriptExecutor;
 	private final String appName;
 	private final BufferedReader in;
 	private final PrintStream out;
@@ -32,8 +34,9 @@ public class Cli {
 		this.appName = appName;
 		this.in = new BufferedReader(new InputStreamReader(inputStream));
 		this.out = out;
+		this.scriptExecutor = new ScriptExecutor(this);
 
-		this.listeners.put("cli", new DefaultListener(this));
+		this.listeners.put("cli", new DefaultListener(this, scriptExecutor));
 
 		loadAnnotations();
 	}
@@ -47,9 +50,14 @@ public class Cli {
 		}
 	}
 
-	public void start() {
+	public void start(final boolean executeBootScript) {
 		out.println("Welcome!");
 		out.println("Application: " + appName);
+		
+		if(executeBootScript) {
+			scriptExecutor.executeScript(BOOT_SCRIPT);
+		}
+		
 		out.println("Type 'cli help' for help.");
 
 		while( !isExit() )
@@ -58,9 +66,11 @@ public class Cli {
 
 	private void read() {
 		out.print("> ");
+		String cmd = null;
 
 		try {
-			parseCommand(in.readLine());
+			cmd = in.readLine();
+			parseCommand(cmd);
 		}
 		catch (CliException e) {
 			out.println("Command failed: " + e.getMessage());
@@ -69,7 +79,7 @@ public class Cli {
 			logger.error("Failed to read CLI input.", e);
 		}
 		catch (Exception e) {
-			logger.error("Failed to execute command.", e);
+			logger.error("Failed to execute command \"" + cmd + "\".", e);
 		} 
 	}
 
