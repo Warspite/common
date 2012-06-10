@@ -5,10 +5,10 @@ import javax.servlet.http.HttpServlet
 import org.slf4j.LoggerFactory
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest
+import com.warspite.common.servlets.sessions.SessionKeeper
+import com.warspite.common.servlets.sessions.BadSessionKeyException
 
-class JsonServlet extends HttpServlet {
-  private val logger = LoggerFactory.getLogger(getClass());
-
+class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(sessionKeeper) {
   def handleRequest(verb: RestVerb, request: HttpServletRequest, response: HttpServletResponse) {
     logger.debug("Received " + verb.toString() + " request from " + request.getRemoteHost() + ".");
     val startTime = System.currentTimeMillis();
@@ -31,7 +31,7 @@ class JsonServlet extends HttpServlet {
         message = e.clientMessage;
       }
       case e: ClientReadableException => {
-        logger.error("Failed to handle servlet request. Client message: \"" + e.clientMessage + "\"", e);
+        logger.info("Failed to handle servlet request. Client message: \"" + e.clientMessage + "\"", e);
         message = e.clientMessage;
       }
       case e: Throwable => {
