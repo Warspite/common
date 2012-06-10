@@ -111,7 +111,10 @@ public class Cli {
 	} 
 
 	private void invokeMethod(MethodObjectPair m, String[] args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, CliException {
-		m.getMethod().invoke(m.getObject(), parseArguments(m.getMethod(), args));
+		Object ret = m.getMethod().invoke(m.getObject(), parseArguments(m.getMethod(), args));
+
+		if(ret != null && ret instanceof String)
+			out.println((String)ret);
 	}
 
 	private Object[] parseArguments(Method m, String[] argStrings) throws CliException {
@@ -132,13 +135,11 @@ public class Cli {
 			if(argClass == String.class)
 				return argString;
 
-			if(argClass == Integer.class) {
+			if(argClass == Integer.class || argClass == int.class)
 				return Integer.parseInt(argString);
-			}
 
-			if(argClass == Double.class) {
+			if(argClass == Double.class)
 				return Double.parseDouble(argString);
-			}
 		}
 		catch(NumberFormatException e) {
 			throw new CliException("Failed to parse parameter '" + argString + "' into " + argClass.getSimpleName() + ".", e);

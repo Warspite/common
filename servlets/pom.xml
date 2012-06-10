@@ -21,6 +21,10 @@
 			<artifactId>jetty</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.warspite.common</groupId>
+			<artifactId>cli</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
