@@ -8,11 +8,17 @@ import javax.servlet.http.HttpServletRequest
 class ParameterParsingServlet extends HttpServlet {
   protected val logger = LoggerFactory.getLogger(getClass());
 
-  def getIntParameter(p: String, req: HttpServletRequest): Int = {
+  def getIntParameter(p: String, req: HttpServletRequest, required: Boolean = true): Integer = {
     var value = "";
 
     value = req.getParameter(p);
-    if (value == null) throw new ClientReadableException("Received request is missing required parameter " + p + ".", "Oops! Couldn't find the expected " + p + " parameter in a request made by your client :(");
+
+    if (value == null) {
+      if (required)
+        throw new ClientReadableException("Received request is missing required parameter " + p + ".", "Oops! Couldn't find the expected " + p + " parameter in a request made by your client :(");
+      else
+        return null;
+    }
     try {
       value.toInt;
     } catch {
@@ -20,23 +26,11 @@ class ParameterParsingServlet extends HttpServlet {
     }
   }
 
-  def getLongParameter(p: String, req: HttpServletRequest): Long = {
-    var value = "";
+  def getStringParameter(p: String, req: HttpServletRequest, required: Boolean = true): String = {
+    val value = req.getParameter(p);
+    if (value == null && required)
+      throw new ClientReadableException("Received request is missing required parameter " + p + ".", "Oops! Couldn't find the expected " + p + " parameter in a request made by your client :(");
 
-    value = req.getParameter(p);
-    if (value == null) throw new ClientReadableException("Received request is missing required parameter " + p + ".", "Oops! Couldn't find the expected " + p + " parameter in a request made by your client :(");
-    try {
-      value.toLong;
-    } catch {
-      case e: NumberFormatException => throw new ClientReadableException("Received request has parameter " + p + " with value " + value + " that can not be parsed to an integer.", "Oops! I couldn't understand the value of the " + p + " parameter in your request. I thought it would be an integer, but it was " + value + ".");
-    }
-  }
-
-  def getStringParameter(p: String, req: HttpServletRequest): String = {
-    try {
-      req.getParameter(p);
-    } catch {
-      case e: NullPointerException => throw new ClientReadableException("Received request is missing required parameter " + p + ".", "Oops! Couldn't find the expected " + p + " parameter in a request made by your client :(");
-    }
+    value;
   }
 }

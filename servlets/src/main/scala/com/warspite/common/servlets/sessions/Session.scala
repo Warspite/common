@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory
 class Session(val id: Int, private val keeper: SessionKeeper) {
   val logger = LoggerFactory.getLogger(getClass());
 
-  val key: Long = Session.rand.nextLong();
+  val key: Int = Session.rand.nextInt();
   var touched = System.currentTimeMillis();
 
   def refresh {

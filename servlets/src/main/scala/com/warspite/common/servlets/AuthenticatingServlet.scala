@@ -13,10 +13,10 @@ class AuthenticatingServlet(protected val sessionKeeper: SessionKeeper) extends 
 
   def authenticateRequest(req: HttpServletRequest) = {
     val id = getIntParameter(SESSION_ID_PARAMETER_NAME, req);
-    val key = getLongParameter(SESSION_KEY_PARAMETER_NAME, req);
+    val key = getIntParameter(SESSION_KEY_PARAMETER_NAME, req);
     val session = sessionKeeper.get(id);
     
-    if(!session.key.equals(key))
+    if(key != session.key)
       throw new BadSessionKeyException(session, key);
     
     session;
