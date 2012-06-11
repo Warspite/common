@@ -20,6 +20,7 @@
 	<modules>
 		<module>cli</module>
 		<module>servlets</module>
+		<module>database</module>
 	</modules>
 
 	<dependencyManagement>

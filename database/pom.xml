@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>cli</artifactId>
-	<version>1.1.0</version>
+	<artifactId>database</artifactId>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<parent>
@@ -12,6 +12,6 @@
 		<version>1.0.0</version>
 	</parent>
 
-	<name>Warspite CLI</name>
-	<description>A simple interactive CLI allowing applications to expose listeners to commands.</description>
+	<name>Warspite Database</name>
+	<description>Common Warspite database functionality.</description>
 </project>
