@@ -40,7 +40,7 @@ class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(se
       }
     }
 
-    response.getWriter().append(jsonify(success, message, content));
+    response.getWriter().append(jsonify(Map("success" -> success, "message" -> message, "content" -> content)));
     val stopTime = System.currentTimeMillis();
     logger.debug("Responded to " + verb.toString() + " request from " + request.getRemoteHost() + " in " + (stopTime - startTime) + "ms.");
   }
@@ -77,7 +77,38 @@ class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(se
     throw new UnsupportedRestVerbException(RestVerb.DELETE, getClass().getSimpleName());
   }
 
-  def jsonify(success: Boolean, message: String, content: String) = {
-    "{\"success\":" + success + ",\"message\":\"" + message.replace("\"", "\\\"") + "\", \"content\": {" + content + "}}"
+  def jsonify(map: Map[String, Any]): String = {
+    var json = "";
+    for ((key, value) <- map) {
+      if (!json.isEmpty())
+        json += ",";
+
+      json += "\"" + key + "\":" + jsonifyVal(value);
+    }
+
+    "{" + json + "}"
+  }
+
+  def jsonifyVal(v: Any): String = {
+    v match {
+      case v: Int => return v.toString();
+      case v: Integer => return v.toString();
+      case v: Float => return v.toString();
+      case v: Double => return v.toString();
+      case v: Boolean => return v.toString();
+      case v: String => return "\"" + v + "\"";
+      case v: Map[String, Any] => return jsonify(v);
+      case v: Array[_] => {
+        var contents = "";
+        for (element <- v) {
+          if (!contents.isEmpty())
+            contents += ",";
+
+          contents += jsonifyVal(element);
+        }
+        return "[" + contents + "]";
+      }
+      case v => throw new NotJsonifiableTypeException(v);
+    }
   }
 }
