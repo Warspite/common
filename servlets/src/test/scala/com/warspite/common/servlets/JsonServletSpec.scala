@@ -1,8 +1,9 @@
+package com.warspite.common.servlets;
+
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 import org.scalatest.FlatSpec
 import org.scalatest.junit.ShouldMatchersForJUnit
-import com.warspite.common.servlets.{JsonServlet, NotJsonifiableTypeException}
 import java.util.HashMap
 import org.scalatest.BeforeAndAfterEach
 

@@ -5,8 +5,13 @@ import com.warspite.common.cli.CliListener
 import com.warspite.common.cli.annotations.Cmd
 
 class SessionKeeper extends CliListener {
-  val map = new HashMap[Int, Session];
   var longevityInMinutes = 15;
+  val map = new HashMap[Int, Session];
+  val timer = new SessionTimer(1000, this);
+  
+  def start { timer.start }
+  def stop { timer ! Stop }
+  
   def longevityInMillis = longevityInMinutes * 60 * 1000;
 
   def get(id: Int) = {
@@ -18,6 +23,12 @@ class SessionKeeper extends CliListener {
       }
     } catch {
       case e: Exception => throw new SessionDoesNotExistException(id, longevityInMinutes);
+    }
+  }
+  
+  def cullExpiredSessions {
+    map.synchronized {
+      map.values.filter(s => s.expired).foreach(s => map.remove(s.id));
     }
   }
 
