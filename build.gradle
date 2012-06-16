@@ -1,0 +1,37 @@
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'scala'
+	
+	String nextRelease = '0.1.0';
+	String scalaVersion = '2.9.2';
+	String slf4jVersion = '1.6.1';
+	
+	repositories {
+	    mavenCentral()
+	    mavenLocal()
+	}
+	
+	gradle.taskGraph.whenReady {taskGraph ->
+	    if (taskGraph.hasTask(release)) {
+	        version = nextRelease
+	    } else {
+	        version = nextRelease + '-SNAPSHOT'
+	    }
+	}
+	
+	dependencies {
+    	scalaTools 'org.scala-lang:scala-compiler:' + scalaVersion
+    	scalaTools 'org.scala-lang:scala-library:' + scalaVersion
+
+    	compile 'org.scala-lang:scala-library:' + scalaVersion
+		compile 'org.slf4j:slf4j-api:' + slf4jVersion
+		
+		testCompile 'junit:junit:4.9'
+		testCompile 'org.mockito:mockito-core:1.8.5'
+		testCompile 'org.slf4j:slf4j-nop:' + slf4jVersion
+		testCompile 'org.scalatest:scalatest_' + scalaVersion + ':1.8'
+	}
+	
+	task release(dependsOn: jar) << {
+	}
+}

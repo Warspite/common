@@ -33,7 +33,6 @@ public class CliTest {
 	@Test (expected=CliException.class)
 	public void unknownCommandTest() throws Exception {
 		cli.parseCommand("test unknown");
-		verifyZeroInteractions(secondaryListener);
 	}
 
 	@Test (expected=CliException.class)
