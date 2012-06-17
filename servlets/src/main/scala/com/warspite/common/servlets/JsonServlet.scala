@@ -97,7 +97,6 @@ class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(se
       case v: Double => return v.toString();
       case v: Boolean => return v.toString();
       case v: String => return "\"" + v + "\"";
-      case v: Map[String, Any] => return jsonify(v);
       case v: Array[_] => {
         var contents = "";
         for (element <- v) {
@@ -108,7 +107,18 @@ class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(se
         }
         return "[" + contents + "]";
       }
+      case ParseableMap(v) => return jsonify(v);
       case v => throw new NotJsonifiableTypeException(v);
+    }
+  }
+
+  object ParseableMap {
+    def unapply(v: Any): Option[Map[String, Any]] = {
+      try {
+        Some(v.asInstanceOf[Map[String, Any]]);
+      } catch {
+        case _ => None;
+      }
     }
   }
 }

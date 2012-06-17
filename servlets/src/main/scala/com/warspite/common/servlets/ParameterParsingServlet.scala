@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest
 class ParameterParsingServlet extends HttpServlet {
   protected val logger = LoggerFactory.getLogger(getClass());
 
-  def getIntParameter(p: String, req: HttpServletRequest, required: Boolean = true): Integer = {
+  def getIntParameter(p: String, req: HttpServletRequest, required: Boolean = true): java.lang.Integer = {
     var value = "";
 
     value = req.getParameter(p);
