@@ -1,10 +1,13 @@
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'scala'
+	apply plugin: 'maven'
 	
-	String nextRelease = '0.1.0';
-	String scalaVersion = '2.9.2';
-	String slf4jVersion = '1.6.1';
+	ext.nextRelease = '1.2.0';
+	ext.scalaVersion = '2.9.2';
+	ext.slf4jVersion = '1.6.1';
+	
+	group = "com.warspite.common"
 	
 	repositories {
 	    mavenCentral()
@@ -32,6 +35,6 @@ subprojects {
 		testCompile 'org.scalatest:scalatest_' + scalaVersion + ':1.8'
 	}
 	
-	task release(dependsOn: jar) << {
+	task release(dependsOn: install) << {
 	}
 }
