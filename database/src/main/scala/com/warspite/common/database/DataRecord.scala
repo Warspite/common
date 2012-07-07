@@ -6,9 +6,13 @@ class DataRecord {
   private var _map = Map.empty[String, (Manifest[_], Any)]
 
   def put[T](key: String, item: T)(implicit m: Manifest[T]) {
-    _map += key -> (m, item)
+    _map += key -> (m, item);
   }
 
+  def remove(key: String) {
+    _map -= key;
+  }
+  
   def get[T](key: String)(implicit m: Manifest[T]): T = {
     val obj = _map.get(key)
 

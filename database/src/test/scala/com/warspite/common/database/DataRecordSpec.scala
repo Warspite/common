@@ -30,22 +30,15 @@ class DataRecordSpec extends FlatSpec with ShouldMatchersForJUnit with BeforeAnd
     dr.get[Date]("date") should equal(dateObj);
   }
 
-  "DataRecord" should "throw appropriate exception if wrong type is retrieved" in {
+  it should "throw appropriate exception if wrong type is retrieved" in {
     intercept[IncompatibleTypeInDataRecordException] {
       dr.get[String]("date");
     }
   }
 
-  "DataRecord" should "throw appropriate exception if object is missing" in {
+  it should "throw appropriate exception if object is missing" in {
     intercept[IncompleteDataRecordException] {
       dr.get[String]("plupp");
     }
   }
-  
-  //  it should "throw exception when attempting to create with incomplete data record" in {
-  //    dr -= "callSign";
-  //    intercept[NotJsonifiableTypeException] {
-  //      Account(dr);
-  //    }
-  //  }
 }

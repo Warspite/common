@@ -22,14 +22,6 @@ class DatabaseCreator[T <: Database]() {
 	  catch {
 	    case e => throw new DatabaseCreationException("Failed to instantiate " + dbImplName + ".", e);
 	  }
-	  
-	  
-	  
-	  
-	  
-	  //	  val db = new DummyDb();
-//	  val dbT: T = db.asInstanceOf[T];
-//	  return dbT;
 	}
 	
 	def loadProps: Properties = {
