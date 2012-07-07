@@ -15,10 +15,10 @@ class SqlResultSetWrapper(val rs: ResultSet) {
 
     val dr = new DataRecord;
     for (i <- 1 to meta.getColumnCount()) {
-      log.debug("Fetching resultset data from column " + i + " of type " + meta.getColumnType(i));
       meta.getColumnType(i) match {
       	case java.sql.Types.INTEGER => {val x: Int = rs.getObject(i).asInstanceOf[Int]; dr.put(meta.getColumnName(i), x);}
         case java.sql.Types.VARCHAR => dr.put(meta.getColumnName(i), rs.getString(i));
+        case x => throw new UnrecognizedSqlTypeException(x);
       }
     }
 
