@@ -9,8 +9,11 @@ import com.warspite.common.servlets.sessions.SessionKeeper
 import com.warspite.common.servlets.sessions.BadSessionKeyException
 import com.warspite.common.servlets.json.Parser
 import com.warspite.common.database.DataRecord
+import com.warspite.common.servlets.json.Parser.ParseException
 
-class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(sessionKeeper) {
+class JsonServlet extends HttpServlet {
+  protected val logger = LoggerFactory.getLogger(getClass());
+
   def handleRequest(verb: RestVerb, request: HttpServletRequest, response: HttpServletResponse) {
     logger.debug("Received " + verb.toString() + " request from " + request.getRemoteHost() + ".");
     val startTime = System.currentTimeMillis();
@@ -20,14 +23,19 @@ class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(se
     var content = "";
 
     try {
+      val params = parseHeader("params", request);
       content = verb match {
-        case RestVerb.GET => get(request);
-        case RestVerb.PUT => put(request);
-        case RestVerb.POST => post(request);
-        case RestVerb.DELETE => delete(request);
+        case RestVerb.GET => get(request, params);
+        case RestVerb.PUT => put(request, params);
+        case RestVerb.POST => post(request, params);
+        case RestVerb.DELETE => delete(request, params);
       }
       success = true;
     } catch {
+      case e: ParseException => {
+        logger.info("Received malformed JSON: " + e.getMessage());
+        message = "Oops! I was unable to parse the JSON parameters of your request.";
+      }
       case e: UnsupportedRestVerbException => {
         logger.debug(e.getMessage());
         message = e.clientMessage;
@@ -63,19 +71,19 @@ class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(se
     handleRequest(RestVerb.POST, request, response);
   }
 
-  def get(request: HttpServletRequest): String = {
+  def get(request: HttpServletRequest, params: DataRecord): String = {
     throw new UnsupportedRestVerbException(RestVerb.GET, getClass().getSimpleName());
   }
 
-  def put(request: HttpServletRequest): String = {
+  def put(request: HttpServletRequest, params: DataRecord): String = {
     throw new UnsupportedRestVerbException(RestVerb.PUT, getClass().getSimpleName());
   }
 
-  def post(request: HttpServletRequest): String = {
+  def post(request: HttpServletRequest, params: DataRecord): String = {
     throw new UnsupportedRestVerbException(RestVerb.POST, getClass().getSimpleName());
   }
 
-  def delete(request: HttpServletRequest): String = {
+  def delete(request: HttpServletRequest, params: DataRecord): String = {
     throw new UnsupportedRestVerbException(RestVerb.DELETE, getClass().getSimpleName());
   }
 
@@ -123,8 +131,17 @@ class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(se
       }
     }
   }
-  
-  def parse(s: String): DataRecord = {
-    return DataRecord(Parser.parse(s).asInstanceOf[Map[String, AnyRef]]);
+
+  def parseHeader(header: String, req: HttpServletRequest): DataRecord = {
+    val s = req.getHeader(header);
+
+    if (s == null)
+      throw new ClientReadableException("Attempted to parse missing request header '" + header + "'.", "I received a malformed request header. I had expected it to contain '" + header + "', but it didn't!.");
+
+    return parseJson(s);
+  }
+
+  def parseJson(json: String): DataRecord = {
+    return DataRecord(Parser.parse(json).asInstanceOf[Map[String, AnyRef]]);
   }
 }

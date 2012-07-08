@@ -15,4 +15,4 @@ class ExpectedRecordNotFoundException(msg: String, inner: Throwable) extends Dat
 }
 
 class IncompleteDataRecordException(missingKey: String, val record: DataRecord) extends DatabaseException("The data record does not contain expected key '" + missingKey + "'.") {}
-class IncompatibleTypeInDataRecordException(key: String, val record: DataRecord, objManifest: Manifest[_], expectedManifest: Manifest[_]) extends DatabaseException("The data record object '" + key + "' is of type " + objManifest + ", but " + expectedManifest + " was expected.") {}
+class IncompatibleTypeInDataRecordException(key: String, val record: DataRecord, objManifest: String, expectedManifest: String) extends DatabaseException("The data record object '" + key + "' is of type " + objManifest + ", but " + expectedManifest + " was expected.") {}

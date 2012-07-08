@@ -14,7 +14,15 @@ class SessionKeeper extends CliListener {
   
   def longevityInMillis = longevityInMinutes * 60 * 1000;
 
-  def get(id: Int) = {
+  def get(id: Int, key: Int): Session = {
+    val s = get(id);
+    if(s.key != key)
+      throw new BadSessionKeyException(s, key);
+    
+    s;
+  }
+  
+  def get(id: Int): Session = {
     try {
       map.synchronized {
         val s = map(id);

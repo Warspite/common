@@ -14,7 +14,7 @@ class JsonServletSpec extends FlatSpec with ShouldMatchersForJUnit with BeforeAn
   var js: JsonServlet = null;
 
   override def beforeEach() {
-    js = new JsonServlet(null);
+    js = new JsonServlet();
   }
 
   "JsonServlet" should "jsonify an empty map to an empty JSON object" in {
@@ -56,25 +56,25 @@ class JsonServletSpec extends FlatSpec with ShouldMatchersForJUnit with BeforeAn
   }
   
   it should "parse a JSON double to a data record containing a double" in {
-    js.parse("{\"tjo\": 1.7}").getDouble("tjo") should equal(1.7);
+    js.parseJson("{\"tjo\": 1.7}").getDouble("tjo") should equal(1.7);
   }
 
   it should "parse a JSON int to a data record containing an int" in {
-    js.parse("{\"tjo\": 1}").getInt("tjo") should equal(1);
+    js.parseJson("{\"tjo\": 1}").getInt("tjo") should equal(1);
   }
 
   it should "parse a JSON string to a data record containing a string" in {
-    js.parse("{\"tjo\": \"1\"}").getString("tjo") should equal("1");
+    js.parseJson("{\"tjo\": \"1\"}").getString("tjo") should equal("1");
   }
 
   it should "throw a suitable exception if attempting to retrieve a JSON int as a string" in {
     intercept[IncompatibleTypeInDataRecordException] {
-      js.parse("{\"tjo\": 1}").getString("tjo") should equal("1");
+      js.parseJson("{\"tjo\": 1}").getString("tjo") should equal("1");
     }
   }
 
   it should "parse a nested JSON map into nested maps" in {
-    val o: DataRecord = js.parse("{\"tjo\": {\"hej\": \"hopp\"}}").getDataRecord("tjo");
+    val o: DataRecord = js.parseJson("{\"tjo\": {\"hej\": \"hopp\"}}").getDataRecord("tjo");
     o.getString("hej") should equal("hopp");
   }
 }
