@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest
 import com.warspite.common.servlets.sessions.SessionKeeper
 import com.warspite.common.servlets.sessions.BadSessionKeyException
+import com.warspite.common.servlets.json.Parser
+import com.warspite.common.database.DataRecord
 
 class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(sessionKeeper) {
   def handleRequest(verb: RestVerb, request: HttpServletRequest, response: HttpServletResponse) {
@@ -120,5 +122,9 @@ class JsonServlet(sessionKeeper: SessionKeeper) extends AuthenticatingServlet(se
         case _ => None;
       }
     }
+  }
+  
+  def parse(s: String): DataRecord = {
+    return DataRecord(Parser.parse(s).asInstanceOf[Map[String, AnyRef]]);
   }
 }

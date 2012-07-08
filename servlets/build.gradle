@@ -1,4 +1,5 @@
 dependencies {
 	compile 'org.mortbay.jetty:jetty:6.1.26'
 	compile project(':cli')
+	compile project(':database')
 }
