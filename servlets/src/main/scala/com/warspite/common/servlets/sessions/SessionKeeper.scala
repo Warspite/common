@@ -40,8 +40,8 @@ class SessionKeeper extends CliListener {
     }
   }
 
-  @Cmd(name = "put", description = "Insert a new session with <id>. If it already exists it will simply be refreshed.")
-  def put(id: Int) = {
+  @Cmd(name = "put", description = "Insert a new session with <id>. If it already exists it will simply be refreshed.", printReturnValue = true)
+  def put(id: Int): Session = {
     map.synchronized {
       if (map.contains(id)) {
         map(id).refresh;
@@ -54,7 +54,7 @@ class SessionKeeper extends CliListener {
     }
   }
 
-  @Cmd(name = "list", description = "List active sessions")
+  @Cmd(name = "list", description = "List active sessions", printReturnValue = true)
   def printSessions: String = {
     map.synchronized {
       if (map.isEmpty)
@@ -62,12 +62,12 @@ class SessionKeeper extends CliListener {
 
       var out = "";
       val lineBreak = System.getProperty("line.separator");
-      for ((key, value) <- map) out += "Id:" + value.id + "   Key:" + value.key + "   Seconds to live:" + ((value.touched + longevityInMillis - System.currentTimeMillis) / 1000) + lineBreak;
+      for ((key, value) <- map) out += value + lineBreak;
       return out;
     }
   }
 
-  @Cmd(name = "setlongevity", description = "Set the session longevity in <minutes>.")
+  @Cmd(name = "setlongevity", description = "Set the session longevity in <minutes>.", printReturnValue = false)
   def setLongevityInMinutes(minutes: Int) {
     longevityInMinutes = minutes;
   }

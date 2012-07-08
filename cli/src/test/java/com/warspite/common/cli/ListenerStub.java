@@ -10,17 +10,17 @@ public class ListenerStub implements CliListener {
 		this.secondaryListener = secondaryListener;
 	}
 
-	@Cmd(name = "test", description = "")
+	@Cmd(name = "test", description = "", printReturnValue = false)
 	public void testMethod() {
 		secondaryListener.testMethod();
 	}
 
-	@Cmd(name = "testWithArguments", description = "")
+	@Cmd(name = "testWithArguments", description = "", printReturnValue = false)
 	public void testMethodWithArguments(final String strArg, final Integer intArg) {
 		secondaryListener.testMethodWithArguments(strArg, intArg);
 	}
 
-	@Cmd(name = "testWithOtherArguments", description = "")
+	@Cmd(name = "testWithOtherArguments", description = "", printReturnValue = false)
 	public void testMethodWithOtherArguments(final String strArg, final String strArg2, final Double doubleArg) {
 		secondaryListener.testMethodWithOtherArguments(strArg, strArg2, doubleArg);
 	}

@@ -113,8 +113,8 @@ public class Cli {
 	private void invokeMethod(MethodObjectPair m, String[] args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, CliException {
 		Object ret = m.getMethod().invoke(m.getObject(), parseArguments(m.getMethod(), args));
 
-		if(ret != null && ret instanceof String)
-			out.println((String)ret);
+		if(ret != null && m.getMethod().getAnnotation(Cmd.class).printReturnValue())
+			out.println(ret.toString());
 	}
 
 	private Object[] parseArguments(Method m, String[] argStrings) throws CliException {

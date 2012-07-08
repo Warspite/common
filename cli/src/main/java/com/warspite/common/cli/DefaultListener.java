@@ -14,7 +14,7 @@ public class DefaultListener implements CliListener {
 		this.scriptExecutor = scriptExecutor;
 	}
 
-	@Cmd(name = "help", description = "Display this help.")
+	@Cmd(name = "help", description = "Display this help.", printReturnValue = true)
 	public void help() {
 		cli.println("Command syntax is: <listener> <cmd> [args]");
 		cli.println("Example: cli help");
@@ -53,22 +53,22 @@ public class DefaultListener implements CliListener {
 		return out;
 	}
 
-	@Cmd(name = "exit", description = "Exit the application.")
+	@Cmd(name = "exit", description = "Exit the application.", printReturnValue = false)
 	public void exit() {
 		cli.setExit(true);
 	}
 
-	@Cmd(name = "list", description = "List available scripts.")
+	@Cmd(name = "list", description = "List available scripts.", printReturnValue = false)
 	public void list() {
 		scriptExecutor.listScripts();
 	}
 
-	@Cmd(name = "exec", description = "Execute <script>.")
+	@Cmd(name = "exec", description = "Execute <script>.", printReturnValue = false)
 	public void exec(String script) {
 		scriptExecutor.executeScript(script);
 	}
 
-	@Cmd(name = "print", description = "Print <str>.")
+	@Cmd(name = "print", description = "Print <str>.", printReturnValue = false)
 	public void print(String str) {
 		cli.println(str);
 	}

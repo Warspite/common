@@ -12,4 +12,5 @@ import java.lang.annotation.Target;
 public @interface Cmd {
 	String name();
 	String description();
+	boolean printReturnValue();
 }
