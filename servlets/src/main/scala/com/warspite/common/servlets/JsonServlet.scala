@@ -20,11 +20,11 @@ class JsonServlet extends HttpServlet {
 
     var success = false;
     var message = "";
-    var content = "";
+    var jsonOutput = Map[String, Any]();
 
     try {
       val params = parseHeader("params", request);
-      content = verb match {
+      jsonOutput = verb match {
         case RestVerb.GET => get(request, params);
         case RestVerb.PUT => put(request, params);
         case RestVerb.POST => post(request, params);
@@ -50,7 +50,7 @@ class JsonServlet extends HttpServlet {
       }
     }
 
-    response.getWriter().append(jsonify(Map("success" -> success, "message" -> message, "content" -> content)));
+    response.getWriter().append(jsonify(Map("success" -> success, "message" -> message, "content" -> jsonOutput)));
     val stopTime = System.currentTimeMillis();
     logger.debug("Responded to " + verb.toString() + " request from " + request.getRemoteHost() + " in " + (stopTime - startTime) + "ms.");
   }
@@ -71,19 +71,19 @@ class JsonServlet extends HttpServlet {
     handleRequest(RestVerb.POST, request, response);
   }
 
-  def get(request: HttpServletRequest, params: DataRecord): String = {
+  def get(request: HttpServletRequest, params: DataRecord): Map[String, Any] = {
     throw new UnsupportedRestVerbException(RestVerb.GET, getClass().getSimpleName());
   }
 
-  def put(request: HttpServletRequest, params: DataRecord): String = {
+  def put(request: HttpServletRequest, params: DataRecord): Map[String, Any] = {
     throw new UnsupportedRestVerbException(RestVerb.PUT, getClass().getSimpleName());
   }
 
-  def post(request: HttpServletRequest, params: DataRecord): String = {
+  def post(request: HttpServletRequest, params: DataRecord): Map[String, Any] = {
     throw new UnsupportedRestVerbException(RestVerb.POST, getClass().getSimpleName());
   }
 
-  def delete(request: HttpServletRequest, params: DataRecord): String = {
+  def delete(request: HttpServletRequest, params: DataRecord): Map[String, Any] = {
     throw new UnsupportedRestVerbException(RestVerb.DELETE, getClass().getSimpleName());
   }
 
