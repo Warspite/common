@@ -65,7 +65,9 @@ public class DefaultListener implements CliListener {
 
 	@Cmd(name = "exec", description = "Execute <script>.", printReturnValue = false)
 	public void exec(String script) {
-		scriptExecutor.executeScript(script);
+		String ret = scriptExecutor.executeScript(script);
+		if(ret != null)
+			cli.println(ret);
 	}
 
 	@Cmd(name = "print", description = "Print <str>.", printReturnValue = false)

@@ -102,11 +102,11 @@ public class Cli {
 		} 
 	}
 
-	protected void parseCommand(String cmdString) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, CliException {
+	protected String parseCommand(String cmdString) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, CliException {
 		logger.debug("Received command '" + cmdString + "'.");
 
 		if( cmdString.isEmpty() )
-			return;
+			return null;
 
 		final String[] cmdArray = cmdString.split(" ");
 
@@ -126,14 +126,18 @@ public class Cli {
 		if( m == null )
 			throw new CliException("Unrecognized command '" + cmdString + "'. Type 'cli help' for help.");
 
-		invokeMethod(m, args);
+		return invokeMethod(m, args);
 	} 
 
-	private void invokeMethod(MethodObjectPair m, String[] args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, CliException {
+	private String invokeMethod(MethodObjectPair m, String[] args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, CliException {
 		Object ret = m.getMethod().invoke(m.getObject(), parseArguments(m.getMethod(), args));
 
-		if(ret != null && m.getMethod().getAnnotation(Cmd.class).printReturnValue())
+		if(ret != null && m.getMethod().getAnnotation(Cmd.class).printReturnValue()) {
 			out.println(ret.toString());
+			return ret.toString();
+		}
+		
+		return null;
 	}
 
 	private Object[] parseArguments(Method m, String[] argStrings) throws CliException {

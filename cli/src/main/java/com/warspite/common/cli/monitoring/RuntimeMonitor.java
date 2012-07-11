@@ -1,6 +1,8 @@
 package com.warspite.common.cli.monitoring;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import com.warspite.common.cli.ScriptExecutor;
@@ -74,8 +76,8 @@ public class RuntimeMonitor extends WarspitePoller {
 	}
 
 	private void handleInput(File f) throws IOException {
-		String lockFilePath = f.getPath().substring(0, f.getPath().length() - ".in".length()) + ".lck";
-		File lockFile = new File(lockFilePath);
+		File lockFile = new File(f.getPath().substring(0, f.getPath().length() - ".in".length()) + ".lck");
+		File outFile = new File(f.getPath().substring(0, f.getPath().length() - ".in".length()) + ".out");
 		logger.debug("Handling input file " + f + ", will look for lockfile " + lockFile + ".");
 		
 		if(lockFile.exists()) {
@@ -85,7 +87,11 @@ public class RuntimeMonitor extends WarspitePoller {
 
 		lockFile.createNewFile();
 		
-		executor.executeScript(f);
+		final String out = executor.executeScript(f);
+		
+		BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
+		writer.write(out);
+		writer.close();
 		
 		if(!f.delete())
 			throw new IOException("Failed to delete input file " + f + ". If it remains it will clutter the input.");

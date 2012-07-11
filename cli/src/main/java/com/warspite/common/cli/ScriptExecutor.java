@@ -12,6 +12,7 @@ public class ScriptExecutor {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	private final Cli cli;
 	private final static String CLI_DIRECTORY = "cli";
+	private final static String newLine = System.getProperty("line.separator");
 
 	public ScriptExecutor(final Cli cli) {
 		this.cli = cli;
@@ -35,17 +36,16 @@ public class ScriptExecutor {
 			cli.println("    " + s);
 	}
 
-	public void executeScript(final String name) {
+	public String executeScript(final String name) {
 		final String path = CLI_DIRECTORY + "/" + name;
-		executeScript(new File(path));
+		return executeScript(new File(path));
 	}
 	
-	public void executeScript(final File f) {
-		if (!f.exists()) {
-			cli.println("Could not find script '" + f + "'.");
-			return;
-		}
+	public String executeScript(final File f) {
+		if (!f.exists())
+			return "Could not find script '" + f + "'.";
 
+		StringBuffer out = new StringBuffer();
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader(f));
@@ -54,17 +54,19 @@ public class ScriptExecutor {
 			while ((cmd = reader.readLine()) != null) {
 				if (!cmd.isEmpty()) {
 					try {
-						cli.parseCommand(cmd);
+						String ret = cli.parseCommand(cmd);
+						if(ret != null)
+							out.append(ret).append(newLine);
 					} 
 					catch (Exception e) {
-						cli.println("Failed to execute command \"" + cmd + "\".");
 						logger.error("Failed to execute command \"" + cmd + "\" from script '" + f + "'.", e);
+						return "Failed to execute command \"" + cmd + "\" from script '" + f + "'.";
 					}
 				}
 			}
 		} catch (IOException e) {
-			cli.println("Failed to read script file " + f + ". Error has been logged.");
 			logger.error("Failed to read script file " + f + ".", e);
+			return "Failed to read script file " + f + ".";
 		}
 
 		try {
@@ -72,7 +74,10 @@ public class ScriptExecutor {
 				reader.close();
 			}
 		} catch (IOException e) {
-			cli.println("Failed to close script file " + f + ". Error has been logged.");
+			logger.error("Failed to close script file " + f + ".", e);
+			return "Failed to close script file " + f + ". Error has been logged.";
 		}
+		
+		return out.toString();
 	}
 }
