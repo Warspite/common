@@ -25,7 +25,7 @@ public class CliTest {
 		out = mock(PrintStream.class);
 		secondaryListener = mock(ListenerStub.class);
 		listener = new ListenerStub(secondaryListener);
-		cli = new Cli("TestApp", in, out);
+		cli = new Cli("TestApp", "TestInstance", in, out);
 		cli.getListeners().clear();
 		cli.getListeners().put("test", listener);
 	}

@@ -37,10 +37,12 @@ public class ScriptExecutor {
 
 	public void executeScript(final String name) {
 		final String path = CLI_DIRECTORY + "/" + name;
-		final File f = new File(path);
-
+		executeScript(new File(path));
+	}
+	
+	public void executeScript(final File f) {
 		if (!f.exists()) {
-			cli.println("Could not find script \"" + path + "\".");
+			cli.println("Could not find script '" + f + "'.");
 			return;
 		}
 
@@ -56,14 +58,13 @@ public class ScriptExecutor {
 					} 
 					catch (Exception e) {
 						cli.println("Failed to execute command \"" + cmd + "\".");
-						logger.error("Failed to execute command \"" + cmd + "\" from script \"" + path + "\".", e);
+						logger.error("Failed to execute command \"" + cmd + "\" from script '" + f + "'.", e);
 					}
 				}
 			}
 		} catch (IOException e) {
-			cli.println("Failed to read script file " + path
-					+ ". Error has been logged.");
-			logger.error("Failed to read script file " + path + ".", e);
+			cli.println("Failed to read script file " + f + ". Error has been logged.");
+			logger.error("Failed to read script file " + f + ".", e);
 		}
 
 		try {
@@ -71,9 +72,7 @@ public class ScriptExecutor {
 				reader.close();
 			}
 		} catch (IOException e) {
-			cli.println("Failed to close script file " + path
-					+ ". Error has been logged.");
-			logger.error("Failed to close script file " + path + ".", e);
+			cli.println("Failed to close script file " + f + ". Error has been logged.");
 		}
 	}
 }

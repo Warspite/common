@@ -1,6 +1,7 @@
 package com.warspite.common.cli;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.warspite.common.cli.annotations.Cmd;
 import com.warspite.common.cli.exceptions.CliException;
+import com.warspite.common.cli.monitoring.RuntimeMonitor;
 
 public class Cli {
 	private static final String BOOT_SCRIPT = "boot.cli";
@@ -25,19 +27,21 @@ public class Cli {
 	private final PrintStream out;
 	private final Map<String, CliListener> listeners = new HashMap<String, CliListener>();
 	private boolean exit;
+	private final String instanceName;
 
-	public Cli(final String appName) {
-		this(appName, System.in, System.out);
+	public Cli(final String appName, final String instanceName) {
+		this(appName, instanceName, System.in, System.out);
 	}
 
-	public Cli(final String appName, final InputStream inputStream, final PrintStream out) {
+	public Cli(final String appName, final String instanceName, final InputStream inputStream, final PrintStream out) {
 		this.appName = appName;
+		this.instanceName = instanceName;
 		this.in = new BufferedReader(new InputStreamReader(inputStream));
 		this.out = out;
 		this.scriptExecutor = new ScriptExecutor(this);
 
 		this.listeners.put("cli", new DefaultListener(this, scriptExecutor));
-
+		
 		loadAnnotations();
 	}
 
@@ -53,15 +57,30 @@ public class Cli {
 	public void start(final boolean executeBootScript) {
 		out.println("Welcome!");
 		out.println("Application: " + appName);
+		out.println("Instance: " + instanceName);
+		
+		final RuntimeMonitor runtimeMonitor = new RuntimeMonitor(new File("runtime/" + instanceName), scriptExecutor); 
 		
 		if(executeBootScript) {
 			scriptExecutor.executeScript(BOOT_SCRIPT);
 		}
 		
+		
 		out.println("Type 'cli help' for help.");
 
+		try {
+			runtimeMonitor.setup();
+			runtimeMonitor.start();
+		} 
+		catch (Exception e) {
+			logger.error("Failed to set up cli runtime monitor. Aborting.", e);
+			this.exit = true;
+		}
+		
 		while( !isExit() )
 			read();
+
+		runtimeMonitor.halt();
 	}
 
 	private void read() {
