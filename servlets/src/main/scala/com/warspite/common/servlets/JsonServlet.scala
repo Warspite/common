@@ -41,7 +41,7 @@ class JsonServlet extends HttpServlet {
         message = e.clientMessage;
       }
       case e: ClientReadableException => {
-        logger.info("Failed to handle servlet request. Client message: \"" + e.clientMessage + "\"", e);
+        logger.info("Request failed: " + e.getMessage() + " (Client message: " + e.clientMessage + ")");
         message = e.clientMessage;
       }
       case e: Throwable => {
