@@ -19,7 +19,6 @@ import com.warspite.common.cli.exceptions.CliException;
 import com.warspite.common.cli.monitoring.RuntimeMonitor;
 
 public class Cli {
-	private static final String BOOT_SCRIPT = "boot.cli";
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	private final ScriptExecutor scriptExecutor;
 	private final String appName;
@@ -54,17 +53,12 @@ public class Cli {
 		}
 	}
 
-	public void start(final boolean executeBootScript) {
+	public void start() {
 		out.println("Welcome!");
 		out.println("Application: " + appName);
 		out.println("Instance: " + instanceName);
 		
 		final RuntimeMonitor runtimeMonitor = new RuntimeMonitor(new File("runtime/" + instanceName), scriptExecutor); 
-		
-		if(executeBootScript) {
-			scriptExecutor.executeScript(BOOT_SCRIPT);
-		}
-		
 		
 		out.println("Type 'cli help' for help.");
 
