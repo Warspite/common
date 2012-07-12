@@ -124,14 +124,31 @@ public class Cli {
 	} 
 
 	private String invokeMethod(MethodObjectPair m, String[] args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, CliException {
-		Object ret = m.getMethod().invoke(m.getObject(), parseArguments(m.getMethod(), args));
+		try {
+			Object ret = m.getMethod().invoke(m.getObject(), parseArguments(m.getMethod(), args));
 
-		if(ret != null && m.getMethod().getAnnotation(Cmd.class).printReturnValue()) {
-			out.println(ret.toString());
-			return ret.toString();
+			if(ret != null && m.getMethod().getAnnotation(Cmd.class).printReturnValue()) {
+				return printAndReturn(ret.toString());
+			}
+			else {
+				return null;
+			}
 		}
-		
-		return null;
+		catch(InvocationTargetException e) {
+			if(e.getCause() != null) {
+				logger.error("Cli executed method " + m.getMethod() + " threw an exception.", e);
+				return printAndReturn("Command failed: " + e.getCause());
+			}
+			else {
+				logger.error("Cli invocation failed.", e);
+				return printAndReturn("Command invocation failed: " + e);
+			}
+		}
+	}
+	
+	private String printAndReturn(String s) {
+		out.println(s);
+		return s;
 	}
 
 	private Object[] parseArguments(Method m, String[] argStrings) throws CliException {
