@@ -9,7 +9,7 @@ class SqlResultSetWrapper(val rs: ResultSet) {
 
   def next(closeAfterRetrieval: Boolean = false): Option[DataRecord] = {
     if (!rs.next) {
-      rs.close();
+      rs.getStatement().close();
       return None;
     }
 
@@ -30,6 +30,6 @@ class SqlResultSetWrapper(val rs: ResultSet) {
 
   def close() {
     if (!rs.isClosed())
-      rs.close();
+      rs.getStatement().close();
   }
 }

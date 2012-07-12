@@ -6,4 +6,5 @@ class SqlException(msg: String, inner: Throwable) extends DatabaseException(msg,
 }
 
 class QueryFailedException(query: String, inner: Throwable) extends SqlException("Failed to execute query '" + query + "'.", inner) {}
+class StatementFailedException(s: String, inner: Throwable) extends SqlException("Failed to execute statement '" + s + "'.", inner) {}
 class UnrecognizedSqlTypeException(typeNum: Int) extends SqlException("Received unrecognized SQL type " + typeNum + ".") {}
