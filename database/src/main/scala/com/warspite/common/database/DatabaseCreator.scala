@@ -7,13 +7,14 @@ import com.warspite.common.cli.annotations.Cmd
 import java.io.FileNotFoundException
 
 class DatabaseCreator[T <: Database] extends CliListener {
-  var db: Any = null;
+  private var _db: Any = null;
   val DATABASE_PROPERTIES_FILE = "configuration/database.properties";
   val DATABASE_IMPLEMENTATION_PROPERTY_NAME = "db_implementation";
 
   @Cmd(name = "create", description = "Create a database instance, using configuration/<propFilename> for properties.", printReturnValue = true)
   def create(propFilename: String): String = {
     try {
+      _db = null;
       val dbProps = loadProps(propFilename);
       val dbImplName = dbProps.getProperty(DATABASE_IMPLEMENTATION_PROPERTY_NAME);
 
@@ -22,8 +23,9 @@ class DatabaseCreator[T <: Database] extends CliListener {
 
       val clazz = Class.forName(dbImplName);
       val constructor = clazz.getConstructor(classOf[Properties]);
-      db = constructor.newInstance(dbProps);
-      db.asInstanceOf[T].connect();
+      val instance = constructor.newInstance(dbProps);
+      instance.asInstanceOf[T].connect();
+      _db = instance;
       return "Database (" + dbImplName + ") created.";
     } catch {
       case e: FileNotFoundException => throw new DatabaseCreationException("Couldn't file propfile " + propFilename + ".", e);
@@ -32,10 +34,10 @@ class DatabaseCreator[T <: Database] extends CliListener {
   }
 
   def getDatabase(): T = {
-    if (db == null)
+    if (_db == null)
       throw new DatabaseCreationException("Cannot get the database, it has not been instantiated.");
 
-    return db.asInstanceOf[T];
+    return _db.asInstanceOf[T];
   }
 
   def loadProps(filename: String): Properties = {
