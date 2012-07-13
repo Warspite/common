@@ -30,4 +30,9 @@ class MySqlQueryerSpec extends FlatSpec with ShouldMatchersForJUnit with BeforeA
     val act = q.composeInsertString("MyTable", Map[String, Any]("secretSauce" -> "hey'hey'dobedo''")); 
     act should equal(exp);
   }
+  
+  it should "build valid querystrings" in {
+    q.buildQueryString(List("hej", "hopp"), "FROM stuff") should equal("SELECT hej, hopp FROM stuff");
+    q.buildQueryString(List("hej", "hopp"), "FROM stuff", "MyTable") should equal("SELECT MyTable.hej, MyTable.hopp FROM stuff");
+  }
 }
