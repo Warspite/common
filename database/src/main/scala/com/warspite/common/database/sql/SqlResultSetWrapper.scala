@@ -4,7 +4,6 @@ import java.sql.ResultSet
 import org.slf4j.LoggerFactory
 import org.scala_tools.time.Imports._
 import scala.collection.mutable.Queue
-import com.warspite.common.database.CanConstructFromDataRecord
 
 class SqlResultSetWrapper(val rs: ResultSet) {
   protected val log = LoggerFactory.getLogger(getClass());
