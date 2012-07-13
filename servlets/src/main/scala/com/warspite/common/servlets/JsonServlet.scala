@@ -10,6 +10,10 @@ import com.warspite.common.servlets.sessions.BadSessionKeyException
 import com.warspite.common.servlets.json.Parser
 import com.warspite.common.database.DataRecord
 import com.warspite.common.servlets.json.Parser.ParseException
+import org.scala_tools.time.Imports._
+import org.joda.time.format.ISODateTimeFormat
+import com.warspite.common.database.Mappable
+
 
 class JsonServlet extends HttpServlet {
   protected val logger = LoggerFactory.getLogger(getClass());
@@ -50,7 +54,14 @@ class JsonServlet extends HttpServlet {
       }
     }
 
-    response.getWriter().append(jsonify(Map("success" -> success, "message" -> message, "content" -> jsonOutput)));
+    try {
+      response.getWriter().append(jsonify(Map("success" -> success, "message" -> message, "content" -> jsonOutput)));
+    } catch {
+      case e: Throwable => {
+        logger.error("Failed to write servlet output!", e);
+        response.getWriter().write(jsonify(Map("success" -> false, "message" -> "Something pretty bad happened in the server. We'll look into it as soon as possible!")));
+      }
+    }
     val stopTime = System.currentTimeMillis();
     logger.debug("Responded to " + verb.toString() + " request from " + request.getRemoteHost() + " in " + (stopTime - startTime) + "ms.");
   }
@@ -107,6 +118,8 @@ class JsonServlet extends HttpServlet {
       case v: Double => return v.toString();
       case v: Boolean => return v.toString();
       case v: String => return "\"" + v + "\"";
+      case v: DateTime => return "\"" + ISODateTimeFormat.dateTime().print(v) + "\"";
+      case v: Mappable => return jsonify(v.asMap(true, false));
       case v: Array[_] => {
         var contents = "";
         for (element <- v) {
