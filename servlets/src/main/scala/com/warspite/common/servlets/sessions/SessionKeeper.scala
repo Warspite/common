@@ -34,6 +34,19 @@ class SessionKeeper extends CliListener {
     }
   }
   
+  @Cmd(name = "drop", description = "Drop an existing session with <id>.", printReturnValue = true)
+  def drop(id: Int): String = {
+    map.synchronized {
+      if(map.contains(id)) {
+        map.remove(id);
+        return "Session " + id + " dropped.";
+      }
+      else {
+        return "No such session " + id + ".";
+      }
+    }
+  }
+  
   def cullExpiredSessions {
     map.synchronized {
       map.values.filter(s => s.expired).foreach(s => map.remove(s.id));
