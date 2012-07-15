@@ -26,7 +26,7 @@ class MySqlQueryerSpec extends FlatSpec with ShouldMatchersForJUnit with BeforeA
   }
   
   it should "escape ' in insert statements" in {
-    val exp = "INSERT INTO MyTable (secretSauce) VALUES ('hey\\'hey\\'dobedo\\'\\'');";
+    val exp = "INSERT INTO MyTable (secretSauce) VALUES ('hey\\\\'hey\\\\'dobedo\\\\'\\\\'');";
     val act = q.composeInsertString("MyTable", Map[String, Any]("secretSauce" -> "hey'hey'dobedo''")); 
     act should equal(exp);
   }
