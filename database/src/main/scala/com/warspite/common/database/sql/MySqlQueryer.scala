@@ -54,7 +54,7 @@ class MySqlQueryer(val connection: Connection) {
 
     values foreach ((t) => {
       t._2 match {
-        case v: String => s += ("'" + v.replace("'", "\\'") + "',");
+        case v: String => s += ("'" + StringEscaper.escape(v) + "',");
         case v => s += (v.toString + ",");
       }
     });
