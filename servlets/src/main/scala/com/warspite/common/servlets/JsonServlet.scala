@@ -14,7 +14,6 @@ import org.scala_tools.time.Imports._
 import org.joda.time.format.ISODateTimeFormat
 import com.warspite.common.database.Mappable
 
-
 class JsonServlet extends HttpServlet {
   protected val logger = LoggerFactory.getLogger(getClass());
 
@@ -55,15 +54,16 @@ class JsonServlet extends HttpServlet {
     }
 
     try {
-      response.getWriter().append(jsonify(Map("success" -> success, "message" -> message, "content" -> jsonOutput)));
+      var out = jsonify(Map("success" -> success, "message" -> message, "content" -> jsonOutput));
+      response.getWriter().append(out);
+      val stopTime = System.currentTimeMillis();
+      logger.debug("Responded to " + verb.toString() + " request from " + request.getRemoteHost() + " in " + (stopTime - startTime) + "ms: " + out);
     } catch {
       case e: Throwable => {
         logger.error("Failed to write servlet output!", e);
         response.getWriter().write(jsonify(Map("success" -> false, "message" -> "Something pretty bad happened in the server. We'll look into it as soon as possible!")));
       }
     }
-    val stopTime = System.currentTimeMillis();
-    logger.debug("Responded to " + verb.toString() + " request from " + request.getRemoteHost() + " in " + (stopTime - startTime) + "ms.");
   }
 
   override def doGet(request: HttpServletRequest, response: HttpServletResponse) {
