@@ -11,3 +11,4 @@ class UnsupportedRestVerbException(verb: RestVerb, servletName: String) extends 
 class NotJsonifiableTypeException(obj: Any) extends Exception("Jsonification failed. Don't know how to jsonify objects of type " + obj.asInstanceOf[AnyRef].getClass) {}
 class AuthorizationFailureException(session: Session) extends ClientReadableException("Unauthorized servlet request by session " + session + " intercepted.", "Oops! It seems you were trying to perform an unauthorized action. That's most unfortunate :(") {}
 class MissingParameterException(allNeeded: Boolean, requiredParameters: String*) extends ClientReadableException("Missing arguments in call to servlet.", "I can't find some of the arguments I need in your request. " + (if(allNeeded) { "All these are needed: " } else { "One of these is needed: " }) + requiredParameters.reduceLeft(_ + ", " + _) + ".") {}
+class InvalidServletInputException(msg: String) extends ClientReadableException(msg, msg) {}
