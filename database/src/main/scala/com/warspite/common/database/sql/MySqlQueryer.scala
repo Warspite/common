@@ -8,8 +8,7 @@ import java.sql.Statement
 class MySqlQueryer(val connection: Connection) {
   protected val log = LoggerFactory.getLogger(getClass());
 
-  def query(columnNames: List[String], q: String, tableName: String = null): SqlResultSetWrapper = {
-    val query = buildQueryString(columnNames, q, tableName);
+  def query(query: String): SqlResultSetWrapper = {
     var stmt: Statement = null;
     try {
       log.debug("Executing query '" + query + "'.");
@@ -18,6 +17,10 @@ class MySqlQueryer(val connection: Connection) {
     } catch {
       case e: SQLException => throw new QueryFailedException(query, e);
     }
+  }
+
+  def query(columnNames: List[String], q: String, tableName: String = null): SqlResultSetWrapper = {
+    query(buildQueryString(columnNames, q, tableName));
   }
 
   def stmt(s: String): Int = {
@@ -36,9 +39,9 @@ class MySqlQueryer(val connection: Connection) {
 
   def buildQueryString(columnNames: List[String], q: String, tableName: String = null): String = {
     var actualColumnNames = columnNames;
-    if(tableName != null)
+    if (tableName != null)
       actualColumnNames = columnNames.map(s => tableName + "." + s);
-      
+
     "SELECT " + actualColumnNames.reduceLeft(_ + ", " + _) + " " + q;
   }
 
