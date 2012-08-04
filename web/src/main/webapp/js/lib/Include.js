@@ -2,6 +2,7 @@ include("lib/enums/Anchor.js");
 include("lib/enums/GraphicsType.js");
 include("lib/enums/Orientation.js");
 include("lib/enums/Origin.js");
+include("lib/enums/Sizing.js");
 
 include("lib/graphics/Renderer.js");
 include("lib/graphics/RenderSettings.js");

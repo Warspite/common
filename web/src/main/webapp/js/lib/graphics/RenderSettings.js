@@ -6,6 +6,7 @@ function RenderSettings(x, y, width, height, parentTransform) {
 	this.alpha = 1.0;
 	this.content = null;
 	this.graphicsType = GraphicsType.NONE;
+	this.sizing = Sizing.ABSOLUTE;
 	this.anchor = {horizontal: Anchor.LEFT, vertical: Anchor.TOP};
 	this.origin = {horizontal: Origin.LEFT, vertical: Origin.TOP};
 	this.padding = 0;

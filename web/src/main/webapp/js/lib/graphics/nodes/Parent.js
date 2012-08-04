@@ -1,6 +1,7 @@
 var Parent = function()
 {
 	this.children = new SortedList("zIndex");
+	this.extraTickEffects = new Array(0);
 };
 
 Parent.prototype.tick = function(tickInterval) {
@@ -10,6 +11,9 @@ Parent.prototype.tick = function(tickInterval) {
 		c = c.nextElement;
 	}
 
+	for(i in this.extraTickEffects)
+		this.extraTickEffects[i](this, tickInterval);
+	
 	this.tickSelf(tickInterval);
 };
 

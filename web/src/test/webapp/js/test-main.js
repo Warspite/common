@@ -24,6 +24,7 @@ window.onload = function(event) {
 	topLeftStackPanel.renderSettings.graphicsType = GraphicsType.RECT;
 	topLeftStackPanel.renderSettings.content = "#00ffff";
 	topLeftStackPanel.renderSettings.padding = 1;
+	topLeftStackPanel.renderSettings.sizing = Sizing.CHILDREN;
 
 	var spChildOne = new StackPanel();
 	spChildOne.renderSettings.alterPosition(0, 0, 32, 40);

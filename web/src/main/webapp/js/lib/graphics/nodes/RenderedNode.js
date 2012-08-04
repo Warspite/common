@@ -5,6 +5,8 @@ var RenderedNode = function()
 	this.zIndex = 0;
 	this.rendered = true;
 	this.renderSettings = new RenderSettings(0, 0, 0, 0);
+	
+	this.extraTickEffects.push(this.calculateSize);
 };
 
 RenderedNode.prototype.render = function(surface) {
@@ -53,4 +55,27 @@ RenderedNode.prototype.renderSelf = function(surface) {
 
 RenderedNode.prototype.getChildTransform = function(renderSettingsOfChild) {
 	return this.renderSettings.getChildTransform(renderSettingsOfChild);
+};
+
+RenderedNode.prototype.calculateSize = function(self, tickInterval) {
+	if(self.renderSettings.sizing == Sizing.CHILDREN)
+		self.resizeBasedOnChildren();
+};
+
+RenderedNode.prototype.resizeBasedOnChildren = function() {
+	var widest = 0;
+	var highest = 0;
+	var c = this.children.firstElement;
+	while( c != null ) {
+		if( c.renderSettings.width > widest )
+			widest = c.renderSettings.width;
+
+		if( c.renderSettings.height > highest )
+			highest = c.renderSettings.height;
+		
+		c = c.nextElement;
+	}
+	
+	this.renderSettings.width = widest + this.renderSettings.padding * 2;
+	this.renderSettings.height = highest + this.renderSettings.padding * 2;
 };
