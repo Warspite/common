@@ -154,8 +154,8 @@ Mouse.prototype.updatePointedAtObject = function() {
 		if(this.mouseDown && this.pointedAtObject.inputSettings.mouseDown != null)
 			this.pointedAtObject.inputSettings.mouseDown(this.current);
 		
-		if(this.pointedAtObject.mouseCursor != null)
-			document.body.style.cursor = this.pointedAtObject.mouseCursor;
+		if(this.pointedAtObject.inputSettings.mouseCursor != null)
+			document.body.style.cursor = this.pointedAtObject.inputSettings.mouseCursor;
 	} 
 };
 
