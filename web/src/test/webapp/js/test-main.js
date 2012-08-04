@@ -14,8 +14,10 @@ window.onload = function(event) {
 	var canvas = document.getElementById('viewportCanvas');
 	var surface = new RenderSurface(canvas, {x: 25, y: 25});
 	var renderer = new Renderer(surface, "#303030");
+	var mouse = new Mouse(canvas, renderer);
 
 	var ticker = new Ticker(25);
+	ticker.addListener(mouse);
 	ticker.addListener(renderer);
 	
 	
@@ -48,18 +50,26 @@ window.onload = function(event) {
 	spGrandChildTwo.renderSettings.graphicsType = GraphicsType.RECT;
 	spGrandChildTwo.renderSettings.content = "#808080";
 	
-	var bottomRightBox = new RenderedNode();
-	bottomRightBox.renderSettings.alterPosition(32, 32, 64, 64);
-	bottomRightBox.renderSettings.alterAnchor(Anchor.RIGHT, Anchor.BOTTOM);
-	bottomRightBox.renderSettings.alterOrigin(Origin.RIGHT, Origin.BOTTOM);
-	bottomRightBox.renderSettings.graphicsType = GraphicsType.RECT;
-	bottomRightBox.renderSettings.content = "#00ff00";
+	var greenBox = new RenderedNode();
+	greenBox.renderSettings.alterPosition(0, 0, 64, 64);
+	greenBox.renderSettings.alterAnchor(Anchor.CENTER, Anchor.TOP);
+	greenBox.renderSettings.alterOrigin(Origin.CENTER, Origin.TOP);
+	greenBox.renderSettings.graphicsType = GraphicsType.RECT;
+	greenBox.renderSettings.content = "#00ff00";
+	mixin(new InputAwareNode(), greenBox);
+	greenBox.inputSettings.mouseVisible = true;
+	greenBox.inputSettings.mouseEnter = function(coords) { console.log("Mouse entered green box!") };
+	greenBox.inputSettings.mouseExit = function(coords) { console.log("Mouse exited green box!") };
+	greenBox.inputSettings.mouseDown = function(coords) { console.log("Mouse is down in green box!") };
+	greenBox.inputSettings.mousePressed = function(coords) { console.log("Mouse clicked on green box!") };
+	greenBox.inputSettings.mouseReleased = function(coords) { console.log("Mouse released on green box!") };
+	greenBox.inputSettings.mouseCursor = "pointer";
 
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
 	topLeftStackPanel.addChild(spChildOne);
 	topLeftStackPanel.addChild(spChildTwo);
 	renderer.sceneRoot.addChild(topLeftStackPanel);
-	renderer.sceneRoot.addChild(bottomRightBox);
+	renderer.sceneRoot.addChild(greenBox);
 };
 

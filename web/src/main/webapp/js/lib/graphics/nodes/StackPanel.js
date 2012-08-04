@@ -1,6 +1,6 @@
 var StackPanel = function()
 {
-	mixin(new RenderedNode(), this);
+	mixin(new DynamicNode(), this);
 	
 	this.orientation = Orientation.VERTICAL;
 	this.renderSettings.interChildPadding = 0;

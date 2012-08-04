@@ -1,4 +1,4 @@
-function RenderSettings(x, y, width, height, parentTransform) {
+var RenderSettings = function(x, y, width, height, parentTransform) {
 	this.x = x;
 	this.y = y;
 	this.width = width;
@@ -6,13 +6,12 @@ function RenderSettings(x, y, width, height, parentTransform) {
 	this.alpha = 1.0;
 	this.content = null;
 	this.graphicsType = GraphicsType.NONE;
-	this.sizing = Sizing.ABSOLUTE;
 	this.anchor = {horizontal: Anchor.LEFT, vertical: Anchor.TOP};
 	this.origin = {horizontal: Origin.LEFT, vertical: Origin.TOP};
 	this.padding = 0;
 	
 	this.updateTransform(parentTransform);
-}
+};
 
 RenderSettings.prototype.updateTransform = function(parent) {
 	if( parent == null ) {
@@ -144,4 +143,14 @@ RenderSettings.prototype.getChildTransform = function(renderSettingsOfChild) {
 	
 	t.translate(translation.x, translation.y);
 	return t;
+};
+
+RenderSettings.prototype.pointIsWithinBoundaries = function(point) {
+	var transformedPoint = this.transform.cloneInvert().transformPoint(point);
+	return (
+		transformedPoint.x >= this.getBoundaries().left && 
+		transformedPoint.x <= this.getBoundaries().right && 
+		transformedPoint.y >= this.getBoundaries().top && 
+		transformedPoint.y <= this.getBoundaries().bottom
+	);
 };
