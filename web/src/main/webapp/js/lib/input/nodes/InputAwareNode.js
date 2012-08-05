@@ -6,5 +6,6 @@ var InputAwareNode = function()
 	this.mousePressed = null;
 	this.mouseReleased = null;
 	this.mouseDown = null;
+	this.mouseDrag = null;
 	this.mouseCursor = null;
 };

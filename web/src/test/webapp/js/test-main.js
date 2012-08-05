@@ -63,13 +63,31 @@ window.onload = function(event) {
 	greenBox.inputSettings.mouseDown = function(coords) { console.log("Mouse is down in green box!") };
 	greenBox.inputSettings.mousePressed = function(coords) { console.log("Mouse clicked on green box!") };
 	greenBox.inputSettings.mouseReleased = function(coords) { console.log("Mouse released on green box!") };
+	greenBox.inputSettings.mouseDrag = function(coords, delta) { console.log("Mouse is dragging green box (" + delta.x + "," + delta.y + ")!")};
 	greenBox.inputSettings.mouseCursor = "pointer";
 
+	var centerWindow = new StackPanel();
+	centerWindow.renderSettings.alterPosition(0, 0, 128, 200);
+	centerWindow.renderSettings.alterAnchor(Anchor.CENTER, Anchor.CENTER);
+	centerWindow.renderSettings.alterOrigin(Origin.CENTER, Origin.CENTER);
+	centerWindow.renderSettings.graphicsType = GraphicsType.RECT;
+	centerWindow.renderSettings.content = "#7000d0";
+	
+	var centerWindowBar = new DraggableNode();
+	centerWindowBar.renderSettings.alterPosition(0, 0, 128, 40);
+	centerWindowBar.renderSettings.alterAnchor(Anchor.LEFT, Anchor.TOP);
+	centerWindowBar.renderSettings.graphicsType = GraphicsType.RECT;
+	centerWindowBar.renderSettings.content = "#5000a0";
+	centerWindowBar.inputSettings.dragTarget = centerWindow;
+	
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
 	topLeftStackPanel.addChild(spChildOne);
 	topLeftStackPanel.addChild(spChildTwo);
 	renderer.sceneRoot.addChild(topLeftStackPanel);
 	renderer.sceneRoot.addChild(greenBox);
+	
+	centerWindow.addChild(centerWindowBar);
+	renderer.sceneRoot.addChild(centerWindow);
 };
 

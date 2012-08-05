@@ -20,8 +20,7 @@ var Mouse = function(canvas, renderer)
 	this.current = {x: 0, y: 0};
 	this.lastX = 0;
 	this.lastY = 0;
-	this.deltaX = 0;
-	this.deltaY = 0;
+	this.delta = {x: 0, y: 0};
 	this.wheelDelta = 0;
 
 	var self = this;
@@ -102,8 +101,8 @@ Mouse.prototype.tick = function(elapsedTime)
 		this.wheelDelta = 0;
 	}
 	
-	this.deltaX = this.current.x - this.lastX;
-	this.deltaY = this.current.y - this.lastY;
+	this.delta.x = this.current.x - this.lastX;
+	this.delta.y = this.current.y - this.lastY;
 
 	this.lastX = this.current.x;
 	this.lastY = this.current.y;
@@ -143,20 +142,37 @@ Mouse.prototype.updatePointedAtObject = function() {
 			this.pointedAtObject.inputSettings.mouseEnter(this.current);
 	}
 	
+	this.handleDragEvents();
+	this.handlePointedAtObjectEvents();
+};
 
-	if(this.pointedAtObject != null && this.pointedAtObject.inputSettings != null) {
-		if(this.mousePressed && this.pointedAtObject.inputSettings.mousePressed != null)
-			this.pointedAtObject.inputSettings.mousePressed(this.current);
-		
-		if(this.mouseReleased && this.pointedAtObject.inputSettings.mouseReleased != null)
-			this.pointedAtObject.inputSettings.mouseReleased(this.current);
-		
-		if(this.mouseDown && this.pointedAtObject.inputSettings.mouseDown != null)
-			this.pointedAtObject.inputSettings.mouseDown(this.current);
-		
-		if(this.pointedAtObject.inputSettings.mouseCursor != null)
-			document.body.style.cursor = this.pointedAtObject.inputSettings.mouseCursor;
-	} 
+Mouse.prototype.handleDragEvents = function() {
+	if(this.mousePressed) {
+		this.draggedObject = this.pointedAtObject;
+	}
+	else {
+		if(this.mouseReleased)
+			this.draggedObject = null;
+		else if(this.draggedObject != null && this.draggedObject.inputSettings != null && this.draggedObject.inputSettings.mouseDrag != null)
+			this.draggedObject.inputSettings.mouseDrag(this.current, this.delta);
+	}
+};
+
+Mouse.prototype.handlePointedAtObjectEvents = function() {
+	if(this.pointedAtObject == null || this.pointedAtObject.inputSettings == null)
+		return;
+	
+	if(this.mousePressed && this.pointedAtObject.inputSettings.mousePressed != null)
+		this.pointedAtObject.inputSettings.mousePressed(this.current);
+	
+	if(this.mouseReleased && this.pointedAtObject.inputSettings.mouseReleased != null)
+		this.pointedAtObject.inputSettings.mouseReleased(this.current);
+	
+	if(this.mouseDown && this.pointedAtObject.inputSettings.mouseDown != null)
+		this.pointedAtObject.inputSettings.mouseDown(this.current);
+	
+	if(this.pointedAtObject.inputSettings.mouseCursor != null)
+		document.body.style.cursor = this.pointedAtObject.inputSettings.mouseCursor;
 };
 
 Mouse.prototype.isWithinBounds = function(bounds)

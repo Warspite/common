@@ -9,6 +9,7 @@ include("lib/graphics/RenderSettings.js");
 include("lib/graphics/RenderSurface.js");
 include("lib/graphics/Transform.js");
 
+include("lib/graphics/nodes/DraggableNode.js");
 include("lib/graphics/nodes/DynamicNode.js");
 include("lib/graphics/nodes/Parent.js");
 include("lib/graphics/nodes/RenderedNode.js");
