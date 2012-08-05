@@ -14,6 +14,7 @@ include("lib/graphics/nodes/DynamicNode.js");
 include("lib/graphics/nodes/Parent.js");
 include("lib/graphics/nodes/RenderedNode.js");
 include("lib/graphics/nodes/StackPanel.js");
+include("lib/graphics/nodes/Window.js");
 
 include("lib/input/InputSettings.js");
 include("lib/input/Mouse.js");

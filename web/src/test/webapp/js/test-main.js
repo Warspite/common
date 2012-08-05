@@ -66,18 +66,8 @@ window.onload = function(event) {
 	greenBox.inputSettings.mouseDrag = function(coords, delta) { console.log("Mouse is dragging green box (" + delta.x + "," + delta.y + ")!")};
 	greenBox.inputSettings.mouseCursor = "pointer";
 
-	var centerWindow = new StackPanel();
-	centerWindow.renderSettings.alterPosition(0, 0, 128, 200);
-	centerWindow.renderSettings.alterAnchor(Anchor.CENTER, Anchor.CENTER);
-	centerWindow.renderSettings.alterOrigin(Origin.CENTER, Origin.CENTER);
-	centerWindow.renderSettings.graphicsType = GraphicsType.RECT;
-	centerWindow.renderSettings.content = "#7000d0";
-	
-	var centerWindowBar = new DraggableNode();
-	centerWindowBar.renderSettings.alterPosition(0, 0, 128, 40);
-	centerWindowBar.renderSettings.graphicsType = GraphicsType.RECT;
-	centerWindowBar.renderSettings.content = "#5000a0";
-	centerWindowBar.inputSettings.dragTarget = centerWindow;
+	var centerWindow = new Window("A fancy window");
+	centerWindow.setDraggable(true);
 	
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
@@ -86,7 +76,6 @@ window.onload = function(event) {
 	renderer.sceneRoot.addChild(topLeftStackPanel);
 	renderer.sceneRoot.addChild(greenBox);
 	
-	centerWindow.addChild(centerWindowBar);
 	renderer.guiRoot.addChild(centerWindow);
 };
 
