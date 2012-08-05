@@ -3,17 +3,18 @@ var DynamicNode = function()
 	mixin(new RenderedNode(), this);
 	
 	this.renderSettings.sizing = {width: Sizing.ABSOLUTE, height: Sizing.ABSOLUTE};
-	this.extraTickEffects.push(this.calculateSize);
-
+	this.renderSettings.relativeSize = {width: 1.0, height: 1.0};
 	this.extraTickEffects.push(this.calculateSize);
 };
 
 DynamicNode.prototype.calculateSize = function(self, tickInterval) {
-	if(self.renderSettings.sizing.width == Sizing.CHILDREN)
-		self.resizeBasedOnChildren("width");
+	for(dim in self.renderSettings.sizing) {
+		if(self.renderSettings.sizing[dim] == Sizing.CHILDREN)
+			self.resizeBasedOnChildren(dim);
 
-	if(self.renderSettings.sizing.height == Sizing.CHILDREN)
-		self.resizeBasedOnChildren("height");
+		if(self.renderSettings.sizing[dim] == Sizing.PARENT)
+			self.resizeBasedOnParent(dim);
+	}
 };
 
 DynamicNode.prototype.resizeBasedOnChildren = function(dimension) {
@@ -27,5 +28,17 @@ DynamicNode.prototype.resizeBasedOnChildren = function(dimension) {
 		c = c.nextElement;
 	}
 	
-	this.renderSettings[dimension] = greatest + this.renderSettings.padding * 2;
+	var newSize = this.renderSettings.relativeSize[dimension] * (greatest + this.renderSettings.padding * 2);
+	if(newSize != this.renderSettings[dimension]) {
+		this.renderSettings[dimension] = newSize;
+		this.renderSettings.boundaries = null;
+	}
+};
+
+DynamicNode.prototype.resizeBasedOnParent = function(dimension) {
+	var newSize = this.renderSettings.relativeSize[dimension] * (this.parent.renderSettings[dimension] - this.renderSettings.padding * 2);
+	if(newSize != this.renderSettings[dimension]) {
+		this.renderSettings[dimension] = newSize;
+		this.renderSettings.boundaries = null;
+	}
 };

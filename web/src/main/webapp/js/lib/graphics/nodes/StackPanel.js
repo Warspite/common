@@ -58,7 +58,7 @@ var StackPanel = function()
 		if(dimension == "height" && this.orientation == Orientation.VERTICAL)
 			resultingChildSize = totalSize;
 		
-		this.renderSettings[dimension] = resultingChildSize + this.renderSettings.padding * 2;
+		this.renderSettings[dimension] = this.renderSettings.relativeSize[dimension] * (resultingChildSize + this.renderSettings.padding * 2);
 	};
 };
 

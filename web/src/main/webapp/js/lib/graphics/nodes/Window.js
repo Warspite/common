@@ -10,9 +10,11 @@ var Window = function(titleText)
 	this.renderSettings.alpha = 0.7;
 	
 	this.titleBar = new DraggableNode();
-	this.titleBar.renderSettings.alterPosition(0, 0, this.renderSettings.width, 40);
+	this.titleBar.renderSettings.alterPosition(0, 0, 10, 40);
+	this.titleBar.renderSettings.sizing.width = Sizing.PARENT;
 	this.titleBar.renderSettings.graphicsType = GraphicsType.RECT;
 	this.titleBar.renderSettings.content = "#202020";
+	
 	
 	this.addChild(this.titleBar);
 	
