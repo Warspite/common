@@ -33,42 +33,32 @@ var StackPanel = function()
 		return t;
 	};
 
-	this.resizeBasedOnChildren = function() {
-		var widest = 0;
-		var highest = 0;
-		var totalWidth = 0;
-		var totalHeight = 0;
+	this.resizeBasedOnChildren = function(dimension) {
+		var greatest = 0;
+		var totalSize = 0;
+		
 		var c = this.children.firstElement;
 		while( c != null ) {
-			if( c.renderSettings.width > widest )
-				widest = c.renderSettings.width;
+			if( c.renderSettings[dimension] > greatest )
+				greatest = c.renderSettings[dimension];
+			
+			if(totalSize > 0)
+				totalSize += this.renderSettings.interChildPadding;
+			
+			totalSize += c.renderSettings[dimension];
 
-			if( c.renderSettings.height > highest )
-				highest = c.renderSettings.height;
-			
-			if(totalWidth > 0)
-				totalWidth += this.renderSettings.interChildPadding;
-			
-			if(totalHeight > 0)
-				totalHeight += this.renderSettings.interChildPadding;
-			
-			totalWidth += c.renderSettings.width + this.renderSettings.interChildPadding;
-			totalHeight += c.renderSettings.height + this.renderSettings.interChildPadding;
-			
 			c = c.nextElement;
 		}
 		
-		if(this.orientation == Orientation.HORIZONTAL) {
-			this.renderSettings.width = totalWidth + this.renderSettings.padding * 2;
-			this.renderSettings.height = highest + this.renderSettings.padding * 2;
-		}
-		else if(this.orientation == Orientation.VERTICAL) {
-			this.renderSettings.width = widest + this.renderSettings.padding * 2;
-			this.renderSettings.height = totalHeight + this.renderSettings.padding * 2;
-		}
-		else {
-			throw "Unrecognized orientation setting: " + this.orientation;
-		}
+		var resultingChildSize = greatest;
+		
+		if(dimension == "width" && this.orientation == Orientation.HORIZONTAL)
+			resultingChildSize = totalSize;
+		
+		if(dimension == "height" && this.orientation == Orientation.VERTICAL)
+			resultingChildSize = totalSize;
+		
+		this.renderSettings[dimension] = resultingChildSize + this.renderSettings.padding * 2;
 	};
 };
 

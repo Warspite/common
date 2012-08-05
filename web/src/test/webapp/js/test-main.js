@@ -22,11 +22,10 @@ window.onload = function(event) {
 	
 	
 	var topLeftStackPanel = new StackPanel();
-	topLeftStackPanel.renderSettings.alterPosition(0, 0, 64, 64);
 	topLeftStackPanel.renderSettings.graphicsType = GraphicsType.RECT;
 	topLeftStackPanel.renderSettings.content = "#00ffff";
 	topLeftStackPanel.renderSettings.padding = 1;
-	topLeftStackPanel.renderSettings.sizing = Sizing.CHILDREN;
+	topLeftStackPanel.renderSettings.sizing = {width: Sizing.CHILDREN, height: Sizing.CHILDREN};
 
 	var spChildOne = new StackPanel();
 	spChildOne.renderSettings.alterPosition(0, 0, 32, 40);
