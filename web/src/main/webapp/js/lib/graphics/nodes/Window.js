@@ -23,19 +23,21 @@ var Window = function(titleText)
 	titleText.renderSettings.relativeSize.width = 0.7;
 	titleText.maxNumberOfLines = 2;
 	
-	var closeButton = new RenderedNode();
-	closeButton.renderSettings.alterPosition(0, 0, 21, 21);
-	closeButton.renderSettings.alterAnchor(Anchor.RIGHT, Anchor.CENTER);
-	closeButton.renderSettings.alterOrigin(Origin.RIGHT, Origin.CENTER);
-	closeButton.renderSettings.graphicsType = GraphicsType.IMAGE;
-	closeButton.renderSettings.image = "closeButton.png";
-	closeButton.zIndex = 1;
+	var self = this;
+	this.closeButton = new ButtonNode(function() { self.close() });
+	this.closeButton.renderSettings.alterPosition(0, 0, 21, 21);
+	this.closeButton.renderSettings.alterAnchor(Anchor.RIGHT, Anchor.CENTER);
+	this.closeButton.renderSettings.alterOrigin(Origin.RIGHT, Origin.CENTER);
+	this.closeButton.renderSettings.graphicsType = GraphicsType.IMAGE;
+	this.closeButton.renderSettings.image = "closeButton.png";
+	this.closeButton.zIndex = 1;
 	
 	this.titleBar.addChild(titleText);
-	this.titleBar.addChild(closeButton);
+	this.titleBar.addChild(this.closeButton);
 	this.addChild(this.titleBar);
 	
 	this.setDraggable(false);
+	this.setClosable(false);
 };
 
 Window.prototype.setDraggable = function(draggable) {
@@ -45,3 +47,10 @@ Window.prototype.setDraggable = function(draggable) {
 		this.titleBar.inputSettings.dragTarget = null;
 };
 
+Window.prototype.setClosable = function(closable) {
+	this.closeButton.rendered = closable;
+};
+
+Window.prototype.close = function() {
+	this.parent.removeChild(this);
+};

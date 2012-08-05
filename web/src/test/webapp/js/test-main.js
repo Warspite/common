@@ -71,6 +71,7 @@ window.onload = function(event) {
 
 	var centerWindow = new Window("A fancy window with a rather long title");
 	centerWindow.setDraggable(true);
+	centerWindow.setClosable(true);
 	
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);

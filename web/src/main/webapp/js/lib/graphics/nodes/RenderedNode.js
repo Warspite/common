@@ -64,6 +64,9 @@ RenderedNode.prototype.getChildTransform = function(renderSettingsOfChild) {
 
 RenderedNode.prototype.findTopmostObjectAtCoordinates = function(coords)
 {
+	if(!this.rendered)
+		return null;
+	
 	var c = this.children.firstElement;
 	var topmostHit = null;
 	while( c != null ) {
