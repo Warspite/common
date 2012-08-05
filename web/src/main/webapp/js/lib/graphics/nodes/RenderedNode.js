@@ -44,11 +44,15 @@ RenderedNode.prototype.renderSelf = function(surface) {
 	surface.ctx.globalAlpha = this.renderSettings.alpha;
 
 	var b = this.renderSettings.getBoundaries();
+	
 	if( this.renderSettings.graphicsType == GraphicsType.RECT ) {
-		surface.ctx.fillStyle = this.renderSettings.content;
+		surface.ctx.fillStyle = this.renderSettings.color;
 		surface.ctx.fillRect(b.left, b.top, b.right - b.left, b.bottom - b.top);
 	}
-	
+		
+	if (this.customSelfRenderEffect != null) {
+		this.customSelfRenderEffect(surface, b);
+	}
 };
 
 RenderedNode.prototype.getChildTransform = function(renderSettingsOfChild) {

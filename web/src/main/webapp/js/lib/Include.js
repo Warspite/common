@@ -13,6 +13,7 @@ include("lib/graphics/nodes/DraggableNode.js");
 include("lib/graphics/nodes/DynamicNode.js");
 include("lib/graphics/nodes/Parent.js");
 include("lib/graphics/nodes/RenderedNode.js");
+include("lib/graphics/nodes/TextNode.js");
 include("lib/graphics/nodes/StackPanel.js");
 include("lib/graphics/nodes/Window.js");
 

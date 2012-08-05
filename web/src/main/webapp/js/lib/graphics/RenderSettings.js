@@ -4,7 +4,7 @@ var RenderSettings = function(x, y, width, height, parentTransform) {
 	this.width = width;
 	this.height = height;
 	this.alpha = 1.0;
-	this.content = null;
+	this.color = "#000000";
 	this.graphicsType = GraphicsType.NONE;
 	this.anchor = {horizontal: Anchor.LEFT, vertical: Anchor.TOP};
 	this.origin = {horizontal: Origin.LEFT, vertical: Origin.TOP};
@@ -102,7 +102,7 @@ RenderSettings.prototype.calculateBoundaries = function() {
 		bounds.centerX = 0;
 	}
 	else {
-		throw "Unrecognized horizontal origin setting: " + this.origin.horizontal;
+		throw "Unrecognized horizontal origin setting: " + this.origin.horizontal.name;
 	}
 	
 	if(this.origin.vertical == Origin.TOP) {
@@ -121,7 +121,7 @@ RenderSettings.prototype.calculateBoundaries = function() {
 		bounds.centerY = 0;
 	}
 	else {
-		throw "Unrecognized vertical origin setting: " + this.origin.vertical;
+		throw "Unrecognized vertical origin setting: " + this.origin.vertical.name;
 	}
 	
 	return bounds;
