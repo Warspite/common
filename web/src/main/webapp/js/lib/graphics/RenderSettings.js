@@ -131,6 +131,16 @@ RenderSettings.prototype.getChildTransform = function(renderSettingsOfChild) {
 	var t = this.transform.clone();
 	var translation = {x: 0, y: 0};
 	
+	if( this.origin.horizontal == Origin.CENTER )
+		translation.x -= 0.5 * this.width;
+	else if(this.origin.horizontal == Origin.RIGHT )
+		translation.x -= this.width;
+	
+	if( this.origin.vertical == Origin.CENTER )
+		translation.y -= 0.5 * this.height;
+	else if(this.origin.vertical == Origin.BOTTOM )
+		translation.y -= this.height;
+	
 	if( renderSettingsOfChild.origin.horizontal == Origin.LEFT )
 		translation.x += this.padding;
 	else if( renderSettingsOfChild.origin.horizontal == Origin.RIGHT )

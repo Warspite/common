@@ -75,7 +75,6 @@ window.onload = function(event) {
 	
 	var centerWindowBar = new DraggableNode();
 	centerWindowBar.renderSettings.alterPosition(0, 0, 128, 40);
-	centerWindowBar.renderSettings.alterAnchor(Anchor.LEFT, Anchor.TOP);
 	centerWindowBar.renderSettings.graphicsType = GraphicsType.RECT;
 	centerWindowBar.renderSettings.content = "#5000a0";
 	centerWindowBar.inputSettings.dragTarget = centerWindow;
@@ -88,6 +87,6 @@ window.onload = function(event) {
 	renderer.sceneRoot.addChild(greenBox);
 	
 	centerWindow.addChild(centerWindowBar);
-	renderer.sceneRoot.addChild(centerWindow);
+	renderer.guiRoot.addChild(centerWindow);
 };
 
