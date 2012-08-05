@@ -14,6 +14,7 @@ var Window = function(titleText)
 	this.titleBar.renderSettings.sizing.width = Sizing.PARENT;
 	this.titleBar.renderSettings.graphicsType = GraphicsType.RECT;
 	this.titleBar.renderSettings.color = "#202060";
+	this.titleBar.renderSettings.padding = 2;
 	
 	var titleText = new TextNode(titleText);
 	titleText.renderSettings.alterAnchor(Anchor.CENTER, Anchor.CENTER);
@@ -22,7 +23,16 @@ var Window = function(titleText)
 	titleText.renderSettings.relativeSize.width = 0.7;
 	titleText.maxNumberOfLines = 2;
 	
+	var closeButton = new RenderedNode();
+	closeButton.renderSettings.alterPosition(0, 0, 21, 21);
+	closeButton.renderSettings.alterAnchor(Anchor.RIGHT, Anchor.CENTER);
+	closeButton.renderSettings.alterOrigin(Origin.RIGHT, Origin.CENTER);
+	closeButton.renderSettings.graphicsType = GraphicsType.IMAGE;
+	closeButton.renderSettings.image = "closeButton.png";
+	closeButton.zIndex = 1;
+	
 	this.titleBar.addChild(titleText);
+	this.titleBar.addChild(closeButton);
 	this.addChild(this.titleBar);
 	
 	this.setDraggable(false);

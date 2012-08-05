@@ -1,3 +1,7 @@
+var Paths = {
+	IMAGE_ROOT: "../../main/webapp/images/"
+}
+
 function include(file) {
 	if (document.createElement && document.getElementsByTagName) {
 		var head = document.getElementsByTagName('head')[0];

@@ -9,6 +9,8 @@ var RenderSettings = function(x, y, width, height, parentTransform) {
 	this.anchor = {horizontal: Anchor.LEFT, vertical: Anchor.TOP};
 	this.origin = {horizontal: Origin.LEFT, vertical: Origin.TOP};
 	this.padding = 0;
+	this.image = null;
+	this.lastUsedImage = null;
 	
 	this.updateTransform(parentTransform);
 };
@@ -163,4 +165,13 @@ RenderSettings.prototype.pointIsWithinBoundaries = function(point) {
 		transformedPoint.y >= this.getBoundaries().top && 
 		transformedPoint.y <= this.getBoundaries().bottom
 	);
+};
+
+RenderSettings.prototype.getImage = function() {
+	if(this.image != this.lastUsedImage) {
+		this.imageObject = new Image(); 
+		this.imageObject.src = Paths.IMAGE_ROOT + this.image;
+	}
+	
+	return this.imageObject;
 };

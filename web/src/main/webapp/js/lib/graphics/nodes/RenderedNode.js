@@ -49,6 +49,9 @@ RenderedNode.prototype.renderSelf = function(surface) {
 		surface.ctx.fillStyle = this.renderSettings.color;
 		surface.ctx.fillRect(b.left, b.top, b.right - b.left, b.bottom - b.top);
 	}
+	else if( this.renderSettings.graphicsType == GraphicsType.IMAGE ) {
+		surface.ctx.drawImage(this.renderSettings.getImage(), b.left, b.top, b.right - b.left, b.bottom - b.top);
+	}
 		
 	if (this.customSelfRenderEffect != null) {
 		this.customSelfRenderEffect(surface, b);

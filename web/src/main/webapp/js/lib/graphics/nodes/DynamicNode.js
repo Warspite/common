@@ -36,7 +36,7 @@ DynamicNode.prototype.resizeBasedOnChildren = function(dimension) {
 };
 
 DynamicNode.prototype.resizeBasedOnParent = function(dimension) {
-	var newSize = this.renderSettings.relativeSize[dimension] * (this.parent.renderSettings[dimension] - this.renderSettings.padding * 2);
+	var newSize = this.renderSettings.relativeSize[dimension] * (this.parent.renderSettings[dimension] - this.parent.renderSettings.padding * 2);
 	if(newSize != this.renderSettings[dimension]) {
 		this.renderSettings[dimension] = newSize;
 		this.renderSettings.boundaries = null;
