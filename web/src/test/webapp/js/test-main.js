@@ -32,29 +32,29 @@ window.onload = function(event) {
 	topLeftStackPanel.renderSettings.sizing = {width: Sizing.CHILDREN, height: Sizing.CHILDREN};
 
 	var spChildOne = new StackPanel();
-	spChildOne.renderSettings.alterPosition(0, 0, 32, 40);
+	spChildOne.renderSettings.size = {width: 32, height: 40};
 	spChildOne.renderSettings.graphicsType = GraphicsType.RECT;
 	spChildOne.renderSettings.color = "#202020";
 	
 	var spChildTwo = new StackPanel();
-	spChildTwo.renderSettings.alterPosition(0, 0, 32, 40);
+	spChildTwo.renderSettings.size = {width: 32, height: 40};
 	spChildTwo.renderSettings.graphicsType = GraphicsType.RECT;
 	spChildTwo.renderSettings.color = "#404040";
 	spChildTwo.orientation = Orientation.HORIZONTAL;
 	spChildTwo.renderSettings.interChildPadding = 5;
 	
 	var spGrandChildOne = new StackPanel();
-	spGrandChildOne.renderSettings.alterPosition(0, 0, 40, 32);
+	spGrandChildOne.renderSettings.size = {width: 40, height: 32};
 	spGrandChildOne.renderSettings.graphicsType = GraphicsType.RECT;
 	spGrandChildOne.renderSettings.color = "#606060";
 	
 	var spGrandChildTwo = new StackPanel();
-	spGrandChildTwo.renderSettings.alterPosition(0, 0, 40, 32);
+	spGrandChildTwo.renderSettings.size = {width: 40, height: 32};
 	spGrandChildTwo.renderSettings.graphicsType = GraphicsType.RECT;
 	spGrandChildTwo.renderSettings.color = "#808080";
 	
 	var greenBox = new RenderedNode();
-	greenBox.renderSettings.alterPosition(0, 0, 64, 64);
+	greenBox.renderSettings.size = {width: 64, height: 64};
 	greenBox.renderSettings.alterAnchor(Anchor.CENTER, Anchor.TOP);
 	greenBox.renderSettings.alterOrigin(Origin.CENTER, Origin.TOP);
 	greenBox.renderSettings.graphicsType = GraphicsType.RECT;

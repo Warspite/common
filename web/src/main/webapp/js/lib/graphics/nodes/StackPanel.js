@@ -13,9 +13,9 @@ var StackPanel = function()
 		this.accumulatedChildTranslation += this.renderSettings.interChildPadding;
 
 		if( this.orientation == Orientation.VERTICAL )
-			this.accumulatedChildTranslation += child.renderSettings.height;
+			this.accumulatedChildTranslation += child.renderSettings.size.height;
 		else if( this.orientation == Orientation.HORIZONTAL )
-			this.accumulatedChildTranslation += child.renderSettings.width;
+			this.accumulatedChildTranslation += child.renderSettings.size.width;
 		else
 			throw "Unrecognized orientation setting: " + this.orientation;
 	};
@@ -39,13 +39,13 @@ var StackPanel = function()
 		
 		var c = this.children.firstElement;
 		while( c != null ) {
-			if( c.renderSettings[dimension] > greatest )
-				greatest = c.renderSettings[dimension];
+			if( c.renderSettings.size[dimension] > greatest )
+				greatest = c.renderSettings.size[dimension];
 			
 			if(totalSize > 0)
 				totalSize += this.renderSettings.interChildPadding;
 			
-			totalSize += c.renderSettings[dimension];
+			totalSize += c.renderSettings.size[dimension];
 
 			c = c.nextElement;
 		}
@@ -58,7 +58,7 @@ var StackPanel = function()
 		if(dimension == "height" && this.orientation == Orientation.VERTICAL)
 			resultingChildSize = totalSize;
 		
-		this.renderSettings[dimension] = this.renderSettings.relativeSize[dimension] * (resultingChildSize + this.renderSettings.padding * 2);
+		this.renderSettings.size[dimension] = this.renderSettings.relativeSize[dimension] * (resultingChildSize + this.renderSettings.padding * 2);
 	};
 };
 

@@ -2,7 +2,7 @@ var Window = function(titleText)
 {
 	mixin(new StackPanel(), this);
 
-	this.renderSettings.alterPosition(0, 0, 150, 250);
+	this.renderSettings.size = {width: 150, height: 250};
 	this.renderSettings.alterAnchor(Anchor.CENTER, Anchor.CENTER);
 	this.renderSettings.alterOrigin(Origin.CENTER, Origin.CENTER);
 	this.renderSettings.graphicsType = GraphicsType.RECT;
@@ -10,7 +10,7 @@ var Window = function(titleText)
 	this.renderSettings.alpha = 0.7;
 	
 	this.titleBar = new DraggableNode();
-	this.titleBar.renderSettings.alterPosition(0, 0, 10, 28);
+	this.titleBar.renderSettings.size = {width: 0, height: 28};
 	this.titleBar.renderSettings.sizing.width = Sizing.PARENT;
 	this.titleBar.renderSettings.graphicsType = GraphicsType.RECT;
 	this.titleBar.renderSettings.color = "#202060";
@@ -25,7 +25,7 @@ var Window = function(titleText)
 	
 	var self = this;
 	this.closeButton = new ButtonNode(function() { self.close() });
-	this.closeButton.renderSettings.alterPosition(0, 0, 21, 21);
+	this.closeButton.renderSettings.size = {width: 21, height: 21};
 	this.closeButton.renderSettings.alterAnchor(Anchor.RIGHT, Anchor.CENTER);
 	this.closeButton.renderSettings.alterOrigin(Origin.RIGHT, Origin.CENTER);
 	this.closeButton.renderSettings.graphicsType = GraphicsType.IMAGE;

@@ -22,23 +22,15 @@ DynamicNode.prototype.resizeBasedOnChildren = function(dimension) {
 	
 	var c = this.children.firstElement;
 	while( c != null ) {
-		if( c.renderSettings[dimension] > greatest )
-			greatest = c.renderSettings[dimension];
+		if( c.renderSettings.size[dimension] > greatest )
+			greatest = c.renderSettings.size[dimension];
 		
 		c = c.nextElement;
 	}
 	
-	var newSize = this.renderSettings.relativeSize[dimension] * (greatest + this.renderSettings.padding * 2);
-	if(newSize != this.renderSettings[dimension]) {
-		this.renderSettings[dimension] = newSize;
-		this.renderSettings.boundaries = null;
-	}
+	this.renderSettings.size[dimension] = this.renderSettings.relativeSize[dimension] * (greatest + this.renderSettings.padding * 2);
 };
 
 DynamicNode.prototype.resizeBasedOnParent = function(dimension) {
-	var newSize = this.renderSettings.relativeSize[dimension] * (this.parent.renderSettings[dimension] - this.parent.renderSettings.padding * 2);
-	if(newSize != this.renderSettings[dimension]) {
-		this.renderSettings[dimension] = newSize;
-		this.renderSettings.boundaries = null;
-	}
+	this.renderSettings.size[dimension] = this.renderSettings.relativeSize[dimension] * (this.parent.renderSettings.size[dimension] - this.parent.renderSettings.padding * 2);
 };

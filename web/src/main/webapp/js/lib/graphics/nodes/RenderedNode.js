@@ -4,7 +4,7 @@ var RenderedNode = function()
 	this.parent = null;
 	this.zIndex = 0;
 	this.rendered = true;
-	this.renderSettings = new RenderSettings(0, 0, 0, 0);
+	this.renderSettings = new RenderSettings();
 };
 
 RenderedNode.prototype.render = function(surface) {

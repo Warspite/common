@@ -20,14 +20,14 @@ var TextNode = function(text)
 			actualNumberOfLines = self.maxNumberOfLines;
 			
 		if(self.renderSettings.sizing.height == Sizing.TEXT) {
-			self.renderSettings.height = actualNumberOfLines * self.renderSettings.lineHeight + self.renderSettings.textPadding;
+			self.renderSettings.size.height = actualNumberOfLines * self.renderSettings.lineHeight + self.renderSettings.textPadding;
 		}
 		
 		var verticalOffset = 0;
 		for(i = 0; i < actualNumberOfLines; i++) {
 			verticalOffset += self.renderSettings.lineHeight;
 
-			if(verticalOffset + self.renderSettings.textPadding > self.renderSettings.height)
+			if(verticalOffset + self.renderSettings.textPadding > self.renderSettings.size.height)
 				return;
 
 			surface.ctx.fillText(textArray[i], boundaries.left + self.renderSettings.textPadding, boundaries.top + verticalOffset);
@@ -41,7 +41,7 @@ TextNode.prototype.setText = function(text) {
 };
 
 TextNode.prototype.getBrokenText = function(surface) {
-	if( this.nodeWidthAtLastTextBreaking != this.renderSettings.width )
+	if( this.nodeWidthAtLastTextBreaking != this.renderSettings.size.width )
 		this.brokenText = null;
 	
 	if(this.brokenText == null)
@@ -70,9 +70,9 @@ TextNode.prototype.breakText = function(text, surface) {
 	}
 	
 	if(this.renderSettings.sizing.width == Sizing.TEXT)
-		this.renderSettings.width = dynamicNodeWidth;
+		this.renderSettings.size.width = dynamicNodeWidth;
 	
-	this.nodeWidthAtLastTextBreaking = this.renderSettings.width;
+	this.nodeWidthAtLastTextBreaking = this.renderSettings.size.width;
 	
 	return broken;
 };
@@ -88,7 +88,7 @@ TextNode.prototype.pushImplicitTextLines = function(line, pushTarget, surface) {
 		else {
 			var candidateString = lastAcceptedCandidateString + " " + words[i];
 			var lineWidth = this.measureLineWidth(surface, candidateString);
-			if( lineWidth > this.renderSettings.width ) {
+			if( lineWidth > this.renderSettings.size.width ) {
 				pushTarget.push(lastAcceptedCandidateString);
 				lastAcceptedCandidateString = words[i];
 			}

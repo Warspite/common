@@ -30,12 +30,12 @@ var Renderer = function(surface, voidColor)
 
 	var self = this;
 	this.surface.addResizeListener(function(width, height) {
-		self.renderSettings.width = width;
-		self.renderSettings.height = height;
+		self.renderSettings.size.width = width;
+		self.renderSettings.size.height = height;
 		
 		var c = self.children.firstElement;
 		while( c != null ) {
-			c.renderSettings.alterPosition(null, null, width, height);
+			c.renderSettings.size = {width: width, height: height};
 			c = c.nextElement;
 		}
 	});
