@@ -55,8 +55,8 @@ window.onload = function(event) {
 	
 	var greenBox = new RenderedNode();
 	greenBox.renderSettings.size = {width: 64, height: 64};
-	greenBox.renderSettings.alterAnchor(Anchor.CENTER, Anchor.TOP);
-	greenBox.renderSettings.alterOrigin(Origin.CENTER, Origin.TOP);
+	greenBox.renderSettings.setAnchor(Anchor.CENTER, Anchor.TOP);
+	greenBox.renderSettings.setOrigin(Origin.CENTER, Origin.TOP);
 	greenBox.renderSettings.graphicsType = GraphicsType.RECT;
 	greenBox.renderSettings.color = "#00ff00";
 	mixin(new InputAwareNode(), greenBox);

@@ -59,14 +59,14 @@ RenderSettings.prototype.updateTransform = function(parent) {
 	this.transform = newTransform;
 };
 
-RenderSettings.prototype.alterOrigin = function(horizontal, vertical) {
+RenderSettings.prototype.setOrigin = function(horizontal, vertical) {
 	if(horizontal) this.origin.horizontal = horizontal;
 	if(vertical) this.origin.vertical = vertical;
 	
 	this.boundaries = null;
 };
 
-RenderSettings.prototype.alterAnchor = function(horizontal, vertical) {
+RenderSettings.prototype.setAnchor = function(horizontal, vertical) {
 	if(horizontal) this.anchor.horizontal = horizontal;
 	if(vertical) this.anchor.vertical = vertical;
 };

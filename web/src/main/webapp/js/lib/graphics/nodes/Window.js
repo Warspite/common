@@ -3,8 +3,8 @@ var Window = function(titleText)
 	mixin(new StackPanel(), this);
 
 	this.renderSettings.size = {width: 150, height: 250};
-	this.renderSettings.alterAnchor(Anchor.CENTER, Anchor.CENTER);
-	this.renderSettings.alterOrigin(Origin.CENTER, Origin.CENTER);
+	this.renderSettings.setAnchor(Anchor.CENTER, Anchor.CENTER);
+	this.renderSettings.setOrigin(Origin.CENTER, Origin.CENTER);
 	this.renderSettings.graphicsType = GraphicsType.RECT;
 	this.renderSettings.color = "#808080";
 	this.renderSettings.alpha = 0.7;
@@ -17,8 +17,8 @@ var Window = function(titleText)
 	this.titleBar.renderSettings.padding = 2;
 	
 	var titleText = new TextNode(titleText);
-	titleText.renderSettings.alterAnchor(Anchor.CENTER, Anchor.CENTER);
-	titleText.renderSettings.alterOrigin(Origin.CENTER, Origin.CENTER);
+	titleText.renderSettings.setAnchor(Anchor.CENTER, Anchor.CENTER);
+	titleText.renderSettings.setOrigin(Origin.CENTER, Origin.CENTER);
 	titleText.renderSettings.sizing.width = Sizing.PARENT;
 	titleText.renderSettings.relativeSize.width = 0.7;
 	titleText.maxNumberOfLines = 2;
@@ -26,8 +26,8 @@ var Window = function(titleText)
 	var self = this;
 	this.closeButton = new ButtonNode(function() { self.close() });
 	this.closeButton.renderSettings.size = {width: 21, height: 21};
-	this.closeButton.renderSettings.alterAnchor(Anchor.RIGHT, Anchor.CENTER);
-	this.closeButton.renderSettings.alterOrigin(Origin.RIGHT, Origin.CENTER);
+	this.closeButton.renderSettings.setAnchor(Anchor.RIGHT, Anchor.CENTER);
+	this.closeButton.renderSettings.setOrigin(Origin.RIGHT, Origin.CENTER);
 	this.closeButton.renderSettings.graphicsType = GraphicsType.IMAGE;
 	this.closeButton.renderSettings.image = "closeButton.png";
 	this.closeButton.zIndex = 1;
