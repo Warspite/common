@@ -1,5 +1,5 @@
 var Paths = {
-	IMAGE_ROOT: "../../main/webapp/images/"
+	IMAGE_ROOT: "images/"
 }
 
 function include(file) {
@@ -78,12 +78,16 @@ window.onload = function(event) {
 	windowContents.renderSettings.padding = 5;
 	windowContents.renderSettings.interChildPadding = 5;
 	
-	var windowChildOne = new RenderedNode();
+	var windowChildOne = new ButtonNode(function() { windowChildOne.imgTogglePause(); });
+	Animator.imgAnimate(windowChildOne);
 	windowChildOne.renderSettings.size = {width: 96, height: 96};
 	windowChildOne.renderSettings.setAnchor(Anchor.CENTER, Anchor.TOP);
 	windowChildOne.renderSettings.setOrigin(Origin.CENTER, Origin.TOP);
-	windowChildOne.renderSettings.graphicsType = GraphicsType.RECT;
-	windowChildOne.renderSettings.color = "#a05000";
+	windowChildOne.renderSettings.graphicsType = GraphicsType.ANIMATION;
+	windowChildOne.renderSettings.image = "animation1.png";
+	windowChildOne.animationSettings.frameHeight = 8;
+	windowChildOne.animationSettings.frameInterval = 150;
+	windowChildOne.animationSettings.animationEndBehavior = AnimationEndBehavior.LOOP;
 	
 	var windowChildTwo = new RenderedNode();
 	windowChildTwo.renderSettings.size = {width: 96, height: 96};

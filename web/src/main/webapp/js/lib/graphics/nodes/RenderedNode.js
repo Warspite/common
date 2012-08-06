@@ -52,6 +52,9 @@ RenderedNode.prototype.renderSelf = function(surface) {
 	else if( this.renderSettings.graphicsType == GraphicsType.IMAGE ) {
 		surface.ctx.drawImage(this.renderSettings.getImage(), b.left, b.top, b.right - b.left, b.bottom - b.top);
 	}
+	else if( this.renderSettings.graphicsType == GraphicsType.ANIMATION ) {
+		surface.ctx.drawImage(this.renderSettings.getImage(), 0, this.animationSettings.frameTop, this.renderSettings.getImage().width, this.animationSettings.frameHeight, b.left, b.top, b.right - b.left, b.bottom - b.top);
+	}
 		
 	if (this.customSelfRenderEffect != null) {
 		this.customSelfRenderEffect(surface, b);
