@@ -2,8 +2,8 @@ var TextNode = function(text)
 {
 	mixin(new DynamicNode(), this);
 	this.setText(text);
-	this.renderSettings.graphicsType = GraphicsType.NONE;
 	this.renderSettings.sizing.height = Sizing.TEXT;
+	this.renderSettings.textAnchor = Anchor.LEFT;
 	this.renderSettings.font = "10px Arial";
 	this.renderSettings.textColor = "#e0e0e0";
 	this.renderSettings.lineHeight = 11;
@@ -30,7 +30,14 @@ var TextNode = function(text)
 			if(verticalOffset + self.renderSettings.textPadding > self.renderSettings.size.height)
 				return;
 
-			surface.ctx.fillText(textArray[i], boundaries.left + self.renderSettings.textPadding, boundaries.top + verticalOffset);
+			var leftEdge = boundaries.left + self.renderSettings.textPadding;
+			
+			if(self.renderSettings.textAnchor == Anchor.CENTER)
+				leftEdge = (boundaries.right + boundaries.left - textArray[i].width) * 0.5;  
+			else if(self.renderSettings.textAnchor == Anchor.RIGHT)
+				leftEdge = boundaries.right - self.renderSettings.textPadding - textArray[i].width; 
+			
+			surface.ctx.fillText(textArray[i].text, leftEdge, boundaries.top + verticalOffset);
 		}
 	};
 };
@@ -59,7 +66,7 @@ TextNode.prototype.breakText = function(text, surface) {
 	
 	for(i in explicitTextLines) {
 		if( this.renderSettings.sizing.width == Sizing.TEXT ) {
-			broken.push(explicitTextLines[i]);
+			broken.push({text: explicitTextLines[i], width: this.measureLineWidth(surface, explicitTextLines[i])});
 			var lineWidth = this.measureLineWidth(surface, explicitTextLines[i]);
 			if(lineWidth > dynamicNodeWidth)
 				dynamicNodeWidth = lineWidth;
@@ -89,7 +96,7 @@ TextNode.prototype.pushImplicitTextLines = function(line, pushTarget, surface) {
 			var candidateString = lastAcceptedCandidateString + " " + words[i];
 			var lineWidth = this.measureLineWidth(surface, candidateString);
 			if( lineWidth > this.renderSettings.size.width ) {
-				pushTarget.push(lastAcceptedCandidateString);
+				pushTarget.push({text: lastAcceptedCandidateString, width: lineWidth});
 				lastAcceptedCandidateString = words[i];
 			}
 			else {
@@ -99,7 +106,7 @@ TextNode.prototype.pushImplicitTextLines = function(line, pushTarget, surface) {
 	}
 	
 	if( lastAcceptedCandidateString != null )
-		pushTarget.push(lastAcceptedCandidateString);
+		pushTarget.push({text: lastAcceptedCandidateString, width: this.measureLineWidth(surface, lastAcceptedCandidateString)});
 };
 
 TextNode.prototype.measureLineWidth = function(surface, line) {

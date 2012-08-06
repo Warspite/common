@@ -73,6 +73,25 @@ window.onload = function(event) {
 	centerWindow.setDraggable(true);
 	centerWindow.setClosable(true);
 	
+	var windowContents = new StackPanel();
+	windowContents.renderSettings.sizing = {width: Sizing.PARENT, height: Sizing.CHILDREN};
+	windowContents.renderSettings.padding = 5;
+	windowContents.renderSettings.interChildPadding = 5;
+	
+	var windowChildOne = new RenderedNode();
+	windowChildOne.renderSettings.size = {width: 96, height: 96};
+	windowChildOne.renderSettings.setAnchor(Anchor.CENTER, Anchor.TOP);
+	windowChildOne.renderSettings.setOrigin(Origin.CENTER, Origin.TOP);
+	windowChildOne.renderSettings.graphicsType = GraphicsType.RECT;
+	windowChildOne.renderSettings.color = "#a05000";
+	
+	var windowChildTwo = new RenderedNode();
+	windowChildTwo.renderSettings.size = {width: 96, height: 96};
+	windowChildTwo.renderSettings.setAnchor(Anchor.CENTER, Anchor.TOP);
+	windowChildTwo.renderSettings.setOrigin(Origin.CENTER, Origin.TOP);
+	windowChildTwo.renderSettings.graphicsType = GraphicsType.RECT;
+	windowChildTwo.renderSettings.color = "#50a000";
+	
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
 	topLeftStackPanel.addChild(spChildOne);
@@ -80,6 +99,9 @@ window.onload = function(event) {
 	renderer.sceneRoot.addChild(topLeftStackPanel);
 	renderer.sceneRoot.addChild(greenBox);
 	
+	windowContents.addChild(windowChildOne);
+	windowContents.addChild(windowChildTwo);
+	centerWindow.addChild(windowContents);
 	renderer.guiRoot.addChild(centerWindow);
 };
 
