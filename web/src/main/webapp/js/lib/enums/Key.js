@@ -4,8 +4,10 @@ var Key =
 	RIGHT: { val: 39, name: "Right arrow" },
 	UP: { val: 38, name: "Up arrow" },
 	DOWN: { val: 40, name: "Down arrow" },
-	MINUS: { val: 45, name: "Minus" },
-	PLUS: { val: 43, name: "Plus" },
+	KP_MINUS: { val: 109, name: "Keypad Minus" },
+	KP_PLUS: { val: 107, name: "Keypad Plus" },
+	MINUS: { val: 189, name: "Minus" },
+	PLUS: { val: 187, name: "Plus" },
 	A: { val: 65, name: "A" },
 	B: { val: 66, name: "B" },
 	C: { val: 67, name: "C" },
@@ -47,6 +49,8 @@ var Key =
 	9: { val: 57, name: "9" },
 	SHIFT: { val: 16, name: "Shift" },
 	COMMA: { val: 188, name: "Comma" },
-	PUNCTUATION: { val: 190, name: "Punctuation" }
+	PUNCTUATION: { val: 190, name: "Punctuation" },
+	ENTER: { val: 13, name: "Enter" },
+	BACKSPACE: { val: 8, name: "Backspace" }
 };
 

@@ -1,6 +1,7 @@
 var Window = function(titleText)
 {
 	mixin(new StackPanel(), this);
+	mixin(new InputAwareNode(), this);
 
 	this.renderSettings.size = {width: 150, height: 250};
 	this.renderSettings.setAnchor(Anchor.CENTER, Anchor.CENTER);
@@ -8,6 +9,7 @@ var Window = function(titleText)
 	this.renderSettings.graphicsType = GraphicsType.RECT;
 	this.renderSettings.color = "#808080";
 	this.renderSettings.alpha = 0.7;
+	this.inputSettings.mouseVisible = true;
 	
 	this.titleBar = new DraggableNode();
 	this.titleBar.renderSettings.size = {width: 0, height: 28};

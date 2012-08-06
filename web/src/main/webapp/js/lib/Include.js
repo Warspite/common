@@ -22,6 +22,7 @@ include("lib/graphics/nodes/Parent.js");
 include("lib/graphics/nodes/RenderedNode.js");
 include("lib/graphics/nodes/TextNode.js");
 include("lib/graphics/nodes/StackPanel.js");
+include("lib/graphics/nodes/ViewportNode.js");
 include("lib/graphics/nodes/Window.js");
 
 include("lib/input/InputSettings.js");

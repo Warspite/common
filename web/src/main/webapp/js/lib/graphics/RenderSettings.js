@@ -21,42 +21,39 @@ var RenderSettings = function() {
 };
 
 RenderSettings.prototype.updateTransform = function(parent) {
-	if( parent == null ) {
-		this.transform = new Transform();
-		this.transform.translate(this.position.x, this.position.y);
-		this.transform.rotate(this.angle);
-		this.transform.scale(this.scale.x, this.scale.y);
-		return;
-	}
-	
-	var newTransform = parent.getChildTransform(this);
-	
+	var newTransform = null;
 	var translation = {x: this.position.x, y: this.position.y};
 	
-	if(this.anchor.horizontal == Anchor.LEFT) {
-		
-	}
-	else if(this.anchor.horizontal == Anchor.CENTER) {
-		translation.x += 0.5 * parent.renderSettings.size.width;
-	}
-	else if(this.anchor.horizontal == Anchor.RIGHT) {
-		translation.x += parent.renderSettings.size.width;
+	if( parent == null ) {
+		newTransform = new Transform();
 	}
 	else {
-		throw "Unrecognized horizontal anchor setting: " + this.anchor.horizontal;
-	}
+		var newTransform = parent.getChildTransform(this);
+		if(this.anchor.horizontal == Anchor.LEFT) {
+			
+		}
+		else if(this.anchor.horizontal == Anchor.CENTER) {
+			translation.x += 0.5 * parent.renderSettings.size.width;
+		}
+		else if(this.anchor.horizontal == Anchor.RIGHT) {
+			translation.x += parent.renderSettings.size.width;
+		}
+		else {
+			throw "Unrecognized horizontal anchor setting: " + this.anchor.horizontal;
+		}
 
-	if(this.anchor.vertical == Anchor.TOP) {
-		
-	}
-	else if(this.anchor.vertical == Anchor.CENTER) {
-		translation.y += 0.5 * parent.renderSettings.size.height;
-	}
-	else if(this.anchor.vertical == Anchor.BOTTOM) {
-		translation.y += parent.renderSettings.size.height;
-	}
-	else {
-		throw "Unrecognized vertical anchor setting: " + this.anchor.vertical;
+		if(this.anchor.vertical == Anchor.TOP) {
+			
+		}
+		else if(this.anchor.vertical == Anchor.CENTER) {
+			translation.y += 0.5 * parent.renderSettings.size.height;
+		}
+		else if(this.anchor.vertical == Anchor.BOTTOM) {
+			translation.y += parent.renderSettings.size.height;
+		}
+		else {
+			throw "Unrecognized vertical anchor setting: " + this.anchor.vertical;
+		}
 	}
 	
 	newTransform.translate(translation.x, translation.y);

@@ -16,7 +16,7 @@ var Renderer = function(surface, voidColor)
 	
 	this.renderSelf = function(surface) {};
 	
-	this.sceneRoot = new RenderedNode();
+	this.sceneRoot = new ViewportNode();
 	this.guiRoot = new RenderedNode();
 	this.tooltipRoot = new RenderedNode();
 	

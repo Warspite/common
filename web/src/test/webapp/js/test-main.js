@@ -106,7 +106,6 @@ window.onload = function(event) {
 	windowChildTwo.renderSettings.graphicsType = GraphicsType.RECT;
 	windowChildTwo.renderSettings.color = "#50a000";
 	windowChildTwo.animationSettings.scalingSpeed = {x: -0.2, y: -0.2};
-	windowChildTwo.animationSettings.rotationSpeed = 2;
 	windowChildTwo.prepareSpatialAnimation = function(self, tickInterval) {
 		if(self.renderSettings.scale.x < 0.1)
 			self.animationSettings.scalingSpeed = {x: 0.2, y: 0.2}; 
@@ -114,7 +113,13 @@ window.onload = function(event) {
 		if(self.renderSettings.scale.x > 1.0)
 			self.animationSettings.scalingSpeed = {x: -0.2, y: -0.2}; 
 	};
-	
+	windowChildTwo.addEventHandler(EventType.KEY_DOWN, function(self, keyboard, event) {
+		if(event.value == Key.LEFT)
+			windowChildTwo.animationSettings.rotationSpeed -= 0.1;
+
+		if(event.value == Key.RIGHT)
+			windowChildTwo.animationSettings.rotationSpeed += 0.1;
+});
 	var windowGrandChildOne = new ButtonNode(function() { windowGrandChildOne.imgTogglePause(); });
 	Animator.imgAnimate(windowGrandChildOne);
 	windowGrandChildOne.renderSettings.size = {width: 32, height: 32};
