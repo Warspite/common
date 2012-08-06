@@ -1,6 +1,6 @@
 var RenderedNode = function()
 {
-	mixin(new Parent(), this);
+	mixin(new EventHandlingNode(), this);
 	this.parent = null;
 	this.zIndex = 0;
 	this.rendered = true;

@@ -19,9 +19,13 @@ window.onload = function(event) {
 	var surface = new RenderSurface(canvas, {x: 25, y: 25});
 	var renderer = new Renderer(surface, "#303030");
 	var mouse = new Mouse(canvas, renderer);
+	var keyboard = new Keyboard(renderer);
+	
+	keyboard.addEventListener(renderer);
 
 	var ticker = new Ticker(25);
 	ticker.addListener(mouse);
+	ticker.addListener(keyboard);
 	ticker.addListener(renderer);
 	
 	
@@ -68,6 +72,10 @@ window.onload = function(event) {
 	greenBox.inputSettings.mouseReleased = function(coords) { console.log("Mouse released on green box!") };
 	greenBox.inputSettings.mouseDrag = function(coords, delta) { console.log("Mouse is dragging green box (" + delta.x + "," + delta.y + ")!")};
 	greenBox.inputSettings.mouseCursor = "pointer";
+	greenBox.addEventHandler(EventType.KEY_HELD, function(self, keyboard, event) { 
+		if( event.value == Key.Z )
+			console.log("Green box says you're holding down Z. And shift too? " + keyboard.isKeyDown(Key.SHIFT));
+	});
 
 	var centerWindow = new Window("A fancy window with a rather long title");
 	centerWindow.setDraggable(true);
