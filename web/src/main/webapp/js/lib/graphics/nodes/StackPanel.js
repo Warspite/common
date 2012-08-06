@@ -34,31 +34,29 @@ var StackPanel = function()
 	};
 
 	this.resizeBasedOnChildren = function(dimension) {
-		var greatest = 0;
-		var totalSize = 0;
+		var resultingChildSize = 0;
 		
-		var c = this.children.firstElement;
-		while( c != null ) {
-			if( c.renderSettings.size[dimension] > greatest )
-				greatest = c.renderSettings.size[dimension];
-			
-			if(totalSize > 0)
-				totalSize += this.renderSettings.interChildPadding;
-			
-			totalSize += c.renderSettings.size[dimension];
-
-			c = c.nextElement;
-		}
-		
-		var resultingChildSize = greatest;
-		
-		if(dimension == "width" && this.orientation == Orientation.HORIZONTAL)
-			resultingChildSize = totalSize;
-		
-		if(dimension == "height" && this.orientation == Orientation.VERTICAL)
-			resultingChildSize = totalSize;
+		if((dimension == "width" && this.orientation == Orientation.HORIZONTAL) || (dimension == "height" && this.orientation == Orientation.VERTICAL))
+			resultingChildSize = this.findTotalSizeOfStackedChildren(dimension);
+		else
+			resultingChildSize = this.findSizeOfLargestChild(dimension);
 		
 		this.renderSettings.size[dimension] = this.renderSettings.relativeSize[dimension] * (resultingChildSize + this.renderSettings.padding * 2);
 	};
 };
 
+StackPanel.prototype.findTotalSizeOfStackedChildren = function(dimension) {
+	var totalSize = 0;
+	
+	var c = this.children.firstElement;
+	while( c != null ) {
+		if(totalSize > 0)
+			totalSize += this.renderSettings.interChildPadding;
+		
+		totalSize += c.renderSettings.size[dimension];
+
+		c = c.nextElement;
+	}
+	
+	return totalSize;
+};

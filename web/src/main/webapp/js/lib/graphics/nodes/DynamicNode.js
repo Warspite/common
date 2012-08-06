@@ -18,6 +18,14 @@ DynamicNode.prototype.calculateSize = function(self, tickInterval) {
 };
 
 DynamicNode.prototype.resizeBasedOnChildren = function(dimension) {
+	this.renderSettings.size[dimension] = this.renderSettings.relativeSize[dimension] * (this.findSizeOfLargestChild(dimension) + this.renderSettings.padding * 2);
+};
+
+DynamicNode.prototype.resizeBasedOnParent = function(dimension) {
+	this.renderSettings.size[dimension] = this.renderSettings.relativeSize[dimension] * (this.parent.renderSettings.size[dimension] - this.parent.renderSettings.padding * 2);
+};
+
+DynamicNode.prototype.findSizeOfLargestChild = function(dimension) {
 	var greatest = 0;
 	
 	var c = this.children.firstElement;
@@ -28,9 +36,5 @@ DynamicNode.prototype.resizeBasedOnChildren = function(dimension) {
 		c = c.nextElement;
 	}
 	
-	this.renderSettings.size[dimension] = this.renderSettings.relativeSize[dimension] * (greatest + this.renderSettings.padding * 2);
-};
-
-DynamicNode.prototype.resizeBasedOnParent = function(dimension) {
-	this.renderSettings.size[dimension] = this.renderSettings.relativeSize[dimension] * (this.parent.renderSettings.size[dimension] - this.parent.renderSettings.padding * 2);
+	return greatest;
 };
