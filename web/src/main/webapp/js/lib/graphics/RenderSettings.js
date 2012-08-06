@@ -1,12 +1,15 @@
 var RenderSettings = function() {
 	this.position = {x: 0, y: 0};
 	this.size = {width: 0, height: 0};
+	this.angle = 0.0;
 	
 	this.lastPosition = {x: -1, y: -1};
 	this.lastSize = {width: -1, height: -1};
+	this.lastAngle = -1;
 	
 	this.alpha = 1.0;
 	this.color = "#000000";
+	this.scale = {x: 1, y: 1};
 	this.graphicsType = GraphicsType.NONE;
 	this.anchor = {horizontal: Anchor.LEFT, vertical: Anchor.TOP};
 	this.origin = {horizontal: Origin.LEFT, vertical: Origin.TOP};
@@ -21,6 +24,8 @@ RenderSettings.prototype.updateTransform = function(parent) {
 	if( parent == null ) {
 		this.transform = new Transform();
 		this.transform.translate(this.position.x, this.position.y);
+		this.transform.rotate(this.angle);
+		this.transform.scale(this.scale.x, this.scale.y);
 		return;
 	}
 	
@@ -55,6 +60,8 @@ RenderSettings.prototype.updateTransform = function(parent) {
 	}
 	
 	newTransform.translate(translation.x, translation.y);
+	newTransform.rotate(this.angle);
+	newTransform.scale(this.scale.x, this.scale.y);
 	
 	this.transform = newTransform;
 };
@@ -72,7 +79,7 @@ RenderSettings.prototype.setAnchor = function(horizontal, vertical) {
 };
 
 RenderSettings.prototype.getBoundaries = function() {
-	if(this.position.x != this.lastPosition.x || this.position.y != this.lastPosition.y || this.size.width != this.lastSize.width || this.size.height != this.lastSize.height)
+	if(this.position.x != this.lastPosition.x || this.position.y != this.lastPosition.y || this.size.width != this.lastSize.width || this.size.height != this.lastSize.height || this.angle != this.lastAngle)
 		this.boundaries = null;
 	
 	if(this.boundaries == null)
@@ -126,6 +133,7 @@ RenderSettings.prototype.calculateBoundaries = function() {
 	this.lastPosition.y = this.position.y;
 	this.lastSize.width = this.size.width;
 	this.lastSize.height = this.size.height;
+	this.lastAngle = this.angle;
 	
 	return bounds;
 };

@@ -86,15 +86,35 @@ window.onload = function(event) {
 	windowChildOne.renderSettings.graphicsType = GraphicsType.ANIMATION;
 	windowChildOne.renderSettings.image = "animation1.png";
 	windowChildOne.animationSettings.frameHeight = 8;
-	windowChildOne.animationSettings.frameInterval = 150;
-	windowChildOne.animationSettings.animationEndBehavior = AnimationEndBehavior.LOOP;
+	windowChildOne.animationSettings.frameInterval = 0.15;
+	windowChildOne.animationSettings.imgAnimationEndBehavior = AnimationEndBehavior.LOOP;
 	
-	var windowChildTwo = new RenderedNode();
+	var windowChildTwo = new ButtonNode(function() { windowChildTwo.spatialTogglePause(); });
+	Animator.spatialAnimate(windowChildTwo);
+	windowChildTwo.renderSettings.position.y = 48;
 	windowChildTwo.renderSettings.size = {width: 96, height: 96};
 	windowChildTwo.renderSettings.setAnchor(Anchor.CENTER, Anchor.TOP);
-	windowChildTwo.renderSettings.setOrigin(Origin.CENTER, Origin.TOP);
+	windowChildTwo.renderSettings.setOrigin(Origin.CENTER, Origin.CENTER);
 	windowChildTwo.renderSettings.graphicsType = GraphicsType.RECT;
 	windowChildTwo.renderSettings.color = "#50a000";
+	windowChildTwo.animationSettings.scalingSpeed = {x: -0.2, y: -0.2};
+	windowChildTwo.animationSettings.rotationSpeed = 2;
+	windowChildTwo.prepareSpatialAnimation = function(self, tickInterval) {
+		if(self.renderSettings.scale.x < 0.1)
+			self.animationSettings.scalingSpeed = {x: 0.2, y: 0.2}; 
+
+		if(self.renderSettings.scale.x > 1.0)
+			self.animationSettings.scalingSpeed = {x: -0.2, y: -0.2}; 
+	};
+	
+	var windowGrandChildOne = new ButtonNode(function() { windowGrandChildOne.imgTogglePause(); });
+	Animator.imgAnimate(windowGrandChildOne);
+	windowGrandChildOne.renderSettings.size = {width: 32, height: 32};
+	windowGrandChildOne.renderSettings.graphicsType = GraphicsType.ANIMATION;
+	windowGrandChildOne.renderSettings.image = "animation1.png";
+	windowGrandChildOne.animationSettings.frameHeight = 8;
+	windowGrandChildOne.animationSettings.frameInterval = 0.15;
+	windowGrandChildOne.animationSettings.imgAnimationEndBehavior = AnimationEndBehavior.LOOP;
 	
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
@@ -103,6 +123,7 @@ window.onload = function(event) {
 	renderer.sceneRoot.addChild(topLeftStackPanel);
 	renderer.sceneRoot.addChild(greenBox);
 	
+	windowChildTwo.addChild(windowGrandChildOne);
 	windowContents.addChild(windowChildOne);
 	windowContents.addChild(windowChildTwo);
 	centerWindow.addChild(windowContents);
