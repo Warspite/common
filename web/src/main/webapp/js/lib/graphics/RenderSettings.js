@@ -56,9 +56,15 @@ RenderSettings.prototype.updateTransform = function(parent) {
 		}
 	}
 	
+	if(this.preTransformEffect != null)
+		this.preTransformEffect(this, newTransform);
+	
 	newTransform.translate(translation.x, translation.y);
 	newTransform.rotate(this.angle);
 	newTransform.scale(this.scale.x, this.scale.y);
+	
+	if(this.postTransformEffect != null)
+		this.postTransformEffect(this, newTransform);
 	
 	this.transform = newTransform;
 };

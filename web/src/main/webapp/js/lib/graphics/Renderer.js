@@ -1,6 +1,9 @@
 var Renderer = function(surface, voidColor)
 {
 	mixin(new RenderedNode(null), this);
+	mixin(new InputAwareNode(), this);
+	
+	this.inputSettings.mouseVisible = true;
 	this.surface = surface;
 	this.viewportParameters = {x: 0, y: 0, scale: 1};
 	this.voidColor = voidColor || "#000000";
@@ -39,4 +42,9 @@ var Renderer = function(surface, voidColor)
 			c = c.nextElement;
 		}
 	});
+	
+	this.inputSettings.mouseDrag = function(coords, delta) {
+		self.sceneRoot.translateViewport({x: -delta.x, y: -delta.y});
+	};
+
 };

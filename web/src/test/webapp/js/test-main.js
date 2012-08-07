@@ -22,6 +22,7 @@ window.onload = function(event) {
 	var keyboard = new Keyboard(renderer);
 	
 	keyboard.addEventListener(renderer);
+	mouse.addEventListener(renderer);
 
 	var ticker = new Ticker(25);
 	ticker.addListener(mouse);

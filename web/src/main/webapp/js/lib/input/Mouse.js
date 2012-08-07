@@ -1,5 +1,7 @@
 var Mouse = function(canvas, renderer)
 {
+	mixin(new EventDispatcher(), this);
+	
 	this.canvas = canvas;
 	this.renderer = renderer;
 
@@ -99,6 +101,9 @@ Mouse.prototype.tick = function(elapsedTime)
 
 	if( !this.mouseScrolled ) {
 		this.wheelDelta = 0;
+	}
+	else {
+		this.dispatchEvent({type: EventType.MOUSE_WHEEL, value: this.wheelDelta, elapsedTime: elapsedTime});
 	}
 	
 	this.delta.x = this.current.x - this.lastX;

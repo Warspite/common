@@ -1,5 +1,6 @@
 var Keyboard = function(renderer)
 {
+	mixin(new EventDispatcher(), this);
 	this.renderer = renderer;
 	this.keyDownHandler = this.keyDown.bind(this);
 	this.keyPressHandler = this.keyPress.bind(this);
@@ -14,8 +15,6 @@ var Keyboard = function(renderer)
 	this.htmlNodesWithFocus = {};
 	
 	this.setupFocusListeners();
-	
-	this.eventListeners = new Array(0);
 	
 	this.keyCodes = {};
 	for(i in Key)
@@ -118,13 +117,4 @@ Keyboard.prototype.setupFocusListeners = function()
     		inputs[i].onblur = function() { keyboard.htmlNodesWithFocus[this.id] = false; }
         }
 	}
-};
-
-Keyboard.prototype.addEventListener = function(listener) {
-	this.eventListeners.push(listener);
-};
-
-Keyboard.prototype.dispatchEvent = function(event) {
-	for(el in this.eventListeners)
-		this.eventListeners[el].handleEvent(this.eventListeners[el], this, event);
 };

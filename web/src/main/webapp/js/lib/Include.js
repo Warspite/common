@@ -31,6 +31,7 @@ include("lib/input/Mouse.js");
 
 include("lib/input/nodes/InputAwareNode.js");
 
+include("lib/utilities/EventDispatcher.js");
 include("lib/utilities/SortedList.js");
 include("lib/utilities/Ticker.js");
 include("lib/utilities/UtilityFunctions.js");

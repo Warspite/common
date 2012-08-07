@@ -2,33 +2,65 @@ var ViewportNode = function()
 {
 	mixin(new RenderedNode(), this);
 	
+	this.maxScale = 5;
+	this.minScale = 0.03;
+	
 	this.renderSettings.setAnchor(Anchor.CENTER, Anchor.CENTER);
 	this.renderSettings.focus = {x: 0, y: 0};
 
 	this.addEventHandler(EventType.KEY_DOWN, function(self, keyboard, event) { 
 		var scalingFactor = 1 + 0.005 * event.elapsedTime; 
 		if( event.value == Key.KP_MINUS ) {
-			self.renderSettings.scale.x = self.renderSettings.scale.x / scalingFactor;  
-			self.renderSettings.scale.y = self.renderSettings.scale.y / scalingFactor;  
+			self.scaleViewport(1/scalingFactor);
 		}
 
 		if( event.value == Key.KP_PLUS ) {
-			self.renderSettings.scale.x = self.renderSettings.scale.x * scalingFactor;  
-			self.renderSettings.scale.y = self.renderSettings.scale.y * scalingFactor;  
+			self.scaleViewport(scalingFactor);
 		}
 
 		if( event.value == Key.LEFT )
-			self.renderSettings.position.x += 1 * event.elapsedTime;  
+			self.translateViewport({x: -1.0 * event.elapsedTime, y: 0});
 
 		if( event.value == Key.RIGHT )
-			self.renderSettings.position.x -= 1 * event.elapsedTime;  
+			self.translateViewport({x: 1.0 * event.elapsedTime, y: 0});
 
 		if( event.value == Key.UP )
-			self.renderSettings.position.y += 1 * event.elapsedTime;  
+			self.translateViewport({x: 0, y: -1.0 * event.elapsedTime});
 
 		if( event.value == Key.DOWN )
-			self.renderSettings.position.y -= 1 * event.elapsedTime;  
+			self.translateViewport({x: 0, y: 1.0 * event.elapsedTime});
 	});
+
+	this.addEventHandler(EventType.MOUSE_WHEEL, function(self, mouse, event) {
+		self.scaleViewport(1 + event.value * 0.0015)
+	});
+
+	this.renderSettings.postTransformEffect = function(self, t) {
+		t.translate(-self.focus.x, -self.focus.y);
+	};
 };
 
+ViewportNode.prototype.scaleViewport = function(scalingFactor) {
+	var newScaleX = this.renderSettings.scale.x * scalingFactor;
+	var newScaleY = this.renderSettings.scale.y * scalingFactor;
+	
+	if(newScaleX > this.maxScale)
+		newScaleX = this.maxScale;
+	
+	if(newScaleX < this.minScale)
+		newScaleX = this.minScale;
+	
+	if(newScaleY > this.maxScale)
+		newScaleY = this.maxScale;
+	
+	if(newScaleY < this.minScale)
+		newScaleY = this.minScale;
+	
+	this.renderSettings.scale.x = newScaleX;
+	this.renderSettings.scale.y = newScaleY;
+};
 
+ViewportNode.prototype.translateViewport = function(delta) {
+	this.renderSettings.focus.x += delta.x / this.renderSettings.scale.x;
+	this.renderSettings.focus.y += delta.y / this.renderSettings.scale.y;
+};
