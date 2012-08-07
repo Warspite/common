@@ -111,23 +111,15 @@ Mouse.prototype.tick = function(elapsedTime)
 	this.mouseScrolled = false;
 
 	if( this.mousePressed )
-		if( this.mouseDown ) {
-			this.mousePressed = false;
-		}
-		else {
-			this.mouseDown = true;
-		}
+		this.mouseDown = true;
 	
-	if( this.mouseReleased ) {
-		if( this.mouseDown ) {
-			this.mouseDown = false;
-		}
-		else {
-			this.mouseReleased = false;
-		}
-	}
+	if( this.mouseReleased )
+		this.mouseDown = false;
 	
 	this.updatePointedAtObject();
+	
+	this.mousePressed = false;
+	this.mouseReleased = false;
 };
 
 Mouse.prototype.updatePointedAtObject = function() {
