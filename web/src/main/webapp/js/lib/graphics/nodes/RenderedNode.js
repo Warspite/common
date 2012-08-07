@@ -12,8 +12,10 @@ RenderedNode.prototype.render = function(surface) {
 		return;
 	
 	if( this.preRenderingEffects != null )
-		this.preRenderingEffects();
+		this.preRenderingEffects(surface, this);
 
+	this.renderSettings.updateTransform(this.parent);
+	
 	var renderedSelfYet = false;
 	var c = this.children.firstElement;
 	while( c != null ) {
@@ -28,7 +30,7 @@ RenderedNode.prototype.render = function(surface) {
 		c.render(surface);
 		
 		if( this.postChildRenderingEffects != null )
-			this.postChildRenderingEffects(c);
+			this.postChildRenderingEffects(c, surface, this);
 		
 		c = c.nextElement;
 	}
@@ -38,8 +40,6 @@ RenderedNode.prototype.render = function(surface) {
 };
 
 RenderedNode.prototype.renderSelf = function(surface) {
-	this.renderSettings.updateTransform(this.parent);
-	
 	surface.ctx.setTransform(this.renderSettings.transform.m[0], this.renderSettings.transform.m[1], this.renderSettings.transform.m[2], this.renderSettings.transform.m[3], this.renderSettings.transform.m[4], this.renderSettings.transform.m[5]);
 	surface.ctx.globalAlpha = this.renderSettings.alpha;
 
@@ -57,7 +57,7 @@ RenderedNode.prototype.renderSelf = function(surface) {
 	}
 		
 	if (this.customSelfRenderEffect != null) {
-		this.customSelfRenderEffect(surface, b);
+		this.customSelfRenderEffect(b, surface, this);
 	}
 };
 

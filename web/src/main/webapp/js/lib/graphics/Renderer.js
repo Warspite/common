@@ -21,29 +21,31 @@ var Renderer = function(surface, voidColor)
 	
 	this.sceneRoot = new ViewportNode();
 	this.guiRoot = new RenderedNode();
-	this.tooltipRoot = new RenderedNode();
+	this.tooltip = new TooltipNode();
 	
 	this.sceneRoot.zIndex = 0;
 	this.guiRoot.zIndex = 1;
-	this.guiRoot.zIndex = 2;
+	this.tooltip.zIndex = 2;
 	
 	this.addChild(this.sceneRoot);
 	this.addChild(this.guiRoot);
-	this.addChild(this.tooltipRoot);
+	this.addChild(this.tooltip);
 
 	var self = this;
 	this.surface.addResizeListener(function(width, height) {
-		self.renderSettings.size.width = width;
-		self.renderSettings.size.height = height;
-		
-		var c = self.children.firstElement;
-		while( c != null ) {
-			c.renderSettings.size = {width: width, height: height};
-			c = c.nextElement;
-		}
+		self.renderSettings.size = {width: width, height: height};
+		self.guiRoot.renderSettings.size = {width: width, height: height};
 	});
 	
 	this.addEventHandler(EventType.MOUSE_DRAG, function(self, mouse, event) { 
 		self.sceneRoot.translateViewport({x: -event.value.delta.x, y: -event.value.delta.y});
+	});
+
+	this.addEventHandler(EventType.TOOLTIP_DISPLAY_REQUESTED, function(self, source, event) { 
+		self.tooltip.display(event.value.text, {x: event.value.x, y: event.value.y});
+	});
+
+	this.addEventHandler(EventType.TOOLTIP_REMOVAL_REQUESTED, function(self, source, event) { 
+		self.tooltip.hide();
 	});
 };

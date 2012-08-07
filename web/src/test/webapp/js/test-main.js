@@ -59,9 +59,8 @@ window.onload = function(event) {
 	spGrandChildTwo.renderSettings.color = "#808080";
 	
 	var greenBox = new RenderedNode();
+	greenBox.renderSettings.position = {x: 200, y: -32};
 	greenBox.renderSettings.size = {width: 64, height: 64};
-	greenBox.renderSettings.setAnchor(Anchor.CENTER, Anchor.TOP);
-	greenBox.renderSettings.setOrigin(Origin.CENTER, Origin.TOP);
 	greenBox.renderSettings.graphicsType = GraphicsType.RECT;
 	greenBox.renderSettings.color = "#00ff00";
 	mixin(new InputAwareNode(), greenBox);
@@ -89,6 +88,7 @@ window.onload = function(event) {
 	greenBox.addEventHandler(EventType.MOUSE_RELEASED, function(self, mouse, event) { 
 		console.log("Mouse is released in green box!");
 	});
+	Tooltipper.tooltipify(greenBox, "I'm the green box tooltip!");
 
 	var centerWindow = new WindowNode("A fancy window with a rather long title");
 	centerWindow.setDraggable(true);
@@ -109,6 +109,7 @@ window.onload = function(event) {
 	windowChildOne.animationSettings.frameHeight = 8;
 	windowChildOne.animationSettings.frameInterval = 0.15;
 	windowChildOne.animationSettings.imgAnimationEndBehavior = AnimationEndBehavior.LOOP;
+	Tooltipper.tooltipify(windowChildOne, "Click me to animate me!");
 	
 	var windowChildTwo = new ButtonNode(function() { windowChildTwo.spatialTogglePause(); });
 	Animator.spatialAnimate(windowChildTwo);
@@ -133,6 +134,7 @@ window.onload = function(event) {
 		if(event.value.key == Key.W)
 			windowChildTwo.animationSettings.rotationSpeed += 0.1;
 	});
+	Tooltipper.tooltipify(windowChildTwo, "Click me to spin me, and control my spin with Q and W!");
 	
 	var windowGrandChildOne = new ButtonNode(function() { windowGrandChildOne.imgTogglePause(); });
 	Animator.imgAnimate(windowGrandChildOne);
@@ -142,6 +144,7 @@ window.onload = function(event) {
 	windowGrandChildOne.animationSettings.frameHeight = 8;
 	windowGrandChildOne.animationSettings.frameInterval = 0.15;
 	windowGrandChildOne.animationSettings.imgAnimationEndBehavior = AnimationEndBehavior.LOOP;
+	Tooltipper.tooltipify(windowGrandChildOne, "I'm a smaller clickable fire!\nBut I have a multiline tooltip.\nThat makes me really special!");
 	
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
@@ -156,4 +159,3 @@ window.onload = function(event) {
 	centerWindow.addChild(windowContents);
 	renderer.guiRoot.addChild(centerWindow);
 };
-

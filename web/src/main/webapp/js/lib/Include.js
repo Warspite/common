@@ -20,6 +20,7 @@ include("lib/graphics/nodes/DraggableNode.js");
 include("lib/graphics/nodes/DynamicNode.js");
 include("lib/graphics/nodes/RenderedNode.js");
 include("lib/graphics/nodes/TextNode.js");
+include("lib/graphics/nodes/TooltipNode.js");
 include("lib/graphics/nodes/StackPanelNode.js");
 include("lib/graphics/nodes/ViewportNode.js");
 include("lib/graphics/nodes/WindowNode.js");
@@ -33,6 +34,7 @@ include("lib/input/nodes/InputAwareNode.js");
 include("lib/utilities/EventDispatcher.js");
 include("lib/utilities/SortedList.js");
 include("lib/utilities/Ticker.js");
+include("lib/utilities/Tooltipper.js");
 include("lib/utilities/UtilityFunctions.js");
 
 include("lib/utilities/nodes/EventHandlingNode.js");

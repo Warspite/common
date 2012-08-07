@@ -6,25 +6,31 @@ var TextNode = function(text)
 	this.renderSettings.textAnchor = Anchor.LEFT;
 	this.renderSettings.font = "10px Arial";
 	this.renderSettings.textColor = "#e0e0e0";
-	this.renderSettings.lineHeight = 11;
+	this.renderSettings.lineHeight = 10;
 	this.renderSettings.textPadding = 3;
 	this.maximumNumberOfLines = null;
+	this.actualNumberOfLines = 0;
 	
-	var self = this;
-	this.customSelfRenderEffect = function(surface, boundaries) {
-		surface.ctx.fillStyle = self.renderSettings.textColor;
+	this.preRenderingEffects = function(surface, self) {
+		var textArray = self.getBrokenText(surface, self);
 		
-		var textArray = self.getBrokenText(surface);
-		var actualNumberOfLines = textArray.length;
-		if(self.maxNumberOfLines != null && actualNumberOfLines > self.maxNumberOfLines)
-			actualNumberOfLines = self.maxNumberOfLines;
+		if(self.maxNumberOfLines != null && textArray.length > self.maxNumberOfLines)
+			self.actualNumberOfLines = self.maxNumberOfLines;
+		else
+			self.actualNumberOfLines = textArray.length;
 			
 		if(self.renderSettings.sizing.height == Sizing.TEXT) {
-			self.renderSettings.size.height = actualNumberOfLines * self.renderSettings.lineHeight + self.renderSettings.textPadding;
+			self.renderSettings.size.height = self.actualNumberOfLines * self.renderSettings.lineHeight + self.renderSettings.textPadding * 2;
 		}
+	};
+	
+	this.customSelfRenderEffect = function(boundaries, surface, self) {
+		surface.ctx.fillStyle = self.renderSettings.textColor;
 		
-		var verticalOffset = 0;
-		for(i = 0; i < actualNumberOfLines; i++) {
+		var textArray = self.getBrokenText(surface, self);
+		
+		var verticalOffset = self.renderSettings.textPadding;
+		for(i = 0; i < self.actualNumberOfLines; i++) {
 			verticalOffset += self.renderSettings.lineHeight;
 
 			if(verticalOffset + self.renderSettings.textPadding > self.renderSettings.size.height)
@@ -47,14 +53,14 @@ TextNode.prototype.setText = function(text) {
 	this.brokenText = null;
 };
 
-TextNode.prototype.getBrokenText = function(surface) {
-	if( this.nodeWidthAtLastTextBreaking != this.renderSettings.size.width )
-		this.brokenText = null;
+TextNode.prototype.getBrokenText = function(surface, self) {
+	if( self.nodeWidthAtLastTextBreaking != self.renderSettings.size.width )
+		self.brokenText = null;
 	
-	if(this.brokenText == null)
-		this.brokenText = this.breakText(this.text, surface);
+	if(self.brokenText == null)
+		self.brokenText = self.breakText(self.text, surface);
 	
-	return this.brokenText;
+	return self.brokenText;
 };
 
 TextNode.prototype.breakText = function(text, surface) {
@@ -77,7 +83,7 @@ TextNode.prototype.breakText = function(text, surface) {
 	}
 	
 	if(this.renderSettings.sizing.width == Sizing.TEXT)
-		this.renderSettings.size.width = dynamicNodeWidth;
+		this.renderSettings.size.width = dynamicNodeWidth + this.renderSettings.textPadding * 2;
 	
 	this.nodeWidthAtLastTextBreaking = this.renderSettings.size.width;
 	
@@ -95,7 +101,7 @@ TextNode.prototype.pushImplicitTextLines = function(line, pushTarget, surface) {
 		else {
 			var candidateString = lastAcceptedCandidateString + " " + words[i];
 			var lineWidth = this.measureLineWidth(surface, candidateString);
-			if( lineWidth > this.renderSettings.size.width ) {
+			if( lineWidth > this.renderSettings.size.width - this.renderSettings.textPadding * 2 ) {
 				pushTarget.push({text: lastAcceptedCandidateString, width: lineWidth});
 				lastAcceptedCandidateString = words[i];
 			}
@@ -110,5 +116,5 @@ TextNode.prototype.pushImplicitTextLines = function(line, pushTarget, surface) {
 };
 
 TextNode.prototype.measureLineWidth = function(surface, line) {
-	return surface.ctx.measureText(line).width * 1.1 + this.renderSettings.textPadding;
+	return surface.ctx.measureText(line).width * 1 + this.renderSettings.textPadding;
 };
