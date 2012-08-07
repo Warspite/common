@@ -121,52 +121,50 @@ Mouse.prototype.tick = function(elapsedTime)
 	if( this.mouseReleased )
 		this.mouseDown = false;
 	
-	this.updatePointedAtObject();
+	this.updatePointedAtObject(elapsedTime);
 	
 	this.mousePressed = false;
 	this.mouseReleased = false;
 };
 
-Mouse.prototype.updatePointedAtObject = function() {
+Mouse.prototype.updatePointedAtObject = function(elapsedTime) {
 	this.lastPointedAtObject = this.pointedAtObject;
 	this.pointedAtObject = this.renderer.findTopmostObjectAtCoordinates(this.current);
 	
-	if(this.pointedAtObject != this.lastPointedAtObject) {
-		if(this.lastPointedAtObject != null && this.lastPointedAtObject.inputSettings != null && this.lastPointedAtObject.inputSettings.mouseExit != null)
-			this.lastPointedAtObject.inputSettings.mouseExit(this.current);
+	if(this.lastPointedAtObject != null && this.pointedAtObject != this.lastPointedAtObject)
+		this.dispatchTargetedEvent(this.lastPointedAtObject, {type: EventType.MOUSE_EXIT, elapsedTime: elapsedTime})
 
-		if(this.pointedAtObject != null && this.pointedAtObject.inputSettings != null && this.pointedAtObject.inputSettings.mouseEnter != null)
-			this.pointedAtObject.inputSettings.mouseEnter(this.current);
-	}
+	if(this.pointedAtObject != null && this.pointedAtObject != this.lastPointedAtObject)
+		this.dispatchTargetedEvent(this.pointedAtObject, {type: EventType.MOUSE_ENTER, elapsedTime: elapsedTime})
 	
-	this.handleDragEvents();
-	this.handlePointedAtObjectEvents();
+	this.handleDragEvents(elapsedTime);
+	this.handlePointedAtObjectEvents(elapsedTime);
 };
 
-Mouse.prototype.handleDragEvents = function() {
+Mouse.prototype.handleDragEvents = function(elapsedTime) {
 	if(this.mousePressed) {
 		this.draggedObject = this.pointedAtObject;
 	}
 	else {
 		if(this.mouseReleased)
 			this.draggedObject = null;
-		else if(this.draggedObject != null && this.draggedObject.inputSettings != null && this.draggedObject.inputSettings.mouseDrag != null)
-			this.draggedObject.inputSettings.mouseDrag(this.current, this.delta);
+		else if(this.draggedObject != null && (this.delta.x != 0 || this.delta.y != 0))
+			this.dispatchTargetedEvent(this.draggedObject, {type: EventType.MOUSE_DRAG, value: this.delta, elapsedTime: elapsedTime});
 	}
 };
 
-Mouse.prototype.handlePointedAtObjectEvents = function() {
+Mouse.prototype.handlePointedAtObjectEvents = function(elapsedTime) {
 	if(this.pointedAtObject == null || this.pointedAtObject.inputSettings == null)
 		return;
 	
-	if(this.mousePressed && this.pointedAtObject.inputSettings.mousePressed != null)
-		this.pointedAtObject.inputSettings.mousePressed(this.current);
+	if(this.mousePressed)
+		this.dispatchTargetedEvent(this.pointedAtObject, {type: EventType.MOUSE_PRESSED, value: this.current, elapsedTime: elapsedTime});
 	
-	if(this.mouseReleased && this.pointedAtObject.inputSettings.mouseReleased != null)
-		this.pointedAtObject.inputSettings.mouseReleased(this.current);
+	if(this.mouseReleased)
+		this.dispatchTargetedEvent(this.pointedAtObject, {type: EventType.MOUSE_RELEASED, value: this.current, elapsedTime: elapsedTime});
 	
-	if(this.mouseDown && this.pointedAtObject.inputSettings.mouseDown != null)
-		this.pointedAtObject.inputSettings.mouseDown(this.current);
+	if(this.mouseDown)
+		this.dispatchTargetedEvent(this.pointedAtObject, {type: EventType.MOUSE_DOWN, value: this.current, elapsedTime: elapsedTime});
 	
 	if(this.pointedAtObject.inputSettings.mouseCursor != null)
 		document.body.style.cursor = this.pointedAtObject.inputSettings.mouseCursor;

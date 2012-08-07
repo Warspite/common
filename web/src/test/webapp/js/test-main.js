@@ -66,16 +66,28 @@ window.onload = function(event) {
 	greenBox.renderSettings.color = "#00ff00";
 	mixin(new InputAwareNode(), greenBox);
 	greenBox.inputSettings.mouseVisible = true;
-	greenBox.inputSettings.mouseEnter = function(coords) { console.log("Mouse entered green box!") };
-	greenBox.inputSettings.mouseExit = function(coords) { console.log("Mouse exited green box!") };
-	greenBox.inputSettings.mouseDown = function(coords) { console.log("Mouse is down in green box!") };
-	greenBox.inputSettings.mousePressed = function(coords) { console.log("Mouse clicked on green box!") };
-	greenBox.inputSettings.mouseReleased = function(coords) { console.log("Mouse released on green box!") };
-	greenBox.inputSettings.mouseDrag = function(coords, delta) { console.log("Mouse is dragging green box (" + delta.x + "," + delta.y + ")!")};
 	greenBox.inputSettings.mouseCursor = "pointer";
 	greenBox.addEventHandler(EventType.KEY_HELD, function(self, keyboard, event) { 
 		if( event.value == Key.Z )
 			console.log("Green box says you're holding down Z. And shift too? " + keyboard.isKeyDown(Key.SHIFT));
+	});
+	greenBox.addEventHandler(EventType.MOUSE_ENTER, function(self, mouse, event) { 
+		console.log("Mouse entered green box!");
+	});
+	greenBox.addEventHandler(EventType.MOUSE_EXIT, function(self, mouse, event) { 
+		console.log("Mouse exited green box!");
+	});
+	greenBox.addEventHandler(EventType.MOUSE_DRAG, function(self, mouse, event) { 
+		console.log("Mouse is dragging green box (" + event.value.x + "," + event.value.y + ")!");
+	});
+	greenBox.addEventHandler(EventType.MOUSE_DOWN, function(self, mouse, event) { 
+		console.log("Mouse is down in green box!");
+	});
+	greenBox.addEventHandler(EventType.MOUSE_PRESSED, function(self, mouse, event) { 
+		console.log("Mouse is pressed in green box!");
+	});
+	greenBox.addEventHandler(EventType.MOUSE_RELEASED, function(self, mouse, event) { 
+		console.log("Mouse is released in green box!");
 	});
 
 	var centerWindow = new Window("A fancy window with a rather long title");
@@ -115,12 +127,13 @@ window.onload = function(event) {
 			self.animationSettings.scalingSpeed = {x: -0.2, y: -0.2}; 
 	};
 	windowChildTwo.addEventHandler(EventType.KEY_DOWN, function(self, keyboard, event) {
-		if(event.value == Key.LEFT)
+		if(event.value == Key.Q)
 			windowChildTwo.animationSettings.rotationSpeed -= 0.1;
 
-		if(event.value == Key.RIGHT)
+		if(event.value == Key.W)
 			windowChildTwo.animationSettings.rotationSpeed += 0.1;
-});
+	});
+	
 	var windowGrandChildOne = new ButtonNode(function() { windowGrandChildOne.imgTogglePause(); });
 	Animator.imgAnimate(windowGrandChildOne);
 	windowGrandChildOne.renderSettings.size = {width: 32, height: 32};

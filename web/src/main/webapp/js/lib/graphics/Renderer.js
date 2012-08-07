@@ -43,8 +43,7 @@ var Renderer = function(surface, voidColor)
 		}
 	});
 	
-	this.inputSettings.mouseDrag = function(coords, delta) {
-		self.sceneRoot.translateViewport({x: -delta.x, y: -delta.y});
-	};
-
+	this.addEventHandler(EventType.MOUSE_DRAG, function(self, mouse, event) { 
+		self.sceneRoot.translateViewport({x: -event.value.x, y: -event.value.y});
+	});
 };
