@@ -75,17 +75,17 @@ Keyboard.prototype.tick = function(elapsedTime)
 			this.keysDown[i] = null;
 			this.keysReleased[i] = false;
 			
-			this.dispatchEvent({type: EventType.KEY_UP, value: this.keyCodes[i], elapsedTime: elapsedTime});
+			this.dispatchEvent(EventType.KEY_UP, {key: this.keyCodes[i], elapsedTime: elapsedTime});
 		}
 		
 		if(this.keysDown[i] != null) {
 			if(this.keysDown[i] > this.timeOfLastTick)
-				this.dispatchEvent({type: EventType.KEY_PRESSED, value: this.keyCodes[i], elapsedTime: elapsedTime});
+				this.dispatchEvent(EventType.KEY_PRESSED, {key: this.keyCodes[i], elapsedTime: elapsedTime});
 				
-			this.dispatchEvent({type: EventType.KEY_DOWN, value: this.keyCodes[i], elapsedTime: elapsedTime});
+			this.dispatchEvent(EventType.KEY_DOWN, {key: this.keyCodes[i], elapsedTime: elapsedTime});
 
 			if(this.keysDown[i] < holdThreshold)
-				this.dispatchEvent({type: EventType.KEY_HELD, value: this.keyCodes[i], elapsedTime: elapsedTime});
+				this.dispatchEvent(EventType.KEY_HELD, {key: this.keyCodes[i], elapsedTime: elapsedTime});
 		}
 	}
 	

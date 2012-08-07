@@ -68,7 +68,7 @@ window.onload = function(event) {
 	greenBox.inputSettings.mouseVisible = true;
 	greenBox.inputSettings.mouseCursor = "pointer";
 	greenBox.addEventHandler(EventType.KEY_HELD, function(self, keyboard, event) { 
-		if( event.value == Key.Z )
+		if( event.value.key == Key.Z )
 			console.log("Green box says you're holding down Z. And shift too? " + keyboard.isKeyDown(Key.SHIFT));
 	});
 	greenBox.addEventHandler(EventType.MOUSE_ENTER, function(self, mouse, event) { 
@@ -127,10 +127,10 @@ window.onload = function(event) {
 			self.animationSettings.scalingSpeed = {x: -0.2, y: -0.2}; 
 	};
 	windowChildTwo.addEventHandler(EventType.KEY_DOWN, function(self, keyboard, event) {
-		if(event.value == Key.Q)
+		if(event.value.key == Key.Q)
 			windowChildTwo.animationSettings.rotationSpeed -= 0.1;
 
-		if(event.value == Key.W)
+		if(event.value.key == Key.W)
 			windowChildTwo.animationSettings.rotationSpeed += 0.1;
 	});
 	

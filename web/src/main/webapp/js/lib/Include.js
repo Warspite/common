@@ -1,5 +1,6 @@
 include("lib/enums/Anchor.js");
 include("lib/enums/AnimationEndBehavior.js");
+include("lib/enums/EventPropagation.js");
 include("lib/enums/EventType.js");
 include("lib/enums/GraphicsType.js");
 include("lib/enums/Key.js");

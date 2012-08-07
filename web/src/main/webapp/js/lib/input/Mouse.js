@@ -103,7 +103,7 @@ Mouse.prototype.tick = function(elapsedTime)
 		this.wheelDelta = 0;
 	}
 	else {
-		this.dispatchEvent({type: EventType.MOUSE_WHEEL, value: this.wheelDelta, elapsedTime: elapsedTime});
+		this.dispatchEvent(EventType.MOUSE_WHEEL, this.wheelDelta);
 	}
 	
 	this.delta.x = this.current.x - this.lastX;
@@ -132,10 +132,10 @@ Mouse.prototype.updatePointedAtObject = function(elapsedTime) {
 	this.pointedAtObject = this.renderer.findTopmostObjectAtCoordinates(this.current);
 	
 	if(this.lastPointedAtObject != null && this.pointedAtObject != this.lastPointedAtObject)
-		this.dispatchTargetedEvent(this.lastPointedAtObject, {type: EventType.MOUSE_EXIT, elapsedTime: elapsedTime})
+		this.dispatchEvent(EventType.MOUSE_EXIT, null, EventPropagation.NONE, this.lastPointedAtObject);
 
 	if(this.pointedAtObject != null && this.pointedAtObject != this.lastPointedAtObject)
-		this.dispatchTargetedEvent(this.pointedAtObject, {type: EventType.MOUSE_ENTER, elapsedTime: elapsedTime})
+		this.dispatchEvent(EventType.MOUSE_ENTER, null, EventPropagation.NONE, this.pointedAtObject);
 	
 	this.handleDragEvents(elapsedTime);
 	this.handlePointedAtObjectEvents(elapsedTime);
@@ -149,7 +149,7 @@ Mouse.prototype.handleDragEvents = function(elapsedTime) {
 		if(this.mouseReleased)
 			this.draggedObject = null;
 		else if(this.draggedObject != null && (this.delta.x != 0 || this.delta.y != 0))
-			this.dispatchTargetedEvent(this.draggedObject, {type: EventType.MOUSE_DRAG, value: this.delta, elapsedTime: elapsedTime});
+			this.dispatchEvent(EventType.MOUSE_DRAG, {delta: this.delta, elapsedTime: elapsedTime}, EventPropagation.NONE, this.draggedObject);
 	}
 };
 
@@ -158,13 +158,13 @@ Mouse.prototype.handlePointedAtObjectEvents = function(elapsedTime) {
 		return;
 	
 	if(this.mousePressed)
-		this.dispatchTargetedEvent(this.pointedAtObject, {type: EventType.MOUSE_PRESSED, value: this.current, elapsedTime: elapsedTime});
+		this.dispatchEvent(EventType.MOUSE_PRESSED, {coords: this.current, elapsedTime: elapsedTime}, EventPropagation.NONE, this.pointedAtObject);
 	
 	if(this.mouseReleased)
-		this.dispatchTargetedEvent(this.pointedAtObject, {type: EventType.MOUSE_RELEASED, value: this.current, elapsedTime: elapsedTime});
+		this.dispatchEvent(EventType.MOUSE_RELEASED, {coords: this.current, elapsedTime: elapsedTime}, EventPropagation.NONE, this.pointedAtObject);
 	
 	if(this.mouseDown)
-		this.dispatchTargetedEvent(this.pointedAtObject, {type: EventType.MOUSE_DOWN, value: this.current, elapsedTime: elapsedTime});
+		this.dispatchEvent(EventType.MOUSE_DOWN, {coords: this.current, elapsedTime: elapsedTime}, EventPropagation.NONE, this.pointedAtObject);
 	
 	if(this.pointedAtObject.inputSettings.mouseCursor != null)
 		document.body.style.cursor = this.pointedAtObject.inputSettings.mouseCursor;

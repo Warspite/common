@@ -12,8 +12,8 @@ var DraggableNode = function()
 		if(self.inputSettings.dragTarget == null)
 			return;
 		
-		self.inputSettings.dragTarget.renderSettings.position.x += event.value.x;
-		self.inputSettings.dragTarget.renderSettings.position.y += event.value.y;
+		self.inputSettings.dragTarget.renderSettings.position.x += event.value.delta.x;
+		self.inputSettings.dragTarget.renderSettings.position.y += event.value.delta.y;
 	});
 };
 

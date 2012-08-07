@@ -44,6 +44,6 @@ var Renderer = function(surface, voidColor)
 	});
 	
 	this.addEventHandler(EventType.MOUSE_DRAG, function(self, mouse, event) { 
-		self.sceneRoot.translateViewport({x: -event.value.x, y: -event.value.y});
+		self.sceneRoot.translateViewport({x: -event.value.delta.x, y: -event.value.delta.y});
 	});
 };

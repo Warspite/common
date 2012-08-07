@@ -9,26 +9,26 @@ var ViewportNode = function()
 	this.renderSettings.focus = {x: 0, y: 0};
 
 	this.addEventHandler(EventType.KEY_DOWN, function(self, keyboard, event) { 
-		var scalingFactor = 1 + 0.005 * event.elapsedTime; 
-		if( event.value == Key.KP_MINUS ) {
+		var scalingFactor = 1 + 0.005 * event.value.elapsedTime; 
+		if( event.value.key == Key.KP_MINUS ) {
 			self.scaleViewport(1/scalingFactor);
 		}
 
-		if( event.value == Key.KP_PLUS ) {
+		if( event.value.key == Key.KP_PLUS ) {
 			self.scaleViewport(scalingFactor);
 		}
 
-		if( event.value == Key.LEFT )
-			self.translateViewport({x: -1.0 * event.elapsedTime, y: 0});
+		if( event.value.key == Key.LEFT )
+			self.translateViewport({x: -1.0 * event.value.elapsedTime, y: 0});
 
-		if( event.value == Key.RIGHT )
-			self.translateViewport({x: 1.0 * event.elapsedTime, y: 0});
+		if( event.value.key == Key.RIGHT )
+			self.translateViewport({x: 1.0 * event.value.elapsedTime, y: 0});
 
-		if( event.value == Key.UP )
-			self.translateViewport({x: 0, y: -1.0 * event.elapsedTime});
+		if( event.value.key == Key.UP )
+			self.translateViewport({x: 0, y: -1.0 * event.value.elapsedTime});
 
-		if( event.value == Key.DOWN )
-			self.translateViewport({x: 0, y: 1.0 * event.elapsedTime});
+		if( event.value.key == Key.DOWN )
+			self.translateViewport({x: 0, y: 1.0 * event.value.elapsedTime});
 	});
 
 	this.addEventHandler(EventType.MOUSE_WHEEL, function(self, mouse, event) {
