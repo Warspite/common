@@ -1,10 +1,10 @@
-var Parent = function()
+var ParentNode = function()
 {
 	this.children = new SortedList("zIndex");
 	this.extraTickEffects = new Array(0);
 };
 
-Parent.prototype.tick = function(tickInterval) {
+ParentNode.prototype.tick = function(tickInterval) {
 	var c = this.children.firstElement;
 	while( c != null ) {
 		c.tick(tickInterval);
@@ -17,23 +17,23 @@ Parent.prototype.tick = function(tickInterval) {
 	this.tickSelf(tickInterval);
 };
 
-Parent.prototype.tickSelf = function(tickInterval) {
+ParentNode.prototype.tickSelf = function(tickInterval) {
 	
 };
 
-Parent.prototype.addChild = function(child)
+ParentNode.prototype.addChild = function(child)
 {
 	this.children.add(child);
 	child.parent = this;
 };
 
-Parent.prototype.removeChild = function(child)
+ParentNode.prototype.removeChild = function(child)
 {
 	this.children.remove(child);
 	child.parent = null;
 };
 
-Parent.prototype.clearChildren = function()
+ParentNode.prototype.clearChildren = function()
 {
 	var c = this.children.firstElement;
 	while( c != null ) {

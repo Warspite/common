@@ -1,6 +1,6 @@
 var EventHandlingNode = function()
 {
-	mixin(new Parent(), this);
+	mixin(new ParentNode(), this);
 	
 	this.eventHandlers = {};
 };

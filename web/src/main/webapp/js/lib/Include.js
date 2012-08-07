@@ -17,13 +17,11 @@ include("lib/graphics/Transform.js");
 include("lib/graphics/nodes/ButtonNode.js");
 include("lib/graphics/nodes/DraggableNode.js");
 include("lib/graphics/nodes/DynamicNode.js");
-include("lib/graphics/nodes/EventHandlingNode.js");
-include("lib/graphics/nodes/Parent.js");
 include("lib/graphics/nodes/RenderedNode.js");
 include("lib/graphics/nodes/TextNode.js");
-include("lib/graphics/nodes/StackPanel.js");
+include("lib/graphics/nodes/StackPanelNode.js");
 include("lib/graphics/nodes/ViewportNode.js");
-include("lib/graphics/nodes/Window.js");
+include("lib/graphics/nodes/WindowNode.js");
 
 include("lib/input/InputSettings.js");
 include("lib/input/Keyboard.js");
@@ -35,3 +33,6 @@ include("lib/utilities/EventDispatcher.js");
 include("lib/utilities/SortedList.js");
 include("lib/utilities/Ticker.js");
 include("lib/utilities/UtilityFunctions.js");
+
+include("lib/utilities/nodes/EventHandlingNode.js");
+include("lib/utilities/nodes/ParentNode.js");

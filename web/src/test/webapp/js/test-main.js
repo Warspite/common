@@ -30,30 +30,30 @@ window.onload = function(event) {
 	ticker.addListener(renderer);
 	
 	
-	var topLeftStackPanel = new StackPanel();
+	var topLeftStackPanel = new StackPanelNode();
 	topLeftStackPanel.renderSettings.graphicsType = GraphicsType.RECT;
 	topLeftStackPanel.renderSettings.color = "#00ffff";
 	topLeftStackPanel.renderSettings.padding = 1;
 	topLeftStackPanel.renderSettings.sizing = {width: Sizing.CHILDREN, height: Sizing.CHILDREN};
 
-	var spChildOne = new StackPanel();
+	var spChildOne = new StackPanelNode();
 	spChildOne.renderSettings.size = {width: 32, height: 40};
 	spChildOne.renderSettings.graphicsType = GraphicsType.RECT;
 	spChildOne.renderSettings.color = "#202020";
 	
-	var spChildTwo = new StackPanel();
+	var spChildTwo = new StackPanelNode();
 	spChildTwo.renderSettings.size = {width: 32, height: 40};
 	spChildTwo.renderSettings.graphicsType = GraphicsType.RECT;
 	spChildTwo.renderSettings.color = "#404040";
 	spChildTwo.orientation = Orientation.HORIZONTAL;
 	spChildTwo.renderSettings.interChildPadding = 5;
 	
-	var spGrandChildOne = new StackPanel();
+	var spGrandChildOne = new StackPanelNode();
 	spGrandChildOne.renderSettings.size = {width: 40, height: 32};
 	spGrandChildOne.renderSettings.graphicsType = GraphicsType.RECT;
 	spGrandChildOne.renderSettings.color = "#606060";
 	
-	var spGrandChildTwo = new StackPanel();
+	var spGrandChildTwo = new StackPanelNode();
 	spGrandChildTwo.renderSettings.size = {width: 40, height: 32};
 	spGrandChildTwo.renderSettings.graphicsType = GraphicsType.RECT;
 	spGrandChildTwo.renderSettings.color = "#808080";
@@ -90,11 +90,11 @@ window.onload = function(event) {
 		console.log("Mouse is released in green box!");
 	});
 
-	var centerWindow = new Window("A fancy window with a rather long title");
+	var centerWindow = new WindowNode("A fancy window with a rather long title");
 	centerWindow.setDraggable(true);
 	centerWindow.setClosable(true);
 	
-	var windowContents = new StackPanel();
+	var windowContents = new StackPanelNode();
 	windowContents.renderSettings.sizing = {width: Sizing.PARENT, height: Sizing.CHILDREN};
 	windowContents.renderSettings.padding = 5;
 	windowContents.renderSettings.interChildPadding = 5;

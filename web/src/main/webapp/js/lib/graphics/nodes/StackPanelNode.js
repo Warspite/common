@@ -1,4 +1,4 @@
-var StackPanel = function()
+var StackPanelNode = function()
 {
 	mixin(new DynamicNode(), this);
 	
@@ -45,7 +45,7 @@ var StackPanel = function()
 	};
 };
 
-StackPanel.prototype.findTotalSizeOfStackedChildren = function(dimension) {
+StackPanelNode.prototype.findTotalSizeOfStackedChildren = function(dimension) {
 	var totalSize = 0;
 	
 	var c = this.children.firstElement;

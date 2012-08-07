@@ -1,6 +1,6 @@
-var Window = function(titleText)
+var WindowNode = function(titleText)
 {
-	mixin(new StackPanel(), this);
+	mixin(new StackPanelNode(), this);
 	mixin(new InputAwareNode(), this);
 
 	this.renderSettings.size = {width: 150, height: 250};
@@ -42,17 +42,17 @@ var Window = function(titleText)
 	this.setClosable(false);
 };
 
-Window.prototype.setDraggable = function(draggable) {
+WindowNode.prototype.setDraggable = function(draggable) {
 	if(draggable)
 		this.titleBar.inputSettings.dragTarget = this;
 	else
 		this.titleBar.inputSettings.dragTarget = null;
 };
 
-Window.prototype.setClosable = function(closable) {
+WindowNode.prototype.setClosable = function(closable) {
 	this.closeButton.rendered = closable;
 };
 
-Window.prototype.close = function() {
+WindowNode.prototype.close = function() {
 	this.parent.removeChild(this);
 };
