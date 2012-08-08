@@ -1,14 +1,14 @@
 var Server = {
 	req: function(servlet, type, params, successCallback, failureCallback) {
-		console.log("Making call to " + servlet + " with session: <not implemented> and parameters " + JSON.stringify(params));
-    	var actualFailureCallback = failureCallback || Server.defaultFailureCallback;
+		console.log("Making call to " + servlet + " with session: " + JSON.stringify(Session.current) + " and parameters " + JSON.stringify(params));
+		var actualFailureCallback = failureCallback || Server.defaultFailureCallback;
 		
-    	$.ajax({
+		$.ajax({
 			url: "api/" + servlet,
 			dataType: "json",
-			headers: { 
+			headers: {
 				"params": JSON.stringify(params),
-				"auth": "sessions not implemented yet" 
+				"auth": JSON.stringify(Session.current)
 			},
 			error: Server.handleRequestFault,
 			success: function(result) {

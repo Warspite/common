@@ -35,11 +35,12 @@ include("lib/input/nodes/InputAwareNode.js");
 
 include("lib/io/Server.js");
 
+include("lib/utilities/UtilityFunctions.js");
 include("lib/utilities/EventDispatcher.js");
+include("lib/utilities/Session.js");
 include("lib/utilities/SortedList.js");
 include("lib/utilities/Ticker.js");
 include("lib/utilities/Tooltipper.js");
-include("lib/utilities/UtilityFunctions.js");
 
 include("lib/utilities/nodes/EventHandlingNode.js");
 include("lib/utilities/nodes/ParentNode.js");
