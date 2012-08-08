@@ -1,3 +1,5 @@
+include("lib/3pp/jquery-1.7.2.min.js");
+
 include("lib/enums/Anchor.js");
 include("lib/enums/AnimationEndBehavior.js");
 include("lib/enums/EventPropagation.js");
@@ -30,6 +32,8 @@ include("lib/input/Keyboard.js");
 include("lib/input/Mouse.js");
 
 include("lib/input/nodes/InputAwareNode.js");
+
+include("lib/io/Server.js");
 
 include("lib/utilities/EventDispatcher.js");
 include("lib/utilities/SortedList.js");
