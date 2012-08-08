@@ -1,0 +1,3 @@
+jar {
+	from 'src/main/webapp'
+}
