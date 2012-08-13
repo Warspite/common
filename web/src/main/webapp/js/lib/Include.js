@@ -8,6 +8,7 @@ include("lib/enums/GraphicsType.js");
 include("lib/enums/Key.js");
 include("lib/enums/Orientation.js");
 include("lib/enums/Origin.js");
+include("lib/enums/SizeRatioBehavior.js");
 include("lib/enums/Sizing.js");
 
 include("lib/graphics/AnimationSettings.js");

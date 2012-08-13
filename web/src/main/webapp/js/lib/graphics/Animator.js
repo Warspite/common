@@ -72,6 +72,9 @@ var Animator = {
 			self.renderSettings.size.width += self.animationSettings.sizingSpeed.width * tickInterval * 0.001; 
 			self.renderSettings.size.height += self.animationSettings.sizingSpeed.height * tickInterval * 0.001; 
 			self.renderSettings.angle += self.animationSettings.rotationSpeed * tickInterval * 0.001; 
+			self.renderSettings.alpha += self.animationSettings.alphaSpeed * tickInterval * 0.001;
+			
+			self.renderSettings.alpha = Math.min(1, Math.max(self.renderSettings.alpha, 0));
 		};
 
 		if(!node.animationSettings)

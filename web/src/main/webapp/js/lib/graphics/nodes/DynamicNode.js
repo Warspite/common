@@ -3,6 +3,7 @@ var DynamicNode = function()
 	mixin(new RenderedNode(), this);
 	
 	this.renderSettings.sizing = {width: Sizing.ABSOLUTE, height: Sizing.ABSOLUTE};
+	this.renderSettings.sizeRatio = null;
 	this.renderSettings.relativeSize = {width: 1.0, height: 1.0};
 	this.extraTickEffects.push(this.calculateSize);
 };
@@ -15,6 +16,9 @@ DynamicNode.prototype.calculateSize = function(self, tickInterval) {
 		if(self.renderSettings.sizing[dim] == Sizing.PARENT)
 			self.resizeBasedOnParent(dim);
 	}
+	
+	if(self.renderSettings.sizeRatio != null)
+		self.resizeToFitRatio();
 };
 
 DynamicNode.prototype.resizeBasedOnChildren = function(dimension) {
@@ -37,4 +41,21 @@ DynamicNode.prototype.findSizeOfLargestChild = function(dimension) {
 	}
 	
 	return greatest;
+};
+
+DynamicNode.prototype.resizeToFitRatio = function() {
+	var currentRatio = this.renderSettings.size.width / this.renderSettings.size.height;
+	
+	if(currentRatio > this.renderSettings.sizeRatio.ratio) {
+		if(this.renderSettings.sizeRatio.behavior == SizeRatioBehavior.SHRINK)
+			this.renderSettings.size.width = this.renderSettings.size.height * this.renderSettings.sizeRatio.ratio; 
+		else
+			this.renderSettings.size.height = this.renderSettings.size.width / this.renderSettings.sizeRatio.ratio; 
+	}
+	else {
+		if(this.renderSettings.sizeRatio.behavior == SizeRatioBehavior.SHRINK)
+			this.renderSettings.size.height = this.renderSettings.size.width / this.renderSettings.sizeRatio.ratio; 
+		else
+			this.renderSettings.size.width = this.renderSettings.size.height * this.renderSettings.sizeRatio.ratio; 
+	}
 };

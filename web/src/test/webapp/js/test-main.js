@@ -133,6 +133,12 @@ window.onload = function(event) {
 
 		if(event.value.key == Key.W)
 			windowChildTwo.animationSettings.rotationSpeed += 0.1;
+		
+		if(event.value.key == Key.A)
+			windowChildTwo.animationSettings.alphaSpeed -= 0.01;
+
+		if(event.value.key == Key.S)
+			windowChildTwo.animationSettings.alphaSpeed += 0.01;
 	});
 	Tooltipper.tooltipify(windowChildTwo, "Click me to spin me, and control my spin with Q and W!");
 	
@@ -146,6 +152,15 @@ window.onload = function(event) {
 	windowGrandChildOne.animationSettings.imgAnimationEndBehavior = AnimationEndBehavior.LOOP;
 	Tooltipper.tooltipify(windowGrandChildOne, "I'm a smaller clickable fire!\nBut I have a multiline tooltip.\nThat makes me really special!");
 	
+	var ratioTestBox = new DynamicNode();
+	ratioTestBox.renderSettings.position = {x: 0, y: 0};
+	ratioTestBox.renderSettings.sizing = {width: Sizing.PARENT, height: Sizing.PARENT};
+	ratioTestBox.renderSettings.sizeRatio = {ratio: 2, behavior: SizeRatioBehavior.INFLATE};
+	ratioTestBox.renderSettings.relativeSize = {width: 0.25, height: 0.25};
+	ratioTestBox.renderSettings.graphicsType = GraphicsType.RECT;
+	ratioTestBox.renderSettings.color = "#f88c00";
+	
+	
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
 	topLeftStackPanel.addChild(spChildOne);
@@ -158,4 +173,5 @@ window.onload = function(event) {
 	windowContents.addChild(windowChildTwo);
 	centerWindow.addChild(windowContents);
 	renderer.guiRoot.addChild(centerWindow);
+	renderer.guiRoot.addChild(ratioTestBox);
 };
