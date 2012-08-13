@@ -6,7 +6,7 @@ var Tooltipper = {
 		if(!node.eventListeners)
 			mixin(new EventDispatcher(), node);
 		
-		node.mouseVisible = true;
+		node.inputSettings.mouseVisible = true;
 		
 		node.addEventHandler(EventType.MOUSE_ENTER, function(self, source, event) {
 			self.displayTooltipInMilliseconds = 750;

@@ -160,6 +160,21 @@ window.onload = function(event) {
 	ratioTestBox.renderSettings.graphicsType = GraphicsType.RECT;
 	ratioTestBox.renderSettings.color = "#f88c00";
 	
+	var progressBar = new ProgressBarNode();
+	progressBar.renderSettings.position = {x: 0, y: -5};
+	progressBar.renderSettings.size = {width: 200, height: 16};
+	progressBar.renderSettings.setAnchor(Anchor.CENTER, Anchor.BOTTOM);
+	progressBar.renderSettings.setOrigin(Origin.CENTER, Origin.BOTTOM);
+	progressBar.progress = 0; 
+	progressBar.targetProgress = 34; 
+	Tooltipper.tooltipify(progressBar, "I'm a progressbar. Use page up/page down to control my progress!");
+	progressBar.addEventHandler(EventType.KEY_DOWN, function(self, keyboard, event) {
+		if(event.value.key == Key.PAGE_UP)
+			progressBar.progress += 1;
+
+		if(event.value.key == Key.PAGE_DOWN)
+			progressBar.progress -= 1;
+	});
 	
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
@@ -174,4 +189,5 @@ window.onload = function(event) {
 	centerWindow.addChild(windowContents);
 	renderer.guiRoot.addChild(centerWindow);
 	renderer.guiRoot.addChild(ratioTestBox);
+	renderer.guiRoot.addChild(progressBar);
 };

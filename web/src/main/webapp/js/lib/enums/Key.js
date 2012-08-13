@@ -1,5 +1,7 @@
 var Key =
 {
+	PAGE_UP: { val: 33, name: "Page up" },
+	PAGE_DOWN: { val: 34, name: "Page down" },
 	LEFT: { val: 37, name: "Left arrow" },
 	RIGHT: { val: 39, name: "Right arrow" },
 	UP: { val: 38, name: "Up arrow" },

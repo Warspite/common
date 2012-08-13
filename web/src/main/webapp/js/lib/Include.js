@@ -21,10 +21,11 @@ include("lib/graphics/Transform.js");
 include("lib/graphics/nodes/ButtonNode.js");
 include("lib/graphics/nodes/DraggableNode.js");
 include("lib/graphics/nodes/DynamicNode.js");
+include("lib/graphics/nodes/ProgressBarNode.js");
 include("lib/graphics/nodes/RenderedNode.js");
+include("lib/graphics/nodes/StackPanelNode.js");
 include("lib/graphics/nodes/TextNode.js");
 include("lib/graphics/nodes/TooltipNode.js");
-include("lib/graphics/nodes/StackPanelNode.js");
 include("lib/graphics/nodes/ViewportNode.js");
 include("lib/graphics/nodes/WindowNode.js");
 
