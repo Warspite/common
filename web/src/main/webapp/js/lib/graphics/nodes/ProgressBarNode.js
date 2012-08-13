@@ -1,4 +1,4 @@
-var ProgressBarNode = function()
+var ProgressBarNode = function(textString)
 {
 	mixin(new DynamicNode(), this);
 	
@@ -9,6 +9,7 @@ var ProgressBarNode = function()
 	
 	this.renderSettings.padding = 1;
 	this.renderSettings.graphicsType = GraphicsType.RECT;
+	this.renderSettings.size = {width: 200, height: 22};
 	
 	this.progress = 0.0;
 	this.targetProgress = 1.0;
@@ -20,13 +21,17 @@ var ProgressBarNode = function()
 	this.innerBackground.renderSettings.padding = 2;
 	
 	this.meter = new DynamicNode();
-	this.meter = new DynamicNode();
 	this.meter.renderSettings.graphicsType = GraphicsType.RECT;
 	this.meter.renderSettings.sizing = {width: Sizing.PARENT, height: Sizing.PARENT};
-	this.meter.renderSettings.relativeSize = {width: 0.6, height: 1.0};
+	this.meter.renderSettings.relativeSize = {width: 0.0, height: 1.0};
 	this.meter.renderSettings.padding = 2;
 	
+	this.text = new TextNode(textString);
+	this.text.renderSettings.sizing = {width: Sizing.PARENT, height: Sizing.PARENT};
+	this.text.renderSettings.textAnchor = Anchor.CENTER;
+	
 	this.innerBackground.addChild(this.meter);
+	this.innerBackground.addChild(this.text);
 	this.addChild(this.innerBackground);
 
 	this.extraTickEffects.push(this.updateProgress);

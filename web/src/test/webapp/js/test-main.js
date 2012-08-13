@@ -160,9 +160,8 @@ window.onload = function(event) {
 	ratioTestBox.renderSettings.graphicsType = GraphicsType.RECT;
 	ratioTestBox.renderSettings.color = "#f88c00";
 	
-	var progressBar = new ProgressBarNode();
+	var progressBar = new ProgressBarNode("Great progress!");
 	progressBar.renderSettings.position = {x: 0, y: -5};
-	progressBar.renderSettings.size = {width: 200, height: 16};
 	progressBar.renderSettings.setAnchor(Anchor.CENTER, Anchor.BOTTOM);
 	progressBar.renderSettings.setOrigin(Origin.CENTER, Origin.BOTTOM);
 	progressBar.progress = 0; 
@@ -176,18 +175,18 @@ window.onload = function(event) {
 			progressBar.progress -= 1;
 	});
 	
-	spChildTwo.addChild(spGrandChildOne);
-	spChildTwo.addChild(spGrandChildTwo);
-	topLeftStackPanel.addChild(spChildOne);
-	topLeftStackPanel.addChild(spChildTwo);
-	renderer.sceneRoot.addChild(topLeftStackPanel);
-	renderer.sceneRoot.addChild(greenBox);
-	
-	windowChildTwo.addChild(windowGrandChildOne);
-	windowContents.addChild(windowChildOne);
-	windowContents.addChild(windowChildTwo);
-	centerWindow.addChild(windowContents);
-	renderer.guiRoot.addChild(centerWindow);
-	renderer.guiRoot.addChild(ratioTestBox);
+//	spChildTwo.addChild(spGrandChildOne);
+//	spChildTwo.addChild(spGrandChildTwo);
+//	topLeftStackPanel.addChild(spChildOne);
+//	topLeftStackPanel.addChild(spChildTwo);
+//	renderer.sceneRoot.addChild(topLeftStackPanel);
+//	renderer.sceneRoot.addChild(greenBox);
+//	
+//	windowChildTwo.addChild(windowGrandChildOne);
+//	windowContents.addChild(windowChildOne);
+//	windowContents.addChild(windowChildTwo);
+//	centerWindow.addChild(windowContents);
+//	renderer.guiRoot.addChild(centerWindow);
+//	renderer.guiRoot.addChild(ratioTestBox);
 	renderer.guiRoot.addChild(progressBar);
 };
