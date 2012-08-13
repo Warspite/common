@@ -1,4 +1,5 @@
 include("lib/3pp/jquery-1.7.2.min.js");
+include("lib/3pp/jquery.blockUI.js");
 
 include("lib/enums/Anchor.js");
 include("lib/enums/AnimationEndBehavior.js");
@@ -29,13 +30,12 @@ include("lib/graphics/nodes/TooltipNode.js");
 include("lib/graphics/nodes/ViewportNode.js");
 include("lib/graphics/nodes/WindowNode.js");
 
-include("lib/input/InputSettings.js");
-include("lib/input/Keyboard.js");
-include("lib/input/Mouse.js");
-
-include("lib/input/nodes/InputAwareNode.js");
-
+include("lib/io/InputSettings.js");
+include("lib/io/Keyboard.js");
+include("lib/io/Mouse.js");
 include("lib/io/Server.js");
+
+include("lib/io/nodes/InputAwareNode.js");
 
 include("lib/utilities/UtilityFunctions.js");
 include("lib/utilities/EventDispatcher.js");

@@ -1,11 +1,14 @@
 var ProgressBarNode = function(textString)
 {
 	mixin(new DynamicNode(), this);
+	mixin(new EventDispatcher(), this);
 	
 	this.inProgressMeterColor = "#8aa1ec";
 	this.inProgressBorderColor = "#e5e5f0";
 	this.completeMeterColor = "#0bc129";
 	this.completeBorderColor = "#f1c823";
+	
+	this.complete = false;
 	
 	this.renderSettings.padding = 1;
 	this.renderSettings.graphicsType = GraphicsType.RECT;
@@ -38,15 +41,21 @@ var ProgressBarNode = function(textString)
 };
 
 ProgressBarNode.prototype.updateProgress = function(self, tickInterval) {
+	if( self.complete )
+		return;
+	
 	var relativeProgress = Math.min(1.0, Math.max(0.0, self.progress/self.targetProgress));
 	self.meter.renderSettings.relativeSize.width = relativeProgress;
 	
-	if(relativeProgress < 1.0) {
-		self.renderSettings.color = self.inProgressBorderColor;
-		self.meter.renderSettings.color = self.inProgressMeterColor;
-	}
-	else {
+	if( relativeProgress >= 1.0 ) {
+		self.complete = true;
 		self.renderSettings.color = self.completeBorderColor;
 		self.meter.renderSettings.color = self.completeMeterColor;
+		
+		self.dispatchEvent(EventType.PROGRESS_COMPLETE);
+	}
+	else {
+		self.renderSettings.color = self.inProgressBorderColor;
+		self.meter.renderSettings.color = self.inProgressMeterColor;
 	}
 };

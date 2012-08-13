@@ -1,5 +1,7 @@
 var Paths = {
-	IMAGE_ROOT: "images/"
+	IMAGE_ROOT: "images/",
+	SOUND_ROOT: "../../main/webapp/sound/",
+	JAVASCRIPT_ROOT: "../../main/webapp/js/"
 }
 
 function include(file) {
@@ -7,7 +9,7 @@ function include(file) {
 		var head = document.getElementsByTagName('head')[0];
 		var script = document.createElement('script');
 		script.setAttribute('type', 'text/javascript');
-		script.setAttribute('src', '../../main/webapp/js/' + file);
+		script.setAttribute('src', Paths.JAVASCRIPT_ROOT + file);
 		head.appendChild(script);
 	}
 }
@@ -175,18 +177,18 @@ window.onload = function(event) {
 			progressBar.progress -= 1;
 	});
 	
-//	spChildTwo.addChild(spGrandChildOne);
-//	spChildTwo.addChild(spGrandChildTwo);
-//	topLeftStackPanel.addChild(spChildOne);
-//	topLeftStackPanel.addChild(spChildTwo);
-//	renderer.sceneRoot.addChild(topLeftStackPanel);
-//	renderer.sceneRoot.addChild(greenBox);
-//	
-//	windowChildTwo.addChild(windowGrandChildOne);
-//	windowContents.addChild(windowChildOne);
-//	windowContents.addChild(windowChildTwo);
-//	centerWindow.addChild(windowContents);
-//	renderer.guiRoot.addChild(centerWindow);
-//	renderer.guiRoot.addChild(ratioTestBox);
+	spChildTwo.addChild(spGrandChildOne);
+	spChildTwo.addChild(spGrandChildTwo);
+	topLeftStackPanel.addChild(spChildOne);
+	topLeftStackPanel.addChild(spChildTwo);
+	renderer.sceneRoot.addChild(topLeftStackPanel);
+	renderer.sceneRoot.addChild(greenBox);
+	
+	windowChildTwo.addChild(windowGrandChildOne);
+	windowContents.addChild(windowChildOne);
+	windowContents.addChild(windowChildTwo);
+	centerWindow.addChild(windowContents);
+	renderer.guiRoot.addChild(centerWindow);
+	renderer.guiRoot.addChild(ratioTestBox);
 	renderer.guiRoot.addChild(progressBar);
 };

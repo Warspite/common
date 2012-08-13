@@ -12,5 +12,5 @@ var EventType = {
 	MOUSE_RELEASED: {val: 10, name: "The mouse button has just been released" },
 	TOOLTIP_DISPLAY_REQUESTED: {val: 11, name: "The display of a tooltip has been requested" },
 	TOOLTIP_REMOVAL_REQUESTED: {val: 12, name: "The removal of any displayed tooltip has been requested" },
-	SESSION_CHANGED: {val: 13, name: "The current session has changed" }
+	PROGRESS_COMPLETE: {val: 13, name: "A progress (e.g. a worker thread) has completed" }
 }
