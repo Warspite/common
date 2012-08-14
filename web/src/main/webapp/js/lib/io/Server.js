@@ -1,5 +1,5 @@
 var Server = {
-	req: function(servlet, type, params, successCallback, failureCallback) {
+	req: function(servlet, type, params, caller, successCallback, failureCallback) {
 		console.log("Making call to " + servlet + " with session: " + JSON.stringify(Session.current) + " and parameters " + JSON.stringify(params));
 		var actualFailureCallback = failureCallback || Server.defaultFailureCallback;
 		
@@ -13,19 +13,27 @@ var Server = {
 			error: Server.handleRequestFault,
 			success: function(result) {
 				if( result.success )
-					successCallback(result)
+					successCallback(result, caller)
 				else
-					actualFailureCallback(result)
+					actualFailureCallback(result, type, servlet, caller)
 			},
 			type: type
 		});
 	},
 	
-	defaultFailureCallback: function(result) {
-		alert("Server request failed: " + result.message);
+	defaultFailureCallback: function(result, requestType, servlet, caller) {
+		alert(requestType + " request to " + servlet + " failed: " + result.message);
 	},
 	
     handleRequestFault: function(error, textStatus) {
-    	alert("Server request error: " + error + " (" + textStatus  + ")");
+    	alert("Server request error: " + error.status + " " + error.statusText + " (" + textStatus  + ")");
     },
+    
+    mapify: function(array) {
+    	map = {};
+    	for(i in array)
+    		map[array[i].id] = array[i];
+    	
+    	return map;
+    }
 };

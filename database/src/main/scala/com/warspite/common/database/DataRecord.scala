@@ -3,7 +3,9 @@ package com.warspite.common.database
 object DataRecord {
   def apply(m: Map[String, Any]): DataRecord = {
     val dr = new DataRecord();
-    m foreach ((tuple) => dr.put(tuple._1, tuple._2));
+    if(m != null)
+    	m foreach ((tuple) => dr.put(tuple._1, tuple._2));
+    
     return dr;
   }
 }
