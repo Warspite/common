@@ -19,6 +19,7 @@ include("lib/graphics/nodes/ButtonNode.js");
 include("lib/graphics/nodes/DraggableNode.js");
 include("lib/graphics/nodes/DynamicNode.js");
 include("lib/graphics/nodes/FoldingNode.js");
+include("lib/graphics/nodes/IconLabelButtonNode.js");
 include("lib/graphics/nodes/ProgressBarNode.js");
 include("lib/graphics/nodes/RenderedNode.js");
 include("lib/graphics/nodes/StackPanelNode.js");

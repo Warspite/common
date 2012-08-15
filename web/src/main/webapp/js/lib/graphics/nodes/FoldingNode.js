@@ -1,26 +1,38 @@
 var FoldingNode = function(foldDirection)
 {
-	mixin(new StackPanelNode(), this);
+	mixin(new DynamicNode(), this);
 
+	this.foldDirection = foldDirection;
 	this.folded = false;
 	this.foldingSpeed = 800;
 	this.renderSettings.foldingMargin = 10;
 	this.renderSettings.foldingOffset = {x: 0, y: 0};
+	this.renderSettings.padding = 8;
 	
 	var self = this;
 	this.foldButton = new ButtonNode(function() {
 		self.folded = !self.folded;
 	});
-	this.foldButton.renderSettings.graphicsType = GraphicsType.RECT;
+	this.foldButton.renderSettings.graphicsType = GraphicsType.IMAGE;
 	this.foldButton.renderSettings.size = {width: 24, height: 24};
 	this.foldButton.renderSettings.origin = {horizontal: Direction.CENTER, vertical: Direction.CENTER};
-	this.setFoldDirection(foldDirection);
+	this.foldButton.renderSettings.anchor = {horizontal: Direction.RIGHT, vertical: Direction.TOP};
 	this.addChild(this.foldButton);
+	
+	this.content = new StackPanelNode();
+	this.content.renderSettings.sizing = {width: Sizing.CHILDREN, height: Sizing.CHILDREN}; 
+	this.addChild(this.content);
 	
 	this.extraTickEffects.push(this.foldingTick);
 };
 
 FoldingNode.prototype.foldingTick = function(self, tickInterval) {
+	if(self.folded)
+		self.foldButton.renderSettings.image = "unfold.png";
+	else
+		self.foldButton.renderSettings.image = "fold.png";
+
+	
 	var targetPosition = self.calculateFoldedTargetPosition(self);
 	var maxDeltaThisTick = self.foldingSpeed * tickInterval / 1000;
 	
@@ -52,17 +64,4 @@ FoldingNode.prototype.calculateFoldedTargetPosition = function(self) {
 	}
 	
 	return targetPosition;
-};
-
-FoldingNode.prototype.setFoldDirection = function(dir) {
-	this.foldDirection = dir;
-	
-	if(dir == Direction.LEFT)
-		this.foldButton.renderSettings.anchor = {horizontal: Direction.RIGHT, vertical: Direction.TOP};
-	else if(dir == Direction.RIGHT)
-		this.foldButton.renderSettings.anchor = {horizontal: Direction.LEFT, vertical: Direction.TOP};
-	else if(dir == Direction.TOP)
-		this.foldButton.renderSettings.anchor = {horizontal: Direction.RIGHT, vertical: Direction.BOTTOM};
-	else if(dir == Direction.BOTTOM)
-		this.foldButton.renderSettings.anchor = {horizontal: Direction.LEFT, vertical: Direction.TOP};
 };

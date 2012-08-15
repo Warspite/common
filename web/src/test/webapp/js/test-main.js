@@ -177,14 +177,18 @@ window.onload = function(event) {
 			progressBar.progress -= 1;
 	});
 
-	var foldingNode = new FoldingNode(Direction.LEFT);
-	foldingNode.renderSettings.size = {width: 128, height: 128};
+	var foldingNode = new FoldingNode(Direction.BOTTOM);
+	foldingNode.renderSettings.sizing = {width: Sizing.CHILDREN, height: Sizing.CHILDREN};
 	foldingNode.renderSettings.graphicsType = GraphicsType.RECT;
 	foldingNode.renderSettings.color = "#0000ff";
-	foldingNode.renderSettings.setAnchor(Direction.LEFT, Direction.BOTTOM);
-	foldingNode.renderSettings.setOrigin(Direction.LEFT, Direction.BOTTOM);
+	foldingNode.renderSettings.setAnchor(Direction.RIGHT, Direction.BOTTOM);
+	foldingNode.renderSettings.setOrigin(Direction.RIGHT, Direction.BOTTOM);
+	foldingNode.foldButton.renderSettings.setAnchor(Direction.LEFT, Direction.TOP);
 	Tooltipper.tooltipify(foldingNode, "I'm a folding node, watch me fold!");
 	
+	foldingNode.content.addChild(new IconLabelButtonNode(function() { console.log("IconLabelButton1")}, "icon1.png", "IconLabelButton 1"));
+	foldingNode.content.addChild(new IconLabelButtonNode(function() { console.log("IconLabelButton2")}, "icon2.png", "IconLabelButton 2"));
+
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
 	topLeftStackPanel.addChild(spChildOne);
