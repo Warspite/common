@@ -104,8 +104,8 @@ window.onload = function(event) {
 	var windowChildOne = new ButtonNode(function() { windowChildOne.imgTogglePause(); });
 	Animator.imgAnimate(windowChildOne);
 	windowChildOne.renderSettings.size = {width: 96, height: 96};
-	windowChildOne.renderSettings.setAnchor(Anchor.CENTER, Anchor.TOP);
-	windowChildOne.renderSettings.setOrigin(Origin.CENTER, Origin.TOP);
+	windowChildOne.renderSettings.setAnchor(Direction.CENTER, Direction.TOP);
+	windowChildOne.renderSettings.setOrigin(Direction.CENTER, Direction.TOP);
 	windowChildOne.renderSettings.graphicsType = GraphicsType.ANIMATION;
 	windowChildOne.renderSettings.image = "animation1.png";
 	windowChildOne.animationSettings.frameHeight = 8;
@@ -117,8 +117,8 @@ window.onload = function(event) {
 	Animator.spatialAnimate(windowChildTwo);
 	windowChildTwo.renderSettings.position.y = 48;
 	windowChildTwo.renderSettings.size = {width: 96, height: 96};
-	windowChildTwo.renderSettings.setAnchor(Anchor.CENTER, Anchor.TOP);
-	windowChildTwo.renderSettings.setOrigin(Origin.CENTER, Origin.CENTER);
+	windowChildTwo.renderSettings.setAnchor(Direction.CENTER, Direction.TOP);
+	windowChildTwo.renderSettings.setOrigin(Direction.CENTER, Direction.CENTER);
 	windowChildTwo.renderSettings.graphicsType = GraphicsType.RECT;
 	windowChildTwo.renderSettings.color = "#50a000";
 	windowChildTwo.animationSettings.scalingSpeed = {x: -0.2, y: -0.2};
@@ -164,8 +164,8 @@ window.onload = function(event) {
 	
 	var progressBar = new ProgressBarNode("Great progress!");
 	progressBar.renderSettings.position = {x: 0, y: -5};
-	progressBar.renderSettings.setAnchor(Anchor.CENTER, Anchor.BOTTOM);
-	progressBar.renderSettings.setOrigin(Origin.CENTER, Origin.BOTTOM);
+	progressBar.renderSettings.setAnchor(Direction.CENTER, Direction.BOTTOM);
+	progressBar.renderSettings.setOrigin(Direction.CENTER, Direction.BOTTOM);
 	progressBar.progress = 0; 
 	progressBar.targetProgress = 34; 
 	Tooltipper.tooltipify(progressBar, "I'm a progressbar. Use page up/page down to control my progress!");
@@ -176,6 +176,14 @@ window.onload = function(event) {
 		if(event.value.key == Key.PAGE_DOWN)
 			progressBar.progress -= 1;
 	});
+
+	var foldingNode = new FoldingNode(Direction.LEFT);
+	foldingNode.renderSettings.size = {width: 128, height: 128};
+	foldingNode.renderSettings.graphicsType = GraphicsType.RECT;
+	foldingNode.renderSettings.color = "#0000ff";
+	foldingNode.renderSettings.setAnchor(Direction.LEFT, Direction.BOTTOM);
+	foldingNode.renderSettings.setOrigin(Direction.LEFT, Direction.BOTTOM);
+	Tooltipper.tooltipify(foldingNode, "I'm a folding node, watch me fold!");
 	
 	spChildTwo.addChild(spGrandChildOne);
 	spChildTwo.addChild(spGrandChildTwo);
@@ -191,4 +199,5 @@ window.onload = function(event) {
 	renderer.guiRoot.addChild(centerWindow);
 	renderer.guiRoot.addChild(ratioTestBox);
 	renderer.guiRoot.addChild(progressBar);
+	renderer.guiRoot.addChild(foldingNode);
 };

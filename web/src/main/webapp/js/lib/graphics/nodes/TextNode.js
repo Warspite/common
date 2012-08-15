@@ -3,7 +3,7 @@ var TextNode = function(text)
 	mixin(new DynamicNode(), this);
 	this.setText(text);
 	this.renderSettings.sizing.height = Sizing.TEXT;
-	this.renderSettings.textAnchor = Anchor.LEFT;
+	this.renderSettings.textAnchor = Direction.LEFT;
 	this.renderSettings.font = "10px Arial";
 	this.renderSettings.textColor = "#e0e0e0";
 	this.renderSettings.lineHeight = 10;
@@ -38,9 +38,9 @@ var TextNode = function(text)
 
 			var leftEdge = boundaries.left + self.renderSettings.textPadding;
 			
-			if(self.renderSettings.textAnchor == Anchor.CENTER)
+			if(self.renderSettings.textAnchor == Direction.CENTER)
 				leftEdge = (boundaries.right + boundaries.left - textArray[i].width) * 0.5;  
-			else if(self.renderSettings.textAnchor == Anchor.RIGHT)
+			else if(self.renderSettings.textAnchor == Direction.RIGHT)
 				leftEdge = boundaries.right - self.renderSettings.textPadding - textArray[i].width; 
 			
 			surface.ctx.fillText(textArray[i].text, leftEdge, boundaries.top + verticalOffset);

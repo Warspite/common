@@ -7,6 +7,7 @@ var ProgressBarNode = function(textString)
 	this.inProgressBorderColor = "#e5e5f0";
 	this.completeMeterColor = "#0bc129";
 	this.completeBorderColor = "#f1c823";
+	this.completeTextString = textString;
 	
 	this.complete = false;
 	
@@ -31,7 +32,7 @@ var ProgressBarNode = function(textString)
 	
 	this.text = new TextNode(textString);
 	this.text.renderSettings.sizing = {width: Sizing.PARENT, height: Sizing.PARENT};
-	this.text.renderSettings.textAnchor = Anchor.CENTER;
+	this.text.renderSettings.textAnchor = Direction.CENTER;
 	
 	this.innerBackground.addChild(this.meter);
 	this.innerBackground.addChild(this.text);
@@ -51,6 +52,7 @@ ProgressBarNode.prototype.updateProgress = function(self, tickInterval) {
 		self.complete = true;
 		self.renderSettings.color = self.completeBorderColor;
 		self.meter.renderSettings.color = self.completeMeterColor;
+		self.text.setText(self.completeTextString);
 		
 		self.dispatchEvent(EventType.PROGRESS_COMPLETE);
 	}

@@ -1,4 +1,4 @@
-var Anchor = {
+var Direction = {
 	CENTER: {val: 0, name: "Center" },
 	TOP: {val: 1, name: "Top edge" },
 	BOTTOM: {val: 2, name: "Bottom edge" },

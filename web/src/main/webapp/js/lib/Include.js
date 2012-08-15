@@ -1,14 +1,10 @@
-include("lib/3pp/jquery-1.7.2.min.js");
-include("lib/3pp/jquery.blockUI.js");
-
-include("lib/enums/Anchor.js");
 include("lib/enums/AnimationEndBehavior.js");
+include("lib/enums/Direction.js");
 include("lib/enums/EventPropagation.js");
 include("lib/enums/EventType.js");
 include("lib/enums/GraphicsType.js");
 include("lib/enums/Key.js");
 include("lib/enums/Orientation.js");
-include("lib/enums/Origin.js");
 include("lib/enums/SizeRatioBehavior.js");
 include("lib/enums/Sizing.js");
 
@@ -22,6 +18,7 @@ include("lib/graphics/Transform.js");
 include("lib/graphics/nodes/ButtonNode.js");
 include("lib/graphics/nodes/DraggableNode.js");
 include("lib/graphics/nodes/DynamicNode.js");
+include("lib/graphics/nodes/FoldingNode.js");
 include("lib/graphics/nodes/ProgressBarNode.js");
 include("lib/graphics/nodes/RenderedNode.js");
 include("lib/graphics/nodes/StackPanelNode.js");

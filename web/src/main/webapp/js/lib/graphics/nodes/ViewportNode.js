@@ -5,7 +5,7 @@ var ViewportNode = function()
 	this.maxScale = 5;
 	this.minScale = 0.03;
 	
-	this.renderSettings.setAnchor(Anchor.CENTER, Anchor.CENTER);
+	this.renderSettings.setAnchor(Direction.CENTER, Direction.CENTER);
 	this.renderSettings.focus = {x: 0, y: 0};
 
 	this.addEventHandler(EventType.KEY_DOWN, function(self, keyboard, event) { 
