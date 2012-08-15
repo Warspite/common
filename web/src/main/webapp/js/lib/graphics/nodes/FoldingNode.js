@@ -1,6 +1,8 @@
-var FoldingNode = function(foldDirection)
+var FoldingNode = function(foldDirection, explicitSelf)
 {
 	mixin(new DynamicNode(), this);
+	
+	var self = explicitSelf || this;
 
 	this.foldDirection = foldDirection;
 	this.folded = false;
@@ -9,7 +11,6 @@ var FoldingNode = function(foldDirection)
 	this.renderSettings.foldingOffset = {x: 0, y: 0};
 	this.renderSettings.padding = 8;
 	
-	var self = this;
 	this.foldButton = new ButtonNode(function() {
 		self.folded = !self.folded;
 	});
