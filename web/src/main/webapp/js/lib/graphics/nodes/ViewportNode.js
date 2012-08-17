@@ -64,3 +64,8 @@ ViewportNode.prototype.translateViewport = function(delta) {
 	this.renderSettings.focus.x += delta.x / this.renderSettings.scale.x;
 	this.renderSettings.focus.y += delta.y / this.renderSettings.scale.y;
 };
+
+ViewportNode.prototype.reset = function() {
+	this.renderSettings.focus = {x: 0, y: 0};
+	this.renderSettings.scale = {x: 1, y: 1};
+};
