@@ -40,11 +40,12 @@ public class ScriptExecutor {
 		final String path = CLI_DIRECTORY + "/" + name;
 		return executeScript(new File(path));
 	}
-	
+
 	public String executeScript(final File f) {
 		if (!f.exists())
 			return "Could not find script '" + f + "'.";
 
+		logger.debug("Executing " + f);
 		StringBuffer out = new StringBuffer();
 		BufferedReader reader = null;
 		try {
@@ -68,16 +69,17 @@ public class ScriptExecutor {
 			logger.error("Failed to read script file " + f + ".", e);
 			return "Failed to read script file " + f + ".";
 		}
-
-		try {
-			if (reader != null) {
-				reader.close();
+		finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				logger.error("Failed to close script file " + f + ".", e);
+				return "Failed to close script file " + f + ". Error has been logged.";
 			}
-		} catch (IOException e) {
-			logger.error("Failed to close script file " + f + ".", e);
-			return "Failed to close script file " + f + ". Error has been logged.";
 		}
-		
+
 		return out.toString();
 	}
 }

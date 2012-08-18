@@ -45,7 +45,7 @@ abstract public class WarspitePoller extends Thread {
 	public void halt() {
 		try {
 			halt = true;
-			while (isRunning()) {
+			while (isRunning() && !this.isDaemon()) {
 				logger.debug("Waiting for poller shutdown...");
 				Thread.sleep(50);
 			}

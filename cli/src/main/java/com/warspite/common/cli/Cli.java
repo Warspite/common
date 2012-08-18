@@ -1,10 +1,7 @@
 package com.warspite.common.cli;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,11 +19,11 @@ public class Cli {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	private final ScriptExecutor scriptExecutor;
 	private final String appName;
-	private final BufferedReader in;
 	private final PrintStream out;
 	private final Map<String, CliListener> listeners = new HashMap<String, CliListener>();
 	private boolean exit;
 	private final String instanceName;
+	private final CliReader cliReader; 
 
 	public Cli(final String appName, final String instanceName) {
 		this(appName, instanceName, System.in, System.out);
@@ -35,9 +32,9 @@ public class Cli {
 	public Cli(final String appName, final String instanceName, final InputStream inputStream, final PrintStream out) {
 		this.appName = appName;
 		this.instanceName = instanceName;
-		this.in = new BufferedReader(new InputStreamReader(inputStream));
 		this.out = out;
 		this.scriptExecutor = new ScriptExecutor(this);
+		this.cliReader = new CliReader(this, inputStream, out);
 
 		this.listeners.put("cli", new DefaultListener(this, scriptExecutor));
 		
@@ -71,29 +68,26 @@ public class Cli {
 			this.exit = true;
 		}
 		
-		while( !isExit() )
-			read();
-
-		runtimeMonitor.halt();
-	}
-
-	private void read() {
-		out.print("> ");
-		String cmd = null;
-
 		try {
-			cmd = in.readLine();
-			parseCommand(cmd);
-		}
-		catch (CliException e) {
-			out.println("Command failed: " + e.getMessage());
-		}
-		catch (IOException e) {
-			logger.error("Failed to read CLI input.", e);
-		}
-		catch (Exception e) {
-			logger.error("Failed to execute command \"" + cmd + "\".", e);
+			cliReader.setup();
+			cliReader.start();
 		} 
+		catch (Exception e) {
+			logger.error("Failed to set up cli reader. Aborting.", e);
+			this.exit = true;
+		}
+		
+		while( !isExit() ) {
+			try {
+				Thread.sleep(500);
+			}
+			catch (InterruptedException e) {
+				logger.error("InterruptedException while polling isExit().", e);
+			}
+		}
+
+		cliReader.halt();
+		runtimeMonitor.halt();
 	}
 
 	protected String parseCommand(String cmdString) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, CliException {
@@ -120,6 +114,7 @@ public class Cli {
 		if( m == null )
 			throw new CliException("Unrecognized command '" + cmdString + "'. Type 'cli help' for help.");
 
+		logger.debug("Invoking " + m.getMethod() + " with " + args.length + " arguments.");
 		return invokeMethod(m, args);
 	} 
 
@@ -204,6 +199,7 @@ public class Cli {
 	}
 
 	public void setExit(boolean exit) {
+		logger.debug("Setting exit flag to " + exit);
 		this.exit = exit;
 	}
 
