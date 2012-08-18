@@ -112,7 +112,7 @@ Keyboard.prototype.setupFocusListeners = function()
 
 	var inputs = document.getElementsByTagName('input');
 	for (i in inputs) {
-    	if (inputs[i].type === 'text' || inputs[i].type === 'password') {
+    	if (inputs[i].type == 'text' || inputs[i].type == 'password' || inputs[i].type == 'select') {
     		inputs[i].onfocus = function() { keyboard.htmlNodesWithFocus[this.id] = true; }
     		inputs[i].onblur = function() { keyboard.htmlNodesWithFocus[this.id] = false; }
         }
