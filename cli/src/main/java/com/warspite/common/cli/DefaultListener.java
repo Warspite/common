@@ -3,9 +3,6 @@ package com.warspite.common.cli;
 import java.lang.reflect.Method;
 import java.util.Map.Entry;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.warspite.common.cli.annotations.Cmd;
 
 public class DefaultListener implements CliListener {

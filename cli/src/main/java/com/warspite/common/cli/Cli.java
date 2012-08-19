@@ -79,7 +79,7 @@ public class Cli {
 		
 		while( !isExit() ) {
 			try {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			}
 			catch (InterruptedException e) {
 				logger.error("InterruptedException while polling isExit().", e);
