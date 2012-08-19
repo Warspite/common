@@ -183,6 +183,7 @@ RenderSettings.prototype.getImage = function() {
 	if(this.image != this.lastUsedImage) {
 		this.imageObject = new Image(); 
 		this.imageObject.src = Paths.IMAGE_ROOT + this.image;
+		this.lastUsedImage = this.image;
 	}
 	
 	return this.imageObject;
