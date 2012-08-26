@@ -1,22 +1,24 @@
-var WindowNode = function(titleText)
+var WindowNode = function(titleText, explicitSelf)
 {
-	mixin(new StackPanelNode(), this);
-	mixin(new InputAwareNode(), this);
-
-	this.renderSettings.size = {width: 150, height: 250};
-	this.renderSettings.setAnchor(Direction.CENTER, Direction.CENTER);
-	this.renderSettings.setOrigin(Direction.CENTER, Direction.CENTER);
-	this.renderSettings.graphicsType = GraphicsType.RECT;
-	this.renderSettings.color = "#808080";
-	this.renderSettings.alpha = 0.7;
-	this.inputSettings.mouseVisible = true;
+	var self = explicitSelf || this;
 	
-	this.titleBar = new DraggableNode();
-	this.titleBar.renderSettings.size = {width: 0, height: 28};
-	this.titleBar.renderSettings.sizing.width = Sizing.PARENT;
-	this.titleBar.renderSettings.graphicsType = GraphicsType.RECT;
-	this.titleBar.renderSettings.color = "#202060";
-	this.titleBar.renderSettings.padding = 2;
+	mixin(new StackPanelNode(), self);
+	mixin(new InputAwareNode(), self);
+
+	self.renderSettings.size = {width: 150, height: 250};
+	self.renderSettings.setAnchor(Direction.CENTER, Direction.CENTER);
+	self.renderSettings.setOrigin(Direction.CENTER, Direction.CENTER);
+	self.renderSettings.graphicsType = GraphicsType.RECT;
+	self.renderSettings.color = "#808080";
+	self.renderSettings.alpha = 0.7;
+	self.inputSettings.mouseVisible = true;
+	
+	self.titleBar = new DraggableNode();
+	self.titleBar.renderSettings.size = {width: 0, height: 28};
+	self.titleBar.renderSettings.sizing.width = Sizing.PARENT;
+	self.titleBar.renderSettings.graphicsType = GraphicsType.RECT;
+	self.titleBar.renderSettings.color = "#202060";
+	self.titleBar.renderSettings.padding = 2;
 	
 	var titleText = new TextNode(titleText);
 	titleText.renderSettings.setAnchor(Direction.CENTER, Direction.CENTER);
@@ -25,21 +27,18 @@ var WindowNode = function(titleText)
 	titleText.renderSettings.relativeSize.width = 0.7;
 	titleText.maxNumberOfLines = 2;
 	
-	var self = this;
-	this.closeButton = new ButtonNode(function() { self.close() });
-	this.closeButton.renderSettings.size = {width: 21, height: 21};
-	this.closeButton.renderSettings.setAnchor(Direction.RIGHT, Direction.CENTER);
-	this.closeButton.renderSettings.setOrigin(Direction.RIGHT, Direction.CENTER);
-	this.closeButton.renderSettings.graphicsType = GraphicsType.IMAGE;
-	this.closeButton.renderSettings.image = "closeButton.png";
-	this.closeButton.zIndex = 1;
+	self.closeButton = new ButtonNode(function() { self.close() });
+	self.closeButton.renderSettings.size = {width: 21, height: 21};
+	self.closeButton.renderSettings.setAnchor(Direction.RIGHT, Direction.CENTER);
+	self.closeButton.renderSettings.setOrigin(Direction.RIGHT, Direction.CENTER);
+	self.closeButton.renderSettings.graphicsType = GraphicsType.IMAGE;
+	self.closeButton.renderSettings.image = "closeButton.png";
+	self.closeButton.zIndex = 1;
+	self.closeButton.rendered = false;
 	
-	this.titleBar.addChild(titleText);
-	this.titleBar.addChild(this.closeButton);
-	this.addChild(this.titleBar);
-	
-	this.setDraggable(false);
-	this.setClosable(false);
+	self.titleBar.addChild(titleText);
+	self.titleBar.addChild(self.closeButton);
+	self.addChild(self.titleBar);
 };
 
 WindowNode.prototype.setDraggable = function(draggable) {
