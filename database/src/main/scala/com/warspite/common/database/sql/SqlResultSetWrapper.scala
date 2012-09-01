@@ -24,6 +24,7 @@ class SqlResultSetWrapper(val rs: ResultSet) {
         case java.sql.Types.TIMESTAMP => dr.put(meta.getColumnName(i), new DateTime(rs.getTimestamp(i)));
       	case java.sql.Types.FLOAT => {val x: Double = rs.getObject(i).asInstanceOf[Float].toDouble; dr.put(meta.getColumnName(i), x);}
       	case java.sql.Types.REAL => {val x: Double = rs.getObject(i).asInstanceOf[Float].toDouble; dr.put(meta.getColumnName(i), x);}
+      	case java.sql.Types.BIT => dr.put(meta.getColumnName(i), rs.getBoolean(i));
         case x => throw new UnrecognizedSqlTypeException(x);
       }
     }
