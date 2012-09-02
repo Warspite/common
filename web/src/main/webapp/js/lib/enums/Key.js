@@ -53,6 +53,7 @@ var Key =
 	COMMA: { val: 188, name: "Comma" },
 	PUNCTUATION: { val: 190, name: "Punctuation" },
 	ENTER: { val: 13, name: "Enter" },
-	BACKSPACE: { val: 8, name: "Backspace" }
+	BACKSPACE: { val: 8, name: "Backspace" },
+	ESCAPE: { val: 27, name: "Escape" }
 };
 
