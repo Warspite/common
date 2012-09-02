@@ -18,7 +18,7 @@ class JsonServlet extends HttpServlet {
   protected val logger = LoggerFactory.getLogger(getClass());
 
   def handleRequest(verb: RestVerb, request: HttpServletRequest, response: HttpServletResponse) {
-    logger.debug("Received " + verb.toString() + " request from " + request.getRemoteHost() + ".");
+    logger.debug("Received " + verb.toString() + " request from " + request.getRemoteHost() + ", with params " + request.getHeader("params") + ".");
     val startTime = System.currentTimeMillis();
 
     var success = false;
