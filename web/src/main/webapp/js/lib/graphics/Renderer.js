@@ -43,6 +43,16 @@ var Renderer = function(surface, voidColor)
 
 	this.addEventHandler(EventType.TOOLTIP_DISPLAY_REQUESTED, function(self, source, event) { 
 		self.tooltip.display(event.value.text, {x: event.value.x, y: event.value.y});
+		
+		if(event.value.x < self.surface.width / 2)
+			self.tooltip.renderSettings.origin.horizontal = Direction.LEFT;
+		else
+			self.tooltip.renderSettings.origin.horizontal = Direction.RIGHT;
+		
+		if(event.value.y < self.surface.height / 2)
+			self.tooltip.renderSettings.origin.vertical = Direction.TOP;
+		else
+			self.tooltip.renderSettings.origin.vertical = Direction.BOTTOM;
 	});
 
 	this.addEventHandler(EventType.TOOLTIP_REMOVAL_REQUESTED, function(self, source, event) { 
