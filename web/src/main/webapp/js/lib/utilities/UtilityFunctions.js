@@ -42,3 +42,9 @@ stopEvent = function(e)
 	e.preventDefault();
 	e.stopPropagation();
 };
+
+roundNumber = function(number, digits) {
+	var multiple = Math.pow(10, digits);
+	var rounded = Math.round(number * multiple) / multiple;
+	return rounded;
+};
