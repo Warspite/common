@@ -110,11 +110,10 @@ Keyboard.prototype.setupFocusListeners = function()
 {
     var keyboard = this;
 
-	var inputs = document.getElementsByTagName('input');
-	for (i in inputs) {
-    	if (inputs[i].type == 'text' || inputs[i].type == 'password' || inputs[i].type == 'select') {
-    		inputs[i].onfocus = function() { keyboard.htmlNodesWithFocus[this.id] = true; }
-    		inputs[i].onblur = function() { keyboard.htmlNodesWithFocus[this.id] = false; }
+	$.each($("input, textarea"), function(index, e) {
+    	if (e.nodeName == 'TEXTAREA' || e.type == 'text' || e.type == 'password' || e.type == 'select') {
+    		e.onfocus = function() { keyboard.htmlNodesWithFocus[this.id] = true; }
+    		e.onblur = function() { keyboard.htmlNodesWithFocus[this.id] = false; }
         }
-	}
+	});
 };

@@ -4,6 +4,7 @@ import scala.collection.mutable.Queue
 import java.sql.SQLException
 import org.slf4j.LoggerFactory
 import java.sql.Statement
+import org.scala_tools.time.Imports._
 
 class MySqlQueryer(val connection: Connection) {
   protected val log = LoggerFactory.getLogger(getClass());
@@ -58,6 +59,7 @@ class MySqlQueryer(val connection: Connection) {
     values foreach ((t) => {
       t._2 match {
         case v: String => s += ("'" + StringEscaper.escape(v) + "',");
+        case v: DateTime => s += ("'" + v.toLocalDateTime() + "',");
         case v => s += (v.toString + ",");
       }
     });
