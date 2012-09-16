@@ -29,10 +29,11 @@ var Server = {
     	alert("Server request error: " + error.status + " " + error.statusText + " (" + textStatus  + ")");
     },
     
-    mapify: function(array) {
+    mapify: function(array, idParamName) {
+    	var idParam = idParamName || "id";
     	map = {};
     	for(i in array)
-    		map[array[i].id] = array[i];
+    		map[array[i][idParam]] = array[i];
     	
     	return map;
     }
