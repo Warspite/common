@@ -6,8 +6,9 @@ import org.scala_tools.time.Imports._
 import scala.collection.mutable.Queue
 import com.warspite.common.database.IncompleteDataRecordException
 import com.warspite.common.database.DatabaseException
+import com.warspite.common.database.ExpectedRecordNotFoundException
 
-class SqlResultSetWrapper(val rs: ResultSet) {
+class SqlResultSetWrapper(val rs: ResultSet, val query: String) {
   protected val log = LoggerFactory.getLogger(getClass());
   val meta = rs.getMetaData();
 
@@ -53,9 +54,14 @@ class SqlResultSetWrapper(val rs: ResultSet) {
     }
     }
     catch {
-      case e: IncompleteDataRecordException => throw new DatabaseException("Failed to create " + m + " from database. The retrieved data record is missing fields.");
+      case e: IncompleteDataRecordException => throw new DatabaseException("Failed to create " + m + " from database. The retrieved data record is missing fields. Query: " + query);
     }
     
     return q.toArray;
+  }
+
+  def buildSingle[T](creator: DataRecord => T)(implicit m:ClassManifest[T]): T = {
+    val t = next(true).getOrElse(throw new ExpectedRecordNotFoundException("Query for " + m + " returned no results from database. Query: " + query));
+    return creator(t);
   }
 }

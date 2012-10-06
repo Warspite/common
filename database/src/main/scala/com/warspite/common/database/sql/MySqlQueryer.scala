@@ -14,7 +14,7 @@ class MySqlQueryer(val connection: Connection) {
     try {
       log.debug("Executing query '" + query + "'.");
       stmt = connection.createStatement();
-      return new SqlResultSetWrapper(stmt.executeQuery(query));
+      return new SqlResultSetWrapper(stmt.executeQuery(query), query);
     } catch {
       case e: SQLException => throw new QueryFailedException(query, e);
     }
