@@ -4,6 +4,8 @@ import java.sql.ResultSet
 import org.slf4j.LoggerFactory
 import org.scala_tools.time.Imports._
 import scala.collection.mutable.Queue
+import com.warspite.common.database.IncompleteDataRecordException
+import com.warspite.common.database.DatabaseException
 
 class SqlResultSetWrapper(val rs: ResultSet) {
   protected val log = LoggerFactory.getLogger(getClass());
@@ -43,9 +45,15 @@ class SqlResultSetWrapper(val rs: ResultSet) {
   def buildArray[T](creator: DataRecord => T)(implicit m:ClassManifest[T]): Array[T] = {
     var q = new Queue[T]();
     var done = false;
+    try {
+      
     while(!done) next() match {
       case Some(x) => q += creator(x);
       case None => done = true;
+    }
+    }
+    catch {
+      case e: IncompleteDataRecordException => throw new DatabaseException("Failed to create " + m + " from database. The retrieved data record is missing fields.");
     }
     
     return q.toArray;
