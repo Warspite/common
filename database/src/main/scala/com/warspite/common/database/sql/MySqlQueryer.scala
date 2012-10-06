@@ -38,6 +38,23 @@ class MySqlQueryer(val connection: Connection) {
     }
   }
 
+  def batch(b: Array[String]): Array[Int] = {
+    var stmt: Statement = null;
+    try {
+      log.debug("Creating batch of " + b.length + " statements.");
+      stmt = connection.createStatement();
+      for(s <- b)
+        stmt.addBatch(s);
+      
+      return stmt.executeBatch();
+    } catch {
+      case e: SQLException => throw new BatchFailedException(b, e);
+    } finally {
+      if (stmt != null)
+        stmt.close();
+    }
+  }
+  
   def buildQueryString(columnNames: List[String], q: String, tableName: String = null): String = {
     var actualColumnNames = columnNames;
     if (tableName != null)
@@ -46,6 +63,10 @@ class MySqlQueryer(val connection: Connection) {
     "SELECT " + actualColumnNames.reduceLeft(_ + ", " + _) + " " + q;
   }
 
+  def insertArray(table: String, values: Array[Map[String, Any]]): Array[Int] = {
+    batch(values.map(v => composeInsertString(table, v)));
+  }
+  
   def insert(table: String, values: Map[String, Any]): Int = {
     stmt(composeInsertString(table, values));
   }
