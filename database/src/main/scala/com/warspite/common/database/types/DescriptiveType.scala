@@ -6,6 +6,11 @@ object DescriptiveType {
   val CANONICAL_NAME = "canonicalName";
 
   val fields = List(NAME, DESCRIPTION, CANONICAL_NAME) ++ IdentifiedType.fields;
+
+  def canonicalNameMapify[T <: DescriptiveType](in: Seq[T]): Map[String, T] = {
+    in.foldLeft(Map[String, T]()) { (m, r) => m + (r.canonicalName -> r); }
+  }
+
 }
 
 abstract class DescriptiveType(id: Int, var name: String, var description: String, var canonicalName: String) extends IdentifiedType(id) {
