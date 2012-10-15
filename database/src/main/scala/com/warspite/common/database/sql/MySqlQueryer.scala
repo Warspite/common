@@ -43,10 +43,16 @@ class MySqlQueryer(val connection: Connection) {
     try {
       log.debug("Creating batch of " + b.length + " statements.");
       stmt = connection.createStatement();
+      stmt.addBatch("START TRANSACTION;");
       for(s <- b)
         stmt.addBatch(s);
       
-      return stmt.executeBatch();
+      stmt.addBatch("COMMIT;");
+      
+      log.debug("Executing batch of " + b.length + " statements.");
+      val res = stmt.executeBatch() 
+      log.debug("Executed batch of " + b.length + " statements, " + res.length + " results returned (2 extra for START TRANSACTION and COMMIT).");
+      return res;
     } catch {
       case e: SQLException => throw new BatchFailedException(b, e);
     } finally {
