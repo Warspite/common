@@ -1,4 +1,4 @@
-package com.warspite.common.servlets.json;
+package com.warspite.common.database.json;
 
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
@@ -6,7 +6,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.junit.ShouldMatchersForJUnit
 import java.util.HashMap
 import org.scalatest.BeforeAndAfterEach
-import com.warspite.common.servlets.json.Parser.ParseException
+import com.warspite.common.database.json.Parser.ParseException
 
 @RunWith(classOf[JUnitRunner])
 class ParserSpec extends FlatSpec with ShouldMatchersForJUnit with BeforeAndAfterEach {

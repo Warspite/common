@@ -7,12 +7,13 @@ import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest
 import com.warspite.common.servlets.sessions.SessionKeeper
 import com.warspite.common.servlets.sessions.BadSessionKeyException
-import com.warspite.common.servlets.json.Parser
+import com.warspite.common.database.json.Parser
+import com.warspite.common.database.json.Parser.ParseException
 import com.warspite.common.database.DataRecord
-import com.warspite.common.servlets.json.Parser.ParseException
 import org.scala_tools.time.Imports._
 import org.joda.time.format.ISODateTimeFormat
 import com.warspite.common.database.Mappable
+import com.warspite.common.database.json.Json
 
 class JsonServlet extends HttpServlet {
   protected val logger = LoggerFactory.getLogger(getClass());
@@ -99,40 +100,7 @@ class JsonServlet extends HttpServlet {
   }
 
   def jsonify(map: Map[String, Any]): String = {
-    var json = "";
-    for ((key, value) <- map) {
-      if (!json.isEmpty())
-        json += ",";
-
-      json += "\"" + key + "\":" + jsonifyVal(value);
-    }
-
-    "{" + json + "}"
-  }
-
-  def jsonifyVal(v: Any): String = {
-    v match {
-      case v: Int => return v.toString();
-      case v: Integer => return v.toString();
-      case v: Float => return v.toString();
-      case v: Double => return v.toString();
-      case v: Boolean => return v.toString();
-      case v: String => return "\"" + v + "\"";
-      case v: DateTime => return "\"" + ISODateTimeFormat.dateTime().print(v) + "\"";
-      case v: Mappable => return jsonify(v.asMap(true, false));
-      case v: Array[_] => {
-        var contents = "";
-        for (element <- v) {
-          if (!contents.isEmpty())
-            contents += ",";
-
-          contents += jsonifyVal(element);
-        }
-        return "[" + contents + "]";
-      }
-      case ParseableMap(v) => return jsonify(v);
-      case v => throw new NotJsonifiableTypeException(v);
-    }
+    Json.build(map).toString();
   }
 
   object ParseableMap {

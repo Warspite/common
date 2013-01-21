@@ -42,19 +42,13 @@ class JsonServletSpec extends FlatSpec with ShouldMatchersForJUnit with BeforeAn
   }
 
   it should "jsonify map values into nested JSON objects" in {
-    js.jsonify(Map("dobedo" -> 2, "child" -> Map("dudelu" -> "plupp"))) should equal("{\"dobedo\":2,\"child\":{\"dudelu\":\"plupp\"}}");
+    js.jsonify(Map("dobedo" -> 2, "child" -> Map("dudelu" -> "plupp"))) should equal("{\"child\":{\"dudelu\":\"plupp\"},\"dobedo\":2}");
   }
 
   it should "jsonify arrays into JSON arrays" in {
-    js.jsonify(Map("dobedo" -> Array(1, 2), "z" -> Array("hej", "hopp"), "x" -> Array(Array(2, 3), Array[Int]()))) should equal("{\"dobedo\":[1,2],\"z\":[\"hej\",\"hopp\"],\"x\":[[2,3],[]]}");
+    js.jsonify(Map("dobedo" -> Array(1, 2), "z" -> Array("hej", "hopp"), "x" -> Array(Array(2, 3), Array[Int]()))) should equal("{\"dobedo\":[1,2],\"x\":[[2,3],[]],\"z\":[\"hej\",\"hopp\"]}");
   }
 
-  it should "throw exception when attempting to jsonify unknown types" in {
-    intercept[NotJsonifiableTypeException] {
-      js.jsonify(Map("dobedo" -> js));
-    }
-  }
-  
   it should "parse a JSON double to a data record containing a double" in {
     js.parseJson("{\"tjo\": 1.7}").getDouble("tjo") should equal(1.7);
   }

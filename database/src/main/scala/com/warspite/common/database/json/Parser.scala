@@ -15,7 +15,7 @@
 * limitations under the License.
 */
 
-package com.warspite.common.servlets.json
+package com.warspite.common.database.json
 
 object Parser {
   import java.io._
