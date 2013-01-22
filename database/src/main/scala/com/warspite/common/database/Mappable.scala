@@ -1,5 +1,19 @@
 package com.warspite.common.database
 
 trait Mappable {
-  def asMap(includeId: Boolean = true, includeSensitiveInformation: Boolean = false): Map[String, Any];
+  var sensitiveFieldsToBeMapped = false;
+  var transientFieldsToBeMapped = true;
+  
+  def asMap(): Map[String, Any];
+
+  def sensitive(b: Boolean): Mappable = {
+    sensitiveFieldsToBeMapped = b;
+    return this;
+  }
+  
+  def transient(b: Boolean): Mappable = {
+    transientFieldsToBeMapped = b;
+    return this;
+  }
+  
 }

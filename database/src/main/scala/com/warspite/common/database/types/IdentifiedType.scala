@@ -12,12 +12,12 @@ object IdentifiedType {
 abstract class IdentifiedType(var id: Int) extends StoredType {
   override def toString = getClass().getSimpleName() + "#" + id;
 
-  override def asMap(includeNonDatabaseInsertionFields: Boolean = true, includeSensitiveInformation: Boolean = false): Map[String, Any] = {
+  override def asMap(): Map[String, Any] = {
     var map = Map[String, Any]();
     
-    if (includeNonDatabaseInsertionFields)
+    if (transientFieldsToBeMapped)
       map += IdentifiedType.ID -> id;
 
-    return map ++ super.asMap(includeNonDatabaseInsertionFields, includeSensitiveInformation);
+    return map ++ super.asMap();
   }
 }

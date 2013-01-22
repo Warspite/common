@@ -8,7 +8,7 @@ object StoredType {
 }
 
 abstract class StoredType extends Mappable with JsonSerializable {
-  def asMap(includeNonDatabaseInsertionFields: Boolean = true, includeSensitiveInformation: Boolean = false): Map[String, Any] = {
+  def asMap(): Map[String, Any] = {
     Map[String, Any]();
   }
   
